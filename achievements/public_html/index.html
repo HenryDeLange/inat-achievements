@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>iNaturalist Achievements</title>
+        <!--ReactJS-->
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+        <!--Bootstrap-->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <!--Icons-->
+        <link rel="stylesheet" href="https://i.icomoon.io/public/temp/0a6adb263c/UntitledProject/style.css">
+    </head>
+    <body>
+<!--TODO: Kry 'n beter header component wat verduidelik wat aangaan-->
+        <div class="row">
+            <div class="col">
+                <hr />
+                <H2 style="text-align: center; color: #2ca351">
+                    Achievements
+                </H2>
+                <hr />
+            </div>
+        </div>
+<!--NOTE: When using React JSX, within the <script> tags, for regular HTML tags, 
+    the attribute className is used instead of class and the attribute htmlFor is used instead 
+    of for attribute because these are reserved words in Javascript.-->
+<!--NOTE: Inline styles are dodgy to use and the class attribute needs to be renamed to className-->        
+<!--NOTE: Reusable components (can be done in different way using classes as well)-->
+
+
+<!--TODO: Maak 'n paar eie font icons om mee te werk (IcoMoon)-->
+<!--https://stackoverflow.com/questions/11426172/add-custom-icons-to-font-awesome-->
+
+
+<!--TODO: Bou die achievements lys in die kode-->
+
+
+        <div id="component"></div>
+        <script type="text/babel">
+            function Achieve(props) {
+                var cardHTML =
+                    <div className="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div className="card text-center border-0" style={{"margin": "2rem"}}>
+                            <span className="icon-leaf" style={{"color": "#3cb371", "font-size": "6rem"}} ></span>
+                            <div className="card-text">{props.title}</div>
+                        </div>
+                    </div>
+                return cardHTML;
+            }
+            ReactDOM.render(
+                    <div className="container">
+                        <div className="row">
+                            <Achieve title="Title 1" />
+                            <Achieve title="Title 2" />
+                            <Achieve title="Title 3" />
+                            <Achieve title="Title 4" />
+                            <Achieve title="Title 5" />
+                            <Achieve title="Title 6" />
+                            <Achieve title="Title 7" />
+                            <Achieve title="Title 8" />
+                            <Achieve title="Title 9" />
+                            <Achieve title="Title 10" />
+                            <Achieve title="Title 11" />
+                            <Achieve title="Title 12" />
+                            <Achieve title="Title 13" />
+                            <Achieve title="Title 14" />
+                        </div>
+                    </div>,
+                    document.getElementById('component')
+            );
+        </script>
+
+        
+        <!--Bootstrap - Must be near end of body-->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+                
+<!--NOTE: When using ReactJS in Production-->
+        <!--
+          Note: this page is a great way to try React but it's not suitable for production.
+          It slowly compiles JSX with Babel in the browser and uses a large development build of React.
+    
+          To set up a production-ready React build environment, follow these instructions:
+          * https://reactjs.org/docs/add-react-to-a-new-app.html
+          * https://reactjs.org/docs/add-react-to-an-existing-app.html
+    
+          You can also use React without JSX, in which case you can remove Babel:
+          * https://reactjs.org/docs/react-without-jsx.html
+          * https://reactjs.org/docs/cdn-links.html
+        -->
+    </body>
+</html>
