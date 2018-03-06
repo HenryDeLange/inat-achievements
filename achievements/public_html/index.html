@@ -12,6 +12,33 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <!--Icons-->
         <link rel="stylesheet" href="https://i.icomoon.io/public/temp/0a6adb263c/UntitledProject/style.css">
+        <!--SETUP DATA-->
+        <script>
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var response = this.responseText;
+                    // Show raw data
+                    document.getElementById("allJson").innerHTML = response;
+                    // Process data
+                    var data = JSON.parse(response);
+                    var arrayLength = data.results.length;
+                    var species = "";
+                    for (var i = 0; i < arrayLength; i++) {
+                        species = species + "<br />" + data.results[i].species_guess;
+                    }
+                    document.getElementById("demo").innerHTML = 
+                            "total_results: " + data.total_results 
+                            + ", page: " + data.page 
+                            + ", per_page: " + data.per_page
+                            + ", Array: " + data.results.length
+                        + "<br />" + "Species: " + species;
+
+                }
+            };
+            xhttp.open("GET", "http://api.inaturalist.org/v1/observations?order=desc&order_by=created_at", true);
+            xhttp.send();
+        </script>
     </head>
     <body>
 <!--TODO: Kry 'n beter header component wat verduidelik wat aangaan-->
