@@ -30,14 +30,11 @@
 <!--NOTE: Inline styles are dodgy to use and the class attribute needs to be renamed to className-->        
 <!--NOTE: Reusable components (can be done in different way using classes as well)-->
 
-
-<!--TODO: Bou die achievements lys in die kode-->
-
-
-        
-        <div id="demo"></div>
         <hr />
         <div id="achievementList"></div>
+        <hr />
+        <hr />
+        <div id="rawData"></div>
         <script type="text/babel">
             // Declare the AchievementCard
             function AchievementCard(props) {
@@ -50,46 +47,138 @@
                     </div>
                 return cardHTML;
             }
+
+            // Achievement variables
+            var speciesCount = 0;
+            var selfCommentCount = 0;
+            var mammalTryhardCount = 0;
+            var diggingMammals = [42478, 43253, 46927, 71384];
+            var swimmingMammals = [152871, 46306];
+            var flyingMammals = [40268];
+            var nocturnalBirdCount = 0;
+            var nocturnalBirds = [19350];
+            var fishCount = 0;
+            var fishes = [47178];
+            var daisyCount = 0;
+            var daisies = [47604];
+            var endangeredCount = 0;
+            var butterflyCount = 0;
+            var butterlies = [47224];
+            var commentCount = 0; // TODO: Laai hierdie hopelik van die user web service af
+            
+            // Process the data
+            function processDataPage(response) {
+                // Process data
+                var data = JSON.parse(response);
+//                document.getElementById('rawData').innerHTML = response; // Lys al die data terwyl ek dev
+                var arrayLength = data.results.length;
+                // LOOP OVER OBSERVATIONS
+                for (var i = 0; i < arrayLength; i++) {
+                    var result = data.results[i];
+                    // Species Count
+                    if (result.taxon.rank_level <= 10) {
+                        speciesCount++;
+                    }
+                    // Comment Checks
+                    for (var c = 0; c < result.comments_count; c++) {
+                        // Comments by yourself on your own observations
+                        var comment = result.comments[c];
+                        if (comment.user.id === result.user.id) {
+                            selfCommentCount++;
+                        }
+                    }
+                    // Taxon checks
+                    for (var t = 0; t < result.taxon.ancestor_ids.length; t++) {
+                        var taxonID = result.taxon.ancestor_ids[t];
+                        // At least one observation of a swimming, flying and digging mammal
+                        if ($.inArray(taxonID, diggingMammals) >= 0 
+                                || $.inArray(taxonID, swimmingMammals) >= 0 
+                                || $.inArray(taxonID, flyingMammals) >= 0) {
+                            mammalTryhardCount++;
+                        }
+                        // Number of nocturnal bird (owl) observations
+                        else if ($.inArray(taxonID, nocturnalBirds) >= 0) {
+                            nocturnalBirdCount++;
+                        }
+                        // Number of fish observations
+// FIXME: Die een moet eintlik die aantal vis spesies tel wat in 'n periode (een week) aangeteken is
+                        else if ($.inArray(taxonID, fishes) >= 0) {
+                            fishCount++;
+                        }
+                        // Number of daisy observations
+                        else if ($.inArray(taxonID, daisies) >= 0) {
+                            daisyCount++;
+                        }
+                        // Number of butterfly observations
+                        else if ($.inArray(taxonID, butterlies) >= 0) {
+                            butterflyCount++;
+                        }
+                    }
+                    // Endangered Status Checks
+                    // Number of endangered observations
+                    if (result.taxon.threatened === true) {
+                        endangeredCount++;
+                    }
+
+                }
+            }
+            
+            function showResults() {
+                // Show the Achievements
+                ReactDOM.render(
+                        <div className="container">
+                            <div className="row">
+                                <AchievementCard title={"Life Lister (" + speciesCount + ")"} />
+                                <AchievementCard title={"Self Polinator (" + selfCommentCount + ")"} />
+                                <AchievementCard title={"Mammal Tryhard (" + mammalTryhardCount + ")"} />
+                                <AchievementCard title={"Night Owl (" + nocturnalBirdCount + ")"} />
+                                <AchievementCard title={"King Fisher (" + fishCount + ")"} />
+                                <AchievementCard title={"Daisy Town (" + daisyCount + ")"} />
+                                <AchievementCard title={"Heart Of The Matter (" + endangeredCount + ")"} />
+                                <AchievementCard title={"Social Butterfly (" + butterflyCount + "," + commentCount + ")"} />
+                            </div>
+                        </div>,
+                        document.getElementById('achievementList')
+                );
+            }
+            
             // Load the data
-// TODO: Handle pagination
+            var totalRecords = 0;
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    var response = this.responseText;
-                    // Process data
-                    var data = JSON.parse(response);
-                    var arrayLength = data.results.length;
-                    // Calculate the Achievements
-                    var speciesCount = 0;
-                    var selfCommentCount = 0;
-                    for (var i = 0; i < arrayLength; i++) {
-                        var result = data.results[i];
-                        // Species Count
-                        if (result.taxon.rank_level <= 10) {
-                            speciesCount++;
-                        }
-                        // Comments of yourself on your own observervation
-                        for (var c = 0; c < result.comments_count; c++) {
-                            var comment = result.comments[c];
-                            if (comment.user.id === result.user.id) {
-                                selfCommentCount++;
-                            }
-                        }
-                    }
-                    // Show the Achievements
-                    ReactDOM.render(
-                            <div className="container">
-                                <div className="row">
-                                    <AchievementCard title={"Life Lister " + speciesCount} />
-                                    <AchievementCard title={"Self Polination " + selfCommentCount} />
-                                </div>
-                            </div>,
-                            document.getElementById('achievementList')
-                    );
+// TODO: Maak hierdie slimmer (dink nie dis nodig om die json te parse net vir die totaal nie)
+                    var data = JSON.parse(this.responseText);
+                    totalRecords = data.total_results;
                 }
             };
-            xhttp.open("GET", "http://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=50&order=desc&order_by=created_at", true);
+            xhttp.open("GET", 
+                        "http://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=1&page=1&order=desc&order_by=created_at", 
+                        false); // "False" to indicate synchronous
             xhttp.send();
+            console.log("Total Records = " + totalRecords);
+totalRecords = 130; // FIXME: Overwriting limit while busy doing development
+            var perPage = 50;
+            var page = 1; // Seems to start at 1, since 0 gives an error
+            var allResponses = "";
+            while (page * perPage <= totalRecords) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        processDataPage(this.responseText);
+                    }
+                };
+                xhttp.open("GET", 
+                            "http://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=" + perPage + "&page=" + page + "&order=desc&order_by=created_at", 
+                            false); // "False" to indicate synchronous
+                xhttp.send();
+                console.log("Loaded Page " + page + " of " +  Math.floor(totalRecords / perPage));
+                page++; // Move to the next page
+            }
+            // Process the loaded data
+// TODO: Later kan ek hierdie slimmer begin laai (async, en ook processing doen per page soos dit gelaai word in plaas van alles op die einde)
+            console.log("Last page loaded, showing results...");
+            showResults();
         </script>
         
         <!--Bootstrap - Must be near end of body-->
