@@ -153,7 +153,7 @@
                 }
             };
             xhttp.open("GET", 
-                        "http://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=1&page=1&order=desc&order_by=created_at", 
+                        "https://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=1&page=1&order=desc&order_by=created_at", 
                         false); // "False" to indicate synchronous
             xhttp.send();
             console.log("Total Records = " + totalRecords);
@@ -169,7 +169,7 @@ totalRecords = 130; // FIXME: Overwriting limit while busy doing development
                     }
                 };
                 xhttp.open("GET", 
-                            "http://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=" + perPage + "&page=" + page + "&order=desc&order_by=created_at", 
+                            "https://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=" + perPage + "&page=" + page + "&order=desc&order_by=created_at", 
                             false); // "False" to indicate synchronous
                 xhttp.send();
                 console.log("Loaded Page " + page + " of " +  Math.floor(totalRecords / perPage));
