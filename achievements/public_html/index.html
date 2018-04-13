@@ -64,7 +64,35 @@
             var endangeredCount = 0;
             var butterflyCount = 0;
             var butterlies = [47224];
-            var commentCount = 0; // TODO: Laai hierdie hopelik van die user web service af
+            var socialCount = 0;
+            var dailyObsCount = 0;
+            var dailySpeciesCount = [];
+            var dailyObsCountMax = 0;
+            var dailySpeciesCountMax = 0;
+            var dailyLifeDate = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate();
+            var rodentCount = 0;
+            var rodents = [43698];
+            var storkCount = 0;
+            var storks = [3726, 23];
+            var bugCount = 0;
+            var bugs = [61267];
+            var notBugCount = 0;
+            var notBugs = [144128, 47119, 47158, 243773];
+            var idCount = 0;
+            var projectCount = [];
+            var mossCount = 0;
+            var mosses = [311249, 54743];
+            var toadCount = 0;
+            var toads = [20979];
+            var toadstoolCount = 0;
+            var toadstools = [47169];
+            var classCount = [];
+            var flowerOrderCount = [];
+            var flowers = [47125];
+            var alwaysOnOneDay = 24*60*60*1000;
+            var alwaysOnDate = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate();
+            var alwaysOnCount = 0;
+            var alwaysOnCountMax = 0;
             
             // Process the data
             function processDataPage(response) {
@@ -79,12 +107,22 @@
                     if (result.taxon.rank_level <= 10) {
                         speciesCount++;
                     }
+                    // Count iconic taxa
+                    if (!classCount.includes(result.taxon.iconic_taxon_id)) {
+                        classCount.push(result.taxon.iconic_taxon_id);
+                    }
                     // Comment Checks
                     for (var c = 0; c < result.comments_count; c++) {
                         // Comments by yourself on your own observations
                         var comment = result.comments[c];
                         if (comment.user.id === result.user.id) {
                             selfCommentCount++;
+                        }
+                    }
+                    // Count projects
+                    for (var t = 0; t < result.project_ids.length; t++) {
+                        if (!projectCount.includes(result.project_ids[t])) {
+                            projectCount.push(result.project_ids[t]);
                         }
                     }
                     // Taxon checks
@@ -113,13 +151,78 @@
                         else if ($.inArray(taxonID, butterlies) >= 0) {
                             butterflyCount++;
                         }
+                        // Number of rodent observations
+                        else if ($.inArray(taxonID, rodents) >= 0) {
+                            rodentCount++;
+                        }
+                        // Number of crane and stork observations
+                        else if ($.inArray(taxonID, storks) >= 0) {
+                            storkCount++;
+                        }
+                        // Number of bugs observations
+                        else if ($.inArray(taxonID, bugs) >= 0) {
+                            bugCount++;
+                        }
+                        // Number of not-bugs observations
+                        else if ($.inArray(taxonID, notBugs) >= 0 && $.inArray(taxonID, bugs) < 0) {
+// TODO: count each type seperately
+                            notBugCount++;
+                        }
+                        // Number of moss or lichen observations
+                        else if ($.inArray(taxonID, mosses) >= 0) {
+                            mossCount++;
+                        }
+                        // Number of toad observations
+                        else if ($.inArray(taxonID, toads) >= 0) {
+                            toadCount++;
+                        }
+                        // Number of mushroom observations
+                        else if ($.inArray(taxonID, toadstools) >= 0) {
+                            toadstoolCount++;
+                        }
+                        // Number of flowering plant orders
+                        if (result.taxon.rank_level <= 40 
+                                && $.inArray(taxonID, flowers) >= 0) {
+                            if (!flowerOrderCount.includes(result.taxon.ancestor_ids[5])) {
+                                flowerOrderCount.push(result.taxon.ancestor_ids[5]);
+                            }
+                        }
                     }
-                    // Endangered Status Checks
                     // Number of endangered observations
                     if (result.taxon.threatened === true) {
                         endangeredCount++;
                     }
-
+                    // Daily Life
+                    if (dailyLifeDate !== result.observed_on_details.date) {
+                        dailyLifeDate = result.observed_on_details.date;
+                        dailyObsCount = 0;
+                        dailySpeciesCount = [];
+                    }
+                    if (dailyObsCountMax < ++dailyObsCount) {
+                        dailyObsCountMax = dailyObsCount;
+                    }
+                    if (result.taxon.rank_level <= 10) {
+// FIXME: Hierdie tel tien teen een ook subspecies
+                        if (!dailySpeciesCount.includes(result.taxon.id)) {
+                            dailySpeciesCount.push(result.taxon.id);
+                        }
+                    }
+                    if (dailySpeciesCountMax < dailySpeciesCount.length) {
+                        dailySpeciesCountMax = dailySpeciesCount.length;
+                    }
+                    // Longest active period (3 months without more than 3 days between observations)
+                    var date1 = new Date(alwaysOnDate.substr(0, 4), alwaysOnDate.substr(5, 2), alwaysOnDate.substr(8, 2));
+                    var date2 = new Date(result.observed_on_details.date.substr(0, 4), result.observed_on_details.date.substr(5, 2), result.observed_on_details.date.substr(8, 2));
+                    if (Math.round(Math.abs(date1.getTime() - date2.getTime()) / alwaysOnOneDay) > 3) {
+                        alwaysOnCount = 0;
+                    }
+                    if (alwaysOnDate !== result.observed_on_details.date) {
+                        alwaysOnCount++;
+                        alwaysOnDate = result.observed_on_details.date;
+                    }
+                    if (alwaysOnCountMax < alwaysOnCount) {
+                        alwaysOnCountMax = alwaysOnCount;
+                    }
                 }
             }
             
@@ -135,16 +238,42 @@
                                 <AchievementCard title={"King Fisher (" + fishCount + ")"} />
                                 <AchievementCard title={"Daisy Town (" + daisyCount + ")"} />
                                 <AchievementCard title={"Heart Of The Matter (" + endangeredCount + ")"} />
-                                <AchievementCard title={"Social Butterfly (" + butterflyCount + "," + commentCount + ")"} />
+                                <AchievementCard title={"Social Butterfly (" + butterflyCount + "," + socialCount + ")"} />
+                                <AchievementCard title={"Group Therapy (" + projectCount.length + ")"} />
+                                <AchievementCard title={"Name Giver (" + idCount + ")"} />
+                                <AchievementCard title={"Daily Life (" + dailyObsCountMax + "," + dailySpeciesCountMax + ")"} />
+                                <AchievementCard title={"Rat King (" + rodentCount + ")"} />
+                                <AchievementCard title={"Craney Storker (" + storkCount + ")"} />
+                                <AchievementCard title={"So Many Bugs (" + bugCount + ")"} />
+                                <AchievementCard title={"Not A Bug (" + notBugCount + ")"} />
+                                <AchievementCard title={"I Lichen Moss (" + mossCount + ")"} />
+                                <AchievementCard title={"Toads and Toadstools (" + toadCount + "," + toadstoolCount + ")"} />
+                                <AchievementCard title={"Flower Child (" + flowerOrderCount.length + ")"} />
+                                <AchievementCard title={"Classy Observer (" + classCount.length + ")"} />
+                                <AchievementCard title={"Always On (" + alwaysOnCountMax + ")"} />
                             </div>
                         </div>,
                         document.getElementById('achievementList')
                 );
             }
             
-            // Load the data
-            var totalRecords = 0;
+            // Load the user data
             var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var data = JSON.parse(this.responseText);
+                    idCount = data.results[0].identifications_count;
+                    socialCount = data.results[0].activity_count;
+                }
+            };
+            xhttp.open("GET", 
+                        "https://api.inaturalist.org/v1/users/henrydelange", 
+                        false); // "False" to indicate synchronous
+            xhttp.send();
+            console.log("Loaded user data");
+            // Load the observation data
+            var totalRecords = 0;
+            xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
 // TODO: Maak hierdie slimmer (dink nie dis nodig om die json te parse net vir die totaal nie)
@@ -157,24 +286,27 @@
                         false); // "False" to indicate synchronous
             xhttp.send();
             console.log("Total Records = " + totalRecords);
-totalRecords = 130; // FIXME: Overwriting limit while busy doing development
+// FIXME: Overwriting limit while busy doing development
+totalRecords = 75;
             var perPage = 50;
             var page = 1; // Seems to start at 1, since 0 gives an error
             var allResponses = "";
-            while (page * perPage <= totalRecords) {
-                var xhttp = new XMLHttpRequest();
+// TODO: Find a way to throttle this to not exceed the iNat limit (around 60 requests per minute, 100 max)
+            do {
+                xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         processDataPage(this.responseText);
                     }
                 };
                 xhttp.open("GET", 
-                            "https://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=" + perPage + "&page=" + page + "&order=desc&order_by=created_at", 
+                            "https://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=" + perPage + "&page=" + page 
+                                    + "&order=desc&order_by=observed_on", // Needs to be ordered by date to make some of the calculations easier
                             false); // "False" to indicate synchronous
                 xhttp.send();
                 console.log("Loaded Page " + page + " of " +  Math.floor(totalRecords / perPage));
                 page++; // Move to the next page
-            }
+            } while (page * perPage <= totalRecords);
             // Process the loaded data
 // TODO: Later kan ek hierdie slimmer begin laai (async, en ook processing doen per page soos dit gelaai word in plaas van alles op die einde)
             console.log("Last page loaded, showing results...");
