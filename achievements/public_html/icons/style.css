@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?4zz0ar');
-  src:  url('fonts/icomoon.eot?4zz0ar#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?4zz0ar') format('truetype'),
-    url('fonts/icomoon.woff?4zz0ar') format('woff'),
-    url('fonts/icomoon.svg?4zz0ar#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?dwk8sj');
+  src:  url('fonts/icomoon.eot?dwk8sj#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?dwk8sj') format('truetype'),
+    url('fonts/icomoon.woff?dwk8sj') format('woff'),
+    url('fonts/icomoon.svg?dwk8sj#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -18,32 +18,93 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-  
-  /* Enable Ligatures ================ */
-  letter-spacing: 0;
-  -webkit-font-feature-settings: "liga";
-  -moz-font-feature-settings: "liga=1";
-  -moz-font-feature-settings: "liga";
-  -ms-font-feature-settings: "liga" 1;
-  font-feature-settings: "liga";
-  -webkit-font-variant-ligatures: discretionary-ligatures;
-  font-variant-ligatures: discretionary-ligatures;
 
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-drawing1:before {
+.icon-template:before {
   content: "\e900";
   color: #008000;
 }
-.icon-bug:before {
-  content: "\e999";
+.icon-AlwaysOn:before {
+  content: "\e901";
+  color: #008000;
 }
-.icon-leaf:before {
-  content: "\e9a4";
+.icon-CraneyStorker:before {
+  content: "\e902";
+  color: #008000;
 }
-.icon-basecamp:before {
-  content: "\eab2";
+.icon-DailyLife:before {
+  content: "\e903";
+  color: #008000;
+}
+.icon-DaisyTown:before {
+  content: "\e904";
+  color: #008000;
+}
+.icon-FlowerChild:before {
+  content: "\e905";
+  color: #008000;
+}
+.icon-GroupTherapy:before {
+  content: "\e906";
+  color: #008000;
+}
+.icon-HeartOfTheMatter:before {
+  content: "\e907";
+  color: #008000;
+}
+.icon-KingFisher:before {
+  content: "\e908";
+  color: #008000;
+}
+.icon-LickenMoss:before {
+  content: "\e909";
+  color: #008000;
+}
+.icon-LifeLister:before {
+  content: "\e90a";
+  color: #008000;
+}
+.icon-NameGiver:before {
+  content: "\e90b";
+  color: #008000;
+}
+.icon-NightOwl:before {
+  content: "\e90c";
+  color: #008000;
+}
+.icon-NotABug:before {
+  content: "\e90d";
+  color: #008000;
+}
+.icon-RatKing:before {
+  content: "\e90e";
+  color: #008000;
+}
+.icon-SelfPolinator:before {
+  content: "\e90f";
+  color: #008000;
+}
+.icon-SocialButterfly:before {
+  content: "\e910";
+  color: #008000;
+}
+.icon-ToadsAndToadstools:before {
+  content: "\e911";
+  color: #008000;
+}
+.icon-TooManyBugs:before {
+  content: "\e912";
+  color: #008000;
+}
+.icon-TryMammals:before {
+  content: "\e913";
+  color: #008000;
+}
+.icon-WorldClass:before {
+  content: "\e914";
+  color: #008000;
 }
