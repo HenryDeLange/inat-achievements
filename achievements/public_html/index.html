@@ -14,40 +14,53 @@
         <link rel="stylesheet" href="./icons/style.css">
     </head>
     <body>
-<!--TODO: Kry 'n mooier header component wat verduidelik wat aangaan-->
         <div class="row">
             <div class="col">
-                <hr />
-                <H2 style="text-align: center; color: #2ca351">
-                    Achievements
-                </H2>
-                <hr />
+                <div class="jumbotron jumbotron-fluid">
+                    <div class="container">
+                        <h1 class="display-4">Achievements</h1>
+                        <p class="lead">The idea of this page is to provide a list of fun iNaturalist achievements.</p>
+                    </div>
+                </div>
             </div>
         </div>
-<!--NOTE: When using React JSX, within the <script> tags, for regular HTML tags, 
-    the attribute className is used instead of class and the attribute htmlFor is used instead 
-    of for attribute because these are reserved words in Javascript.-->
-<!--NOTE: Inline styles are dodgy to use and the class attribute needs to be renamed to className-->        
-<!--NOTE: Reusable components (can be done in different way using classes as well)-->
-
+        <hr />
+        <div className="container">
+            <div class="row">
+                <div class="input-group mb-3 w-50 mx-auto">
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">Calculate Achievements</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin: 1rem">
+                <div class="alert alert-secondary w-50 mx-auto" role="alert">
+                    (or use the URL parameter: "?user=username")
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div className="container">
+            <div class="row">
+                <div class="progress w-50 mx-auto" style="height: 30px">
+                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuenow="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="row" style="margin: 1rem">
+                <div class="alert alert-primary w-25 mx-auto" role="alert" id="progressDetails">
+                    Fetching data...
+                </div>
+            </div>
+        </div>
         <hr />
         <div id="achievementList"></div>
         <hr />
         <hr />
         <div id="rawData"></div>
+        <script type="text/babel" src="./js/AchievementCard.js"></script>
+        <script type="text/babel" src="./js/ShowAchievements.js"></script>
         <script type="text/babel">
-            // Declare the AchievementCard
-            function AchievementCard(props) {
-                var cardHTML =
-                    <div className="col-6 col-sm-4 col-md-3 col-lg-2">
-                        <div className="card text-center border-0" style={{"margin": "2rem"}}>
-                            <span className={props.icon} style={{"color": "#Bcb371", "fontSize": "6rem"}} ></span>
-                            <div className="card-text">{props.title}</div>
-                        </div>
-                    </div>
-                return cardHTML;
-            }
-
             // Achievement variables
             var speciesCount = 0;
             var selfCommentCount = 0;
@@ -95,10 +108,14 @@
             var alwaysOnCountMax = 0;
             
             // Process the data
-            function processDataPage(response) {
+            function processDataPage(response, page, perPage, totalRecords) {
+                
+// TODO: Verander hierdie sodat elke card die JSON gestuur word en dan sy eie count doen.
+//       Elke card kan dan self contained wees en homself teken en calculate.
+//       Dan het ek basies net 'n lys van cards nodig om deur te loop en generically te process...
+                
                 // Process data
                 var data = JSON.parse(response);
-//                document.getElementById('rawData').innerHTML = response; // Lys al die data terwyl ek dev
                 var arrayLength = data.results.length;
                 // LOOP OVER OBSERVATIONS
                 for (var i = 0; i < arrayLength; i++) {
@@ -223,114 +240,80 @@
                     if (alwaysOnCountMax < alwaysOnCount) {
                         alwaysOnCountMax = alwaysOnCount;
                     }
+                    // Update progress bar
+                    var percentVal = (((page - 1) * perPage) + i) / totalRecords * 100;
+                    setTimeout(setProgress(percentVal), 0); // Makes the function run asynchronously
                 }
             }
             
-            function showResults() {
-                // Show the Achievements
-                ReactDOM.render(
-                        <div className="container">
-                            <div className="row">
-                                <AchievementCard title={"Life Lister (" + speciesCount + ")"} 
-                                                 icon="icon-LifeLister" />
-                                <AchievementCard title={"Self Polinator (" + selfCommentCount + ")"} 
-                                                 icon="icon-SelfPolinator" />
-                                <AchievementCard title={"Mammal Tryhard (" + mammalTryhardCount + ")"} 
-                                                 icon="icon-TryMammals" />
-                                <AchievementCard title={"Night Owl (" + nocturnalBirdCount + ")"} 
-                                                 icon="icon-NightOwl" />
-                                <AchievementCard title={"King Fisher (" + fishCount + ")"} 
-                                                 icon="icon-KingFisher" />
-                                <AchievementCard title={"Daisy Town (" + daisyCount + ")"} 
-                                                 icon="icon-DaisyTown" />
-                                <AchievementCard title={"Heart Of The Matter (" + endangeredCount + ")"} 
-                                                 icon="icon-HeartOfTheMatter" />
-                                <AchievementCard title={"Social Butterfly (" + butterflyCount + "," + socialCount + ")"} 
-                                                 icon="icon-SocialButterfly" />
-                                <AchievementCard title={"Group Therapy (" + projectCount.length + ")"} 
-                                                 icon="icon-GroupTherapy" />
-                                <AchievementCard title={"Name Giver (" + idCount + ")"} 
-                                                 icon="icon-NameGiver" />
-                                <AchievementCard title={"Daily Life (" + dailyObsCountMax + "," + dailySpeciesCountMax + ")"} 
-                                                 icon="icon-DailyLife" />
-                                <AchievementCard title={"Rat King (" + rodentCount + ")"} 
-                                                 icon="icon-RatKing" />
-                                <AchievementCard title={"Craney Storker (" + storkCount + ")"} 
-                                                 icon="icon-CraneyStorker" />
-                                <AchievementCard title={"So Many Bugs (" + bugCount + ")"} 
-                                                 icon="icon-TooManyBugs" />
-                                <AchievementCard title={"Not A Bug (" + notBugCount + ")"} 
-                                                 icon="icon-NotABug" />
-                                <AchievementCard title={"I Lichen Moss (" + mossCount + ")"} 
-                                                 icon="icon-LickenMoss" />
-                                <AchievementCard title={"Toads and Toadstools (" + toadCount + "," + toadstoolCount + ")"} 
-                                                 icon="icon-ToadsAndToadstools" />
-                                <AchievementCard title={"Flower Child (" + flowerOrderCount.length + ")"} 
-                                                 icon="icon-FlowerChild" />
-                                <AchievementCard title={"Classy Observer (" + classCount.length + ")"} 
-                                                 icon="icon-WorldClass" />
-                                <AchievementCard title={"Always On (" + alwaysOnCountMax + ")"} 
-                                                 icon="icon-AlwaysOn" />
-                            </div>
-                        </div>,
-                        document.getElementById('achievementList')
-                );
+            function setProgress(percentVal) {
+                $('.progress-bar').css("width", percentVal+ '%').attr("aria-valuenow", percentVal+ '%').text(percentVal+ '%');
+                $('#progressDetails').text("Fetching more data...");
             }
             
-            // Load the user data
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var data = JSON.parse(this.responseText);
-                    idCount = data.results[0].identifications_count;
-                    socialCount = data.results[0].activity_count;
-                }
-            };
-            xhttp.open("GET", 
-                        "https://api.inaturalist.org/v1/users/henrydelange", 
-                        false); // "False" to indicate synchronous
-            xhttp.send();
-            console.log("Loaded user data");
-            // Load the observation data
-            var totalRecords = 0;
-            xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-// TODO: Maak hierdie slimmer (dink nie dis nodig om die json te parse net vir die totaal nie)
-                    var data = JSON.parse(this.responseText);
-                    totalRecords = data.total_results;
-                }
-            };
-            xhttp.open("GET", 
-                        "https://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=1&page=1&order=desc&order_by=created_at", 
-                        false); // "False" to indicate synchronous
-            xhttp.send();
-            console.log("Total Records = " + totalRecords);
-// FIXME: Overwriting limit while busy doing development
-totalRecords = 75;
-            var perPage = 50;
-            var page = 1; // Seems to start at 1, since 0 gives an error
-            var allResponses = "";
-// TODO: Find a way to throttle this to not exceed the iNat limit (around 60 requests per minute, 100 max)
-            do {
-                xhttp = new XMLHttpRequest();
+            function loadData() {
+                // Load the user data
+                var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
-                        processDataPage(this.responseText);
+                        var data = JSON.parse(this.responseText);
+                        idCount = data.results[0].identifications_count;
+                        socialCount = data.results[0].activity_count;
                     }
                 };
                 xhttp.open("GET", 
-                            "https://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=" + perPage + "&page=" + page 
-                                    + "&order=desc&order_by=observed_on", // Needs to be ordered by date to make some of the calculations easier
+                            "https://api.inaturalist.org/v1/users/henrydelange", 
                             false); // "False" to indicate synchronous
                 xhttp.send();
-                console.log("Loaded Page " + page + " of " +  Math.floor(totalRecords / perPage));
-                page++; // Move to the next page
-            } while (page * perPage <= totalRecords);
-            // Process the loaded data
+                console.log("Loaded user data");
+                // Load the observation data
+                var totalRecords = 0;
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var data = JSON.parse(this.responseText);
+                        totalRecords = data.total_results;
+                    }
+                };
+                xhttp.open("GET", 
+                            "https://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=1&page=1&order=desc&order_by=created_at", 
+                            false); // "False" to indicate synchronous
+                xhttp.send();
+                console.log("Total Records = " + totalRecords);
+                
+// FIXME: Overwriting limit while busy doing development
+totalRecords = 75;
+                var perPage = 50;
+                var page = 1; // Seems to start at 1, since 0 gives an error
+// TODO: Find a way to throttle this to not exceed the iNat limit (around 60 requests per minute, 100 max)
 // TODO: Later kan ek hierdie slimmer begin laai (async, en ook processing doen per page soos dit gelaai word in plaas van alles op die einde)
-            console.log("Last page loaded, showing results...");
-            showResults();
+                do {
+                    xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            processDataPage(this.responseText, page, perPage, totalRecords);
+                        }
+                    };
+                    xhttp.open("GET", 
+                                "https://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=" + perPage + "&page=" + page 
+                                        + "&order=desc&order_by=observed_on", // Needs to be ordered by date to make some of the calculations easier
+                                false); // "False" to indicate synchronous
+                    xhttp.send();
+                    console.log("Loaded Page " + page + " of " +  Math.floor(totalRecords / perPage));
+                    page++; // Move to the next page
+                } while (page * perPage <= totalRecords);
+                // Process the loaded data
+                console.log("Last page loaded, showing results...");
+                showResults();
+                // Update progress bar
+                $('.progress-bar').css("width", '100%').attr("aria-valuenow", '100%').text('100%');
+                $('#progressDetails').text("Done :)");
+            }
+            
+            // START MAIN PROCESSING
+            // The "main" processing sequence
+            setTimeout(loadData, 0); // Makes the function run asynchronously
+            
         </script>
         
         <!--Bootstrap - Must be near end of body-->
