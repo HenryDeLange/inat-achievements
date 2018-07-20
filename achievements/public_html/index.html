@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+<!-- TODO: Make the text multilingual -->
+
 <html>
     <head>
         <meta charset="UTF-8" />
@@ -14,12 +17,17 @@
         <link rel="stylesheet" href="./icons/style.css">
     </head>
     <body>
+        <!-- DECLARE MAIN UI -->
+        <script type="text/babel">
+            // The active user name
+            var activeUserName = "";
+        </script>
         <div class="row">
             <div class="col">
                 <div class="jumbotron jumbotron-fluid">
                     <div class="container">
-                        <h1 class="display-4">Achievements</h1>
-                        <p class="lead">The idea of this page is to provide a list of fun iNaturalist achievements.</p>
+                        <h1 class="display-4">My Achievements</h1>
+                        <p class="lead">Upload observation on iNaturalist.org to try and unlock all achievements!</p>
                     </div>
                 </div>
             </div>
@@ -28,230 +36,55 @@
         <div className="container">
             <div class="row">
                 <div class="input-group mb-3 w-50 mx-auto">
-                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon2">
+<!--FIXME: Using my username while busy doing development -->
+                    <input id="username" type="text" class="form-control" placeholder="Username" 
+ value="henrydelange"
+                           aria-label="Username" aria-describedby="basic-addon2">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Calculate Achievements</button>
+                        <button class="btn btn-outline-secondary" type="button" 
+                                onclick="activeUserName = document.getElementById('username').value; setTimeout(loadUserData, 0);">
+                            Calculate Achievements
+                        </button>
                     </div>
                 </div>
             </div>
             <div class="row" style="margin: 1rem">
+<!-- TODO: Add this feature -->
+<!-- TODO: Make this text less prominent -->
                 <div class="alert alert-secondary w-50 mx-auto" role="alert">
                     (or use the URL parameter: "?user=username")
                 </div>
             </div>
         </div>
         <hr />
-        <div className="container">
-            <div class="row">
-                <div class="progress w-50 mx-auto" style="height: 30px">
-                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuenow="0" aria-valuemax="100"></div>
+        <!-- Hide these components until a username has been provided to use -->
+        <div id="pnlLoading">
+            <div className="container">
+                <div class="row">
+                    <div class="progress w-50 mx-auto" style="height: 30px">
+                        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuenow="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="row" style="margin: 1rem">
+                    <div class="alert alert-primary w-25 mx-auto" role="alert" id="progressDetails">
+                        Fetching data...
+                    </div>
                 </div>
             </div>
-            <div class="row" style="margin: 1rem">
-                <div class="alert alert-primary w-25 mx-auto" role="alert" id="progressDetails">
-                    Fetching data...
-                </div>
-            </div>
+            <hr />
+            <div id="achievementList"></div>
+            <hr />
         </div>
-        <hr />
-        <div id="achievementList"></div>
-        <hr />
-        <hr />
-        <div id="rawData"></div>
-        <script type="text/babel" src="./js/AchievementCard.js"></script>
-        <script type="text/babel" src="./js/ShowAchievements.js"></script>
+        <!-- DECLARE THE ACHIEVEMENTS -->
+        <script type="text/babel" src="./js/AchievementCardData.js"></script>
+        <script type="text/babel" src="./js/SetupAchievementImplementations.js"></script>
+        <!-- SETUP REACTJS COMPONENTS -->
+        <script type="text/babel" src="./js/AchievementCard.jsx"></script>
+        <script type="text/babel" src="./js/ShowAchievements.jsx"></script>
+        <!-- PROCESS THE DATA -->
         <script type="text/babel">
-            // Achievement variables
-            var speciesCount = 0;
-            var selfCommentCount = 0;
-            var mammalTryhardCount = 0;
-            var diggingMammals = [42478, 43253, 46927, 71384];
-            var swimmingMammals = [152871, 46306];
-            var flyingMammals = [40268];
-            var nocturnalBirdCount = 0;
-            var nocturnalBirds = [19350];
-            var fishCount = 0;
-            var fishes = [47178];
-            var daisyCount = 0;
-            var daisies = [47604];
-            var endangeredCount = 0;
-            var butterflyCount = 0;
-            var butterlies = [47224];
-            var socialCount = 0;
-            var dailyObsCount = 0;
-            var dailySpeciesCount = [];
-            var dailyObsCountMax = 0;
-            var dailySpeciesCountMax = 0;
-            var dailyLifeDate = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate();
-            var rodentCount = 0;
-            var rodents = [43698];
-            var storkCount = 0;
-            var storks = [3726, 23];
-            var bugCount = 0;
-            var bugs = [61267];
-            var notBugCount = 0;
-            var notBugs = [144128, 47119, 47158, 243773];
-            var idCount = 0;
-            var projectCount = [];
-            var mossCount = 0;
-            var mosses = [311249, 54743];
-            var toadCount = 0;
-            var toads = [20979];
-            var toadstoolCount = 0;
-            var toadstools = [47169];
-            var classCount = [];
-            var flowerOrderCount = [];
-            var flowers = [47125];
-            var alwaysOnOneDay = 24*60*60*1000;
-            var alwaysOnDate = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate();
-            var alwaysOnCount = 0;
-            var alwaysOnCountMax = 0;
-            
-            // Process the data
-            function processDataPage(response, page, perPage, totalRecords) {
-                
-// TODO: Verander hierdie sodat elke card die JSON gestuur word en dan sy eie count doen.
-//       Elke card kan dan self contained wees en homself teken en calculate.
-//       Dan het ek basies net 'n lys van cards nodig om deur te loop en generically te process...
-                
-                // Process data
-                var data = JSON.parse(response);
-                var arrayLength = data.results.length;
-                // LOOP OVER OBSERVATIONS
-                for (var i = 0; i < arrayLength; i++) {
-                    var result = data.results[i];
-                    // Species Count
-                    if (result.taxon.rank_level <= 10) {
-                        speciesCount++;
-                    }
-                    // Count iconic taxa
-                    if (!classCount.includes(result.taxon.iconic_taxon_id)) {
-                        classCount.push(result.taxon.iconic_taxon_id);
-                    }
-                    // Comment Checks
-                    for (var c = 0; c < result.comments_count; c++) {
-                        // Comments by yourself on your own observations
-                        var comment = result.comments[c];
-                        if (comment.user.id === result.user.id) {
-                            selfCommentCount++;
-                        }
-                    }
-                    // Count projects
-                    for (var t = 0; t < result.project_ids.length; t++) {
-                        if (!projectCount.includes(result.project_ids[t])) {
-                            projectCount.push(result.project_ids[t]);
-                        }
-                    }
-                    // Taxon checks
-                    for (var t = 0; t < result.taxon.ancestor_ids.length; t++) {
-                        var taxonID = result.taxon.ancestor_ids[t];
-                        // At least one observation of a swimming, flying and digging mammal
-                        if ($.inArray(taxonID, diggingMammals) >= 0 
-                                || $.inArray(taxonID, swimmingMammals) >= 0 
-                                || $.inArray(taxonID, flyingMammals) >= 0) {
-                            mammalTryhardCount++;
-                        }
-                        // Number of nocturnal bird (owl) observations
-                        else if ($.inArray(taxonID, nocturnalBirds) >= 0) {
-                            nocturnalBirdCount++;
-                        }
-                        // Number of fish observations
-// FIXME: Die een moet eintlik die aantal vis spesies tel wat in 'n periode (een week) aangeteken is
-                        else if ($.inArray(taxonID, fishes) >= 0) {
-                            fishCount++;
-                        }
-                        // Number of daisy observations
-                        else if ($.inArray(taxonID, daisies) >= 0) {
-                            daisyCount++;
-                        }
-                        // Number of butterfly observations
-                        else if ($.inArray(taxonID, butterlies) >= 0) {
-                            butterflyCount++;
-                        }
-                        // Number of rodent observations
-                        else if ($.inArray(taxonID, rodents) >= 0) {
-                            rodentCount++;
-                        }
-                        // Number of crane and stork observations
-                        else if ($.inArray(taxonID, storks) >= 0) {
-                            storkCount++;
-                        }
-                        // Number of bugs observations
-                        else if ($.inArray(taxonID, bugs) >= 0) {
-                            bugCount++;
-                        }
-                        // Number of not-bugs observations
-                        else if ($.inArray(taxonID, notBugs) >= 0 && $.inArray(taxonID, bugs) < 0) {
-// TODO: count each type seperately
-                            notBugCount++;
-                        }
-                        // Number of moss or lichen observations
-                        else if ($.inArray(taxonID, mosses) >= 0) {
-                            mossCount++;
-                        }
-                        // Number of toad observations
-                        else if ($.inArray(taxonID, toads) >= 0) {
-                            toadCount++;
-                        }
-                        // Number of mushroom observations
-                        else if ($.inArray(taxonID, toadstools) >= 0) {
-                            toadstoolCount++;
-                        }
-                        // Number of flowering plant orders
-                        if (result.taxon.rank_level <= 40 
-                                && $.inArray(taxonID, flowers) >= 0) {
-                            if (!flowerOrderCount.includes(result.taxon.ancestor_ids[5])) {
-                                flowerOrderCount.push(result.taxon.ancestor_ids[5]);
-                            }
-                        }
-                    }
-                    // Number of endangered observations
-                    if (result.taxon.threatened === true) {
-                        endangeredCount++;
-                    }
-                    // Daily Life
-                    if (dailyLifeDate !== result.observed_on_details.date) {
-                        dailyLifeDate = result.observed_on_details.date;
-                        dailyObsCount = 0;
-                        dailySpeciesCount = [];
-                    }
-                    if (dailyObsCountMax < ++dailyObsCount) {
-                        dailyObsCountMax = dailyObsCount;
-                    }
-                    if (result.taxon.rank_level <= 10) {
-// FIXME: Hierdie tel tien teen een ook subspecies
-                        if (!dailySpeciesCount.includes(result.taxon.id)) {
-                            dailySpeciesCount.push(result.taxon.id);
-                        }
-                    }
-                    if (dailySpeciesCountMax < dailySpeciesCount.length) {
-                        dailySpeciesCountMax = dailySpeciesCount.length;
-                    }
-                    // Longest active period (3 months without more than 3 days between observations)
-                    var date1 = new Date(alwaysOnDate.substr(0, 4), alwaysOnDate.substr(5, 2), alwaysOnDate.substr(8, 2));
-                    var date2 = new Date(result.observed_on_details.date.substr(0, 4), result.observed_on_details.date.substr(5, 2), result.observed_on_details.date.substr(8, 2));
-                    if (Math.round(Math.abs(date1.getTime() - date2.getTime()) / alwaysOnOneDay) > 3) {
-                        alwaysOnCount = 0;
-                    }
-                    if (alwaysOnDate !== result.observed_on_details.date) {
-                        alwaysOnCount++;
-                        alwaysOnDate = result.observed_on_details.date;
-                    }
-                    if (alwaysOnCountMax < alwaysOnCount) {
-                        alwaysOnCountMax = alwaysOnCount;
-                    }
-                    // Update progress bar
-                    var percentVal = (((page - 1) * perPage) + i) / totalRecords * 100;
-                    setTimeout(setProgress(percentVal), 0); // Makes the function run asynchronously
-                }
-            }
-            
-            function setProgress(percentVal) {
-                $('.progress-bar').css("width", percentVal+ '%').attr("aria-valuenow", percentVal+ '%').text(percentVal+ '%');
-                $('#progressDetails').text("Fetching more data...");
-            }
-            
-            function loadData() {
+            // Load the user's data
+            function loadUserData() {
                 // Load the user data
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
@@ -262,7 +95,7 @@
                     }
                 };
                 xhttp.open("GET", 
-                            "https://api.inaturalist.org/v1/users/henrydelange", 
+                            "https://api.inaturalist.org/v1/users/" + activeUserName, 
                             false); // "False" to indicate synchronous
                 xhttp.send();
                 console.log("Loaded user data");
@@ -276,7 +109,8 @@
                     }
                 };
                 xhttp.open("GET", 
-                            "https://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=1&page=1&order=desc&order_by=created_at", 
+                            "https://api.inaturalist.org/v1/observations?user_id=" + activeUserName 
+                                    + "&per_page=1&page=1&order=desc&order_by=created_at", 
                             false); // "False" to indicate synchronous
                 xhttp.send();
                 console.log("Total Records = " + totalRecords);
@@ -286,7 +120,8 @@ totalRecords = 75;
                 var perPage = 50;
                 var page = 1; // Seems to start at 1, since 0 gives an error
 // TODO: Find a way to throttle this to not exceed the iNat limit (around 60 requests per minute, 100 max)
-// TODO: Later kan ek hierdie slimmer begin laai (async, en ook processing doen per page soos dit gelaai word in plaas van alles op die einde)
+// TODO: Improve this to load the data async and show updated achievements as the processing progresses
+// TODO: Make sure the progress bar works well
                 do {
                     xhttp = new XMLHttpRequest();
                     xhttp.onreadystatechange = function() {
@@ -295,7 +130,8 @@ totalRecords = 75;
                         }
                     };
                     xhttp.open("GET", 
-                                "https://api.inaturalist.org/v1/observations?user_id=henrydelange&per_page=" + perPage + "&page=" + page 
+                                "https://api.inaturalist.org/v1/observations?user_id=" + activeUserName 
+                                        + "&per_page=" + perPage + "&page=" + page 
                                         + "&order=desc&order_by=observed_on", // Needs to be ordered by date to make some of the calculations easier
                                 false); // "False" to indicate synchronous
                     xhttp.send();
@@ -304,16 +140,39 @@ totalRecords = 75;
                 } while (page * perPage <= totalRecords);
                 // Process the loaded data
                 console.log("Last page loaded, showing results...");
-                showResults();
+                showAchievements();
                 // Update progress bar
+// TODO: Maybe fade the progress bar and message out after a short delay?
                 $('.progress-bar').css("width", '100%').attr("aria-valuenow", '100%').text('100%');
                 $('#progressDetails').text("Done :)");
             }
             
-            // START MAIN PROCESSING
-            // The "main" processing sequence
-            setTimeout(loadData, 0); // Makes the function run asynchronously
+            // Process a page of data that has been fetched from iNaturalist
+            function processDataPage(response, page, perPage, totalRecords) {
+                // Process data
+                var data = JSON.parse(response);
+                var arrayLength = data.results.length;
+                // LOOP OVER OBSERVATIONS
+                for (var i = 0; i < arrayLength; i++) {
+                    var result = data.results[i];
+                    // Give each achievement a chance to evaluate for the iNat observation
+                    for (var t = 0; t < lstAchievementCardWrappers.length; t++) {
+                        lstAchievementCardWrappers[t].evaluate(result);
+                    }
+                    // Update progress bar
+                    var percentVal = (((page - 1) * perPage) + i) / totalRecords * 100;
+                    setTimeout(setProgress(percentVal), 0); // Makes the function run asynchronously
+                }
+            }
             
+            // Update the progres bar
+            function setProgress(percentVal) {
+                $('.progress-bar').css("width", percentVal+ '%').attr("aria-valuenow", percentVal+ '%').text(percentVal+ '%');
+                $('#progressDetails').text("Fetching more data...");
+            }
+            
+            // START MAIN PROCESSING
+            //setTimeout(loadData, 0); // Makes the function run asynchronously
         </script>
         
         <!--Bootstrap - Must be near end of body-->
@@ -321,7 +180,7 @@ totalRecords = 75;
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
                 
-<!--NOTE: When using ReactJS in Production-->
+<!--NOTE: ReactJS in Production-->
         <!--
           Note: this page is a great way to try React but it's not suitable for production.
           It slowly compiles JSX with Babel in the browser and uses a large development build of React.
