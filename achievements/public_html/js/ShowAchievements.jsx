@@ -4,7 +4,7 @@ class AchievementCardListRender extends React.Component {
     constructor(props) {
         super(props);
     }
-// FIXME: Warning: Each child in an array or iterator should have a unique "key" prop.
+
     render() {
         return (
             <div className="container">
@@ -17,7 +17,9 @@ class AchievementCardListRender extends React.Component {
                                         title={listValue.title}
                                         details={listValue.details}
                                         goal={listValue.goal}
-                                        count={listValue.count} />
+                                        count={listValue.count}
+                                        color={listValue.color}
+                                        key={"key" + listValue.title} />
                             }
                         )
                     }
@@ -30,8 +32,16 @@ class AchievementCardListRender extends React.Component {
 
 // Show the Achievements
 function showAchievements() {
+// TODO: Sort the list to show passed achievements first
     // Render all achievements listed in lstAchievementCardWrappers
     ReactDOM.render(
             <AchievementCardListRender list={lstAchievementCardWrappers} />, 
             document.getElementById('achievementList'));
+    // Activate the new popovers
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
+    $('.popover-dismiss').popover({
+        trigger: 'focus'
+    });
 }

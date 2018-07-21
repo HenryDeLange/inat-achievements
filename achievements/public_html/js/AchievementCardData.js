@@ -13,4 +13,11 @@ class AchievementCardData {
         this.count = this.count + this.evalFunc(iNatObsJSON);
     }
     
+    get color() {
+        if (this.count >= this.goal) {
+            return "#33AA33";
+        }
+        return "#AFB9AF";
+    }
+    
 }

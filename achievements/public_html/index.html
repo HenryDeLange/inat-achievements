@@ -5,7 +5,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>iNaturalist Achievements</title>
+        <title>Wild Achievements</title>
         <!--ReactJS-->
         <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
         <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
@@ -18,73 +18,91 @@
     </head>
     <body>
         <!-- DECLARE MAIN UI -->
-        <script type="text/babel">
-            // The active user name
-            var activeUserName = "";
-        </script>
         <div class="row">
             <div class="col">
                 <div class="jumbotron jumbotron-fluid">
                     <div class="container">
-                        <h1 class="display-4">My Achievements</h1>
+                        <h1 class="display-4">Wild Achievements</h1>
                         <p class="lead">Upload observation on iNaturalist.org to try and unlock all achievements!</p>
+                        <a tabindex="0" class="btn btn-sm btn-secondary float-right" role="button" 
+                           data-toggle="popover" data-trigger="focus" 
+                           title="Using the URL Parameter" 
+                           data-content="Append '?user=username' to the end of the URL. This will immediately load the achievements for the specified user.">
+                            URL Parameter
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-        <hr />
         <div className="container">
             <div class="row">
-                <div class="input-group mb-3 w-50 mx-auto">
-<!--FIXME: Using my username while busy doing development -->
-                    <input id="username" type="text" class="form-control" placeholder="Username" 
- value="henrydelange"
-                           aria-label="Username" aria-describedby="basic-addon2">
+                <div class="input-group mb-3 w-50 mx-auto input-group-lg">
+                    <input id="username" type="text" class="form-control" placeholder="iNaturalist Username" 
+                            aria-label="Username" aria-describedby="inputGroup-sizing-lg">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" 
-                                onclick="activeUserName = document.getElementById('username').value; setTimeout(loadUserData, 0);">
+                        <button class="btn btn-outline-primary" type="button" 
+                                onclick="document.getElementById('PanelAchievements').style.display = '';
+                                         document.getElementById('PanelLoading').style.display = '';
+                                         setTimeout(loadUserData, 10);">
                             Calculate Achievements
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="row" style="margin: 1rem">
-<!-- TODO: Add this feature -->
-<!-- TODO: Make this text less prominent -->
-                <div class="alert alert-secondary w-50 mx-auto" role="alert">
-                    (or use the URL parameter: "?user=username")
-                </div>
-            </div>
         </div>
         <hr />
         <!-- Hide these components until a username has been provided to use -->
-        <div id="pnlLoading">
-            <div className="container">
-                <div class="row">
-                    <div class="progress w-50 mx-auto" style="height: 30px">
-                        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuenow="0" aria-valuemax="100"></div>
+        <div id="PanelAchievements" style="display: none">
+            <div id="achievementList"></div>
+            <div id="PanelLoading">
+                <hr />
+                <div className="container">
+                    <div class="row">
+                        <div class="progress w-50 mx-auto" style="height: 30px">
+                            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuenow="0" aria-valuemax="100"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="row" style="margin: 1rem">
-                    <div class="alert alert-primary w-25 mx-auto" role="alert" id="progressDetails">
-                        Fetching data...
+                    <div class="row" style="margin: 1rem">
+                        <div class="alert alert-primary w-25 mx-auto" role="alert" id="progressDetails">
+                            Fetching data...
+                        </div>
                     </div>
                 </div>
             </div>
             <hr />
-            <div id="achievementList"></div>
-            <hr />
         </div>
-        <!-- DECLARE THE ACHIEVEMENTS -->
+        <!-- DECLARE ACHIEVEMENTS -->
         <script type="text/babel" src="./js/AchievementCardData.js"></script>
-        <script type="text/babel" src="./js/SetupAchievementImplementations.js"></script>
-        <!-- SETUP REACTJS COMPONENTS -->
+        <script type="text/babel" src="./js/AchievementImplementations.js"></script>
+        <!-- DECLARE REACTJS COMPONENTS -->
         <script type="text/babel" src="./js/AchievementCard.jsx"></script>
         <script type="text/babel" src="./js/ShowAchievements.jsx"></script>
+        <!-- SETUP BOOTSTRAP -->
+        <script type="text/babel">
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            });
+            $('.popover-dismiss').popover({
+                trigger: 'focus'
+            });
+        </script>
         <!-- PROCESS THE DATA -->
         <script type="text/babel">
+            // The active user name
+            var activeUserName = "";
+            
             // Load the user's data
             function loadUserData() {
+                activeUserName = document.getElementById('username').value;
+                if (!activeUserName) {
+                    document.getElementById('PanelLoading').style.display = 'none';
+                    document.getElementById('PanelAchievements').style.display = 'none';
+                    return;
+                }
+                // Clear the old global state variables
+                clearGlobalState()
+                // Setup the list of achievements
+                setupAchievementsList();
                 // Load the user data
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
@@ -117,11 +135,15 @@
                 
 // FIXME: Overwriting limit while busy doing development
 totalRecords = 75;
+
                 var perPage = 50;
                 var page = 1; // Seems to start at 1, since 0 gives an error
+
 // TODO: Find a way to throttle this to not exceed the iNat limit (around 60 requests per minute, 100 max)
-// TODO: Improve this to load the data async and show updated achievements as the processing progresses
+// TODO: Also maybe simply stop processing after +-2000 records? To prevent unneccessary load on the iNat servers...
+// TODO: Maybe improve this to load the data async and show updated achievements as the processing progresses?
 // TODO: Make sure the progress bar works well
+
                 do {
                     xhttp = new XMLHttpRequest();
                     xhttp.onreadystatechange = function() {
@@ -140,11 +162,13 @@ totalRecords = 75;
                 } while (page * perPage <= totalRecords);
                 // Process the loaded data
                 console.log("Last page loaded, showing results...");
-                showAchievements();
                 // Update progress bar
-// TODO: Maybe fade the progress bar and message out after a short delay?
                 $('.progress-bar').css("width", '100%').attr("aria-valuenow", '100%').text('100%');
                 $('#progressDetails').text("Done :)");
+                // Hide the loading progress bar
+                setTimeout(() => {document.getElementById('PanelLoading').style.display = 'none'}, 3000);
+                // Show the achievements
+                showAchievements();
             }
             
             // Process a page of data that has been fetched from iNaturalist
@@ -172,7 +196,16 @@ totalRecords = 75;
             }
             
             // START MAIN PROCESSING
-            //setTimeout(loadData, 0); // Makes the function run asynchronously
+            // If the URL parameter was present then handle it imediately
+            var url = new URL(window.location.href);
+            var user = url.searchParams.get("user");
+            if (user) {
+                console.log("URL parameter found..." );
+                activeUserName = user;
+                document.getElementById('username').value = activeUserName;
+                document.getElementById('PanelAchievements').style.display = '';
+                setTimeout(loadUserData, 0); // Makes the function run asynchronously
+            }
         </script>
         
         <!--Bootstrap - Must be near end of body-->
