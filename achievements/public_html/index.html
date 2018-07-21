@@ -27,7 +27,7 @@
                         <a tabindex="0" class="btn btn-sm btn-secondary float-right" role="button" 
                            data-toggle="popover" data-trigger="focus" 
                            title="Using the URL Parameter" 
-                           data-content="Append '?user=username' to the end of the URL. This will immediately load the achievements for the specified user.">
+                           data-content="You can append '?user=username' to the end of the URL. This will immediately load the achievements for the specified user.">
                             URL Parameter
                         </a>
                     </div>
@@ -93,6 +93,7 @@
             
             // Load the user's data
             function loadUserData() {
+// TODO: What if the user presses the button twice in quick succession??? Need to make its handled OK.
                 activeUserName = document.getElementById('username').value;
                 if (!activeUserName) {
                     document.getElementById('PanelLoading').style.display = 'none';
@@ -132,17 +133,22 @@
                             false); // "False" to indicate synchronous
                 xhttp.send();
                 console.log("Total Records = " + totalRecords);
-                
+                // NOTE: Stopping processing after 2000 records to prevent too many unneccessary calls to the iNat servers...
+// TODO: Also make this value of 2000 something you can specify as a URL parameter
+                if (totalRecords > 2000) {
+// TODO: Show message if the limit was reached
+                    totalRecords = 2000;
+                }
 // FIXME: Overwriting limit while busy doing development
-totalRecords = 75;
-
+//totalRecords = 75;
                 var perPage = 50;
                 var page = 1; // Seems to start at 1, since 0 gives an error
 
 // TODO: Find a way to throttle this to not exceed the iNat limit (around 60 requests per minute, 100 max)
-// TODO: Also maybe simply stop processing after +-2000 records? To prevent unneccessary load on the iNat servers...
 // TODO: Maybe improve this to load the data async and show updated achievements as the processing progresses?
-// TODO: Make sure the progress bar works well
+// FIXME: Progress bar doesn't seem to work anymore after recent code changes...
+
+// FIXME: It seems maybe the last page (or first) isn't being read anymore????
 
                 do {
                     xhttp = new XMLHttpRequest();

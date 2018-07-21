@@ -32,7 +32,9 @@ class AchievementCardListRender extends React.Component {
 
 // Show the Achievements
 function showAchievements() {
-// TODO: Sort the list to show passed achievements first
+
+// TODO: Maybe sort the list to show passed achievements first?
+
     // Render all achievements listed in lstAchievementCardWrappers
     ReactDOM.render(
             <AchievementCardListRender list={lstAchievementCardWrappers} />, 

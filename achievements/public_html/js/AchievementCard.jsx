@@ -12,6 +12,7 @@ class AchievementCard extends React.Component {
                 <div className="card text-center border-0" style={{"margin": "2rem"}}>
                     <a tabIndex="0" data-toggle="popover" data-trigger="focus" 
                         className={this.props.icon + " btn text-center"} role="button" 
+                        data-placement="top" 
                         style={{"color": this.props.color, "fontSize": "5.25rem"}}
                         title="Achievement Details" 
                         data-content={this.props.details} />
