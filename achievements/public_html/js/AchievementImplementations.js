@@ -48,7 +48,7 @@
     }
 
 // TODO: In the future add different levels for the goals (for example: "observer 5/15/40 frogs")
-// 
+
     // SETUP THE ACHIEVEMENTS
     function setupAchievementsList() {
         lstAchievementCardWrappers = [
@@ -67,7 +67,7 @@
                                 }
                             }
                             if (iNatObsJSON.taxon.rank_level < 10) {
-                                // FIXME? Might not work for observations with lower than subspecies IDs...?
+// FIXME? Might not work for observations with lower than subspecies IDs...?
                                 if (!alltimeSpeciesCount.includes(iNatObsJSON.taxon.parent_id)) {
                                     alltimeSpeciesCount.push(iNatObsJSON.taxon.parent_id);
                                     return 1;
@@ -115,7 +115,7 @@
                                 mammalFly++;
                             }
                         }
-                        if (mammalDig > mammalThree /*&& mammalSwim > mammalThree*/ && mammalFly > mammalThree) {
+                        if (mammalDig > mammalThree && mammalSwim > mammalThree && mammalFly > mammalThree) {
                             mammalThree++;
                             if (mammalThree <= 3) {
                                 return 1;

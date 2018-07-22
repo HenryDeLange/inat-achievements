@@ -32,6 +32,7 @@ class AchievementCard extends React.Component {
 AchievementCard.defaultProps = {
    icon: "icon-template",
    title: "..TEMPLATE..",
+   details: "???",
    goal: 0,
    count: 0
 }
