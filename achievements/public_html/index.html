@@ -46,9 +46,7 @@
                             aria-label="Username" aria-describedby="inputGroup-sizing-lg">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="button" 
-                                onclick="document.getElementById('PanelAchievements').style.display = '';
-                                         document.getElementById('PanelLoading').style.display = '';
-                                         setTimeout(loadUserData, 10);">
+                                onclick="doCalculateClick()">
                             Calculate Achievements
                         </button>
                     </div>
@@ -94,163 +92,29 @@
             });
         </script>
         <!-- PROCESS THE DATA -->
+        <script type="text/babel" src="./js/ProcessData.js"></script>
+        <!-- START MAIN PROCESSING -->
         <script type="text/babel">
-            // The active user name
-            var activeUserName = "";
-            var readLimit = 500;
-            
-            // Load the user's data
-            function loadUserData() {
-                var feedback = document.getElementById('PanelFeedback');
-// TODO: Don't do subsequent button presses while the first press is still busy processing?
-                activeUserName = document.getElementById('username').value;
-                if (!activeUserName) {
-                    feedback.innerHTML = 'Please provide an iNaturalist username.';
-                    feedback.style.display = '';
-                    document.getElementById('PanelLoading').style.display = 'none';
-                    document.getElementById('PanelAchievements').style.display = 'none';
-                    return;
-                }
-                else {
-                    feedback.innerHTML = '';
-                    feedback.style.display = 'none';
-                }
-                // Clear the old global state variables
-                clearGlobalState()
-                // Setup the list of achievements
-                setupAchievementsList();
-                // Load the user data
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var data = JSON.parse(this.responseText);
-                        idCount = data.results[0].identifications_count;
-                        socialCount = data.results[0].activity_count;
-                    }
-                };
-                xhttp.open("GET", 
-                            "https://api.inaturalist.org/v1/users/" + activeUserName, 
-                            false); // "False" to indicate synchronous
-                xhttp.send();
-                console.log("Loaded user data");
-                // Load the observation data
-                var totalRecords = 0;
-                xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var data = JSON.parse(this.responseText);
-                        totalRecords = data.total_results;
-                    }
-                };
-                xhttp.open("GET", 
-                            "https://api.inaturalist.org/v1/observations?user_id=" + activeUserName 
-                                    + "&per_page=1&page=1&order=desc&order_by=created_at", 
-                            false); // "False" to indicate synchronous
-                xhttp.send();
-                console.log("Total Records = " + totalRecords);
-                if (totalRecords === 0) {
-                    feedback.innerHTML = 'No observations were found for the provided username.';
-                    feedback.style.display = '';
-                    document.getElementById('PanelLoading').style.display = 'none';
-                    document.getElementById('PanelAchievements').style.display = 'none';
-                    return;
-                }
-                else {
-                    feedback.innerHTML = '';
-                    feedback.style.display = 'none';
-                }
-                // NOTE: Stopping processing after 2000 (default) records to prevent too many unneccessary calls to the iNat servers...
-                if (totalRecords > readLimit) {
-                    totalRecords = readLimit;
-                    feedback.innerHTML = 'Only the ' + readLimit + ' most recent observations were used.';
-                    feedback.style.display = '';
-                }
-                else {
-                    feedback.innerHTML = '';
-                    feedback.style.display = 'none';
-                }
-                var perPage = 50;
-                var page = 0; // NOTE: The first page seems to start at 1 (0 gives an error), so increase the page before the first load
-
-// TODO: Find a way to throttle this to not exceed the iNat limit (around 60 requests per minute, 100 max)
-// TODO: Maybe improve this to load the data async and show updated achievements as the processing progresses?
-// FIXME: Progress bar doesn't seem to work anymore after recent code changes... And the feedback only updates after the function completes... Make it be more async...
-
-                var pagesToRead = Math.ceil(totalRecords / perPage);
-                do {
-                    page++; // Move to the next page
-                    xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            processDataPage(this.responseText, page, perPage, totalRecords);
-                        }
-                    };
-                    xhttp.open("GET", 
-                                "https://api.inaturalist.org/v1/observations?user_id=" + activeUserName 
-                                        + "&per_page=" + perPage + "&page=" + page 
-                                        + "&order=desc&order_by=observed_on", // Needs to be ordered by date to make some of the calculations easier
-                                false); // "False" to indicate synchronous
-                    xhttp.send();
-                    console.log("Loaded Page " + page + " of " + pagesToRead);
-                } 
-                while (page < pagesToRead);
-                // Process the loaded data
-                console.log("Last page loaded, showing results...");
-                // Update progress bar
-                $('.progress-bar').css("width", '100%').attr("aria-valuenow", '100%').text('100%');
-                $('#progressDetails').text("Done :)");
-                // Hide the loading progress bar
-                setTimeout(() => {document.getElementById('PanelLoading').style.display = 'none'}, 3000);
-                // Show the achievements
-                showAchievements();
-            }
-            
-            // Process a page of data that has been fetched from iNaturalist
-            function processDataPage(response, page, perPage, totalRecords) {
-                // Process data
-                var data = JSON.parse(response);
-                var arrayLength = data.results.length;
-                // LOOP OVER OBSERVATIONS
-                for (var i = 0; i < arrayLength && (((page - 1) * perPage) + i ) < totalRecords; i++) {
-                    var result = data.results[i];
-                    // Give each achievement a chance to evaluate for the iNat observation
-                    for (var t = 0; t < lstAchievementCardWrappers.length; t++) {
-                        lstAchievementCardWrappers[t].evaluate(result);
-                    }
-                    // Update progress bar
-                    var percentVal = (((page - 1) * perPage) + i) / totalRecords * 100;
-                    setTimeout(setProgress(percentVal), 0); // Makes the function run asynchronously
-                }
-            }
-            
-            // Update the progres bar
-            function setProgress(percentVal) {
-                $('.progress-bar').css("width", percentVal+ '%').attr("aria-valuenow", percentVal+ '%').text(percentVal+ '%');
-                $('#progressDetails').text("Fetching more data...");
-            }
-            
-            // START MAIN PROCESSING
-            // If the URL parameter was present then handle it imediately
+            // If the URL parameter was present then handle it immediately
             var url = new URL(window.location.href);
             var limitParam = url.searchParams.get("limit");
             if (limitParam) {
+                console.log("URL limit found..." );
                 readLimit = limitParam;
             }
             var userParam = url.searchParams.get("user");
             if (userParam) {
-                console.log("URL parameter found..." );
+                console.log("URL username found..." );
                 activeUserName = userParam;
                 document.getElementById('username').value = activeUserName;
                 document.getElementById('PanelAchievements').style.display = '';
-                setTimeout(loadUserData, 0); // Makes the function run asynchronously
+                setTimeout(loadUserData, 100); // Makes the function run asynchronously
             }
         </script>
-        
         <!--Bootstrap - Must be near end of body-->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-                
         <!--NOTE: ReactJS in Production-->
         <!--
           Note: this page is a great way to try React but it's not suitable for production.
