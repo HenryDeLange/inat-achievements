@@ -1,11 +1,12 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
 import './App.css';
-import Headers from './components/Header';
+import Header from './components/Header';
 
 export default function App() {
     return (
-        <div className='App'>
-            <Headers />
-        </div>
+        <Container className='vh-100 d-flex flex-column p-3 App' fluid>
+            <Header />
+        </Container>
     );
 }
