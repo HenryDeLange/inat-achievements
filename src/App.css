@@ -16,19 +16,19 @@
 }
 
 .Card-Icon-Success {
-    filter: invert(47%) sepia(91%) saturate(2600%) hue-rotate(57deg) brightness(95%) contrast(90%);
+    filter: invert(0%) sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%) contrast(100%);
 }
 
 .Card-Icon-Partial {
-    filter: invert(94%) sepia(11%) saturate(932%) hue-rotate(30deg) brightness(91%) contrast(89%);;
+    filter: invert(0%) sepia(0%) saturate(55%) hue-rotate(0deg) brightness(330%) contrast(25%);
 }
 
 .Card-Icon-Inactive {
-    filter: invert(87%) sepia(30%) saturate(1%) hue-rotate(314deg) brightness(85%) contrast(105%);
+    filter: invert(0%) sepia(0%) saturate(5%) hue-rotate(0deg) brightness(300%) contrast(70%);
 }
 
 .Card-Icon-Fail {
-    filter: invert(12%) sepia(100%) saturate(4097%) hue-rotate(353deg) brightness(94%) contrast(95%);
+    filter: invert(60%) sepia(65%) saturate(210%) hue-rotate(340deg) brightness(95%) contrast(120%);
 }
 
 .Card-Title {

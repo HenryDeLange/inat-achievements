@@ -1,12 +1,47 @@
-// The active user name
-let activeUserName = '';
-let readLimit = 300;
+import { Dispatch } from '@reduxjs/toolkit';
+import inatjs from 'inaturalistjs';
+import { setProgressLoading, setProgressValue } from '../redux/slices/ProgressSlice';
+import { Observation, ObservationsResponse } from '../types/iNaturalistTypes';
 
-export function calculateAchievements() {
-    // document.getElementById('PanelAchievements')!.style.display = '';
-    // document.getElementById('PanelLoading')!.style.display = '';
-    // setTimeout(loadUserData, 0);
-    console.log('calculateAchievements');
+// TODO: Implement requests per minute limit
+const REQUEST_PER_MINUTE_LIMIT = 100; // 100 seems to be the maximum iNat wants
+const TOTAL_RESULTS_LIMIT = 500;
+const RESULT_PER_PAGE_LIMIT = 200; // 200 seems to be the maximum iNat wants
+const FIRST_PAGE = 1; // 1 is the first page (not 0)
+
+export function calculateAchievements(dispatch: Dispatch<any>, username: string, callback: (observation: Observation) => void, page = FIRST_PAGE, totalResults = 0, readLimit = TOTAL_RESULTS_LIMIT) {
+    console.log('calculateAchievements: BEGIN', username, '| page=', page, '| total=', totalResults, '| limit=', readLimit);
+    const params = {
+        user_id: username,
+        per_page: RESULT_PER_PAGE_LIMIT, 
+        page: page,
+        order_by: 'observed_on'
+    }
+    if (page * RESULT_PER_PAGE_LIMIT > readLimit) {
+        params.per_page = Math.max(0, readLimit - ((page - 1) * RESULT_PER_PAGE_LIMIT));
+        console.log('calculateAchievements: adjusting per_page to', params.per_page, 'due to read limit');
+    }
+    if (page === 1 || (params.per_page > 0 && ((page - 1) * RESULT_PER_PAGE_LIMIT + params.per_page) <= Math.min(totalResults, readLimit))) {
+        console.log('calculateAchievements: search for', username, 'page', page);
+        let count = 0;
+        inatjs.observations.search(params)
+            .then((observationsResponse: ObservationsResponse) => {
+                console.log('calculateAchievements: found ', observationsResponse.results.length ?? 0, ' results to evaluate');
+                totalResults = observationsResponse.total_results!;
+                for (let observation of observationsResponse.results) {
+                    callback(observation);
+                    dispatch(setProgressValue(((page - 1) * RESULT_PER_PAGE_LIMIT + count++) / Math.min(totalResults, readLimit) * 100));
+                }
+                calculateAchievements(dispatch, username, callback, page + 1, totalResults, readLimit);
+            })
+            .catch((e: any) => console.log('Failed observations search:', e));
+    }
+    else {
+        console.log('calculateAchievements: don\'t fetch any more data (processed', Math.min(page * RESULT_PER_PAGE_LIMIT, readLimit), 'results)');
+        dispatch(setProgressValue(100));
+        dispatch(setProgressLoading(false));
+    }
+    console.log('calculateAchievements: END', username, '| page=', page, '| total=', totalResults, '| limit=', readLimit);
 }
 
 // Load the user's data
@@ -15,23 +50,23 @@ function loadUserData() {
 // TODO: Don't do subsequent button presses while the first press is still busy processing?
 
     // Do basic validation
-    var feedback = document.getElementById('PanelFeedback');
-    activeUserName = (document.getElementById('username') as HTMLInputElement)!.value;
-    if (!activeUserName) {
-        feedback!.innerHTML = 'Please provide an iNaturalist username.';
-        feedback!.style.display = '';
-        document.getElementById('PanelLoading')!.style.display = 'none';
-        document.getElementById('PanelAchievements')!.style.display = 'none';
-        return;
-    }
-    else {
-        feedback!.innerHTML = '';
-        feedback!.style.display = 'none';
-    }
-    // // Clear the old global state variables
+    // var feedback = document.getElementById('PanelFeedback');
+    // activeUserName = (document.getElementById('username') as HTMLInputElement)!.value;
+    // if (!activeUserName) {
+    //     feedback!.innerHTML = 'Please provide an iNaturalist username.';
+    //     feedback!.style.display = '';
+    //     document.getElementById('PanelLoading')!.style.display = 'none';
+    //     document.getElementById('PanelAchievements')!.style.display = 'none';
+    //     return;
+    // }
+    // else {
+    //     feedback!.innerHTML = '';
+    //     feedback!.style.display = 'none';
+    // }
+    // Clear the old global state variables
     // clearGlobalState();
-    // // Setup the list of achievements
-    // setupAchievementsList();
+    // Setup the list of achievements
+    // initAchievementsData();
     // // Load the user data
     // fetchUserInfo();
     // // Load the observation data
@@ -59,63 +94,6 @@ function loadUserData() {
 //         //console.log('Progress: ' + percentVal + '%')
 //         setTimeout(setProgress(percentVal), 0); // Makes the function run asynchronously
 //     }
-// }
-
-// function fetchUserInfo() {
-//     var xhttp = new XMLHttpRequest();
-//     xhttp.onreadystatechange = function() {
-//         if (this.readyState == 4 && this.status == 200) {
-//             var data = JSON.parse(this.responseText);
-//             idCount = data.results[0].identifications_count;
-//             socialCount = data.results[0].activity_count;
-//         }
-//     };
-//     xhttp.open('GET', 
-//                 'https://api.inaturalist.org/v1/users/' + activeUserName, 
-//                 false); // 'False' to indicate synchronous
-//     xhttp.send();
-//     console.log('Loaded user data');
-// }
-
-// function fetchTotalRecordCount(feedback) {
-//     var totalRecords = 0;
-//     var xhttp = new XMLHttpRequest();
-//     xhttp.onreadystatechange = function() {
-//         if (this.readyState == 4 && this.status == 200) {
-//             var data = JSON.parse(this.responseText);
-//             totalRecords = data.total_results;
-//         }
-//     };
-//     xhttp.open('GET', 
-//                 'https://api.inaturalist.org/v1/observations?user_id=' + activeUserName 
-//                         + '&per_page=1&page=1&order=desc&order_by=created_at', 
-//                 false); // 'False' to indicate synchronous
-//     xhttp.send();
-//     console.log('Total Records = ' + totalRecords);
-//     // Do validation
-//     if (totalRecords === 0) {
-//         feedback.innerHTML = 'No observations were found for the provided username.';
-//         feedback.style.display = '';
-//         document.getElementById('PanelLoading').style.display = 'none';
-//         document.getElementById('PanelAchievements').style.display = 'none';
-//         return;
-//     }
-//     else {
-//         feedback.innerHTML = '';
-//         feedback.style.display = 'none';
-//     }
-//     // NOTE: Stopping processing after 2000 (default) records to prevent too many unneccessary calls to the iNat servers...
-//     if (totalRecords > readLimit) {
-//         console.log('Limiting Records to ' + readLimit);
-//         totalRecords = readLimit;
-//         feedback.innerHTML = 'Only the ' + readLimit + ' most recent observations were used.';
-//         feedback.style.display = '';
-//     }
-//     else {
-//         feedback.innerHTML = '';
-//         feedback.style.display = 'none';
-//     }
-//     return totalRecords;
 // }
 
 // function fetchObservations(totalRecords) {

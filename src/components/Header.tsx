@@ -1,12 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, FormControl, Image, InputGroup, OverlayTrigger, Popover, Row } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import inat from '../images/inat_light.png';
 import mywild from '../images/mywild.png';
-import { setProgressLoading } from '../redux/slices/ProgressSlice';
+import { RootState } from '../redux/ReduxStore';
+import { setAllAchievements, updateAchievement } from '../redux/slices/AchievementsSlice';
+import { setProgressLoading, setProgressValue } from '../redux/slices/ProgressSlice';
+import { clearAchievements, getAchievements, getAchievementsAsType, initAchievements } from '../scripts/AchievementImplementations';
 import { calculateAchievements } from '../scripts/ProcessData';
 
 export default function Header() {
+    // Loading
+    const dispatch = useDispatch();
+    const progressLoading = useSelector((state: RootState) => state.progress.loading);
+    const handleClick = () => {
+        dispatch(setProgressValue(0));
+        dispatch(setProgressLoading(true));
+        clearAchievements();
+        initAchievements();
+        dispatch(setAllAchievements(getAchievementsAsType()));
+        console.log('<<< calculateAchievements >>>')
+        calculateAchievements(dispatch, 'henrydelange', (observation) => {
+            for (let achievementData of getAchievements()) {
+                achievementData.evaluate(observation);
+                dispatch(updateAchievement({ ...achievementData, evalFunc: undefined }));
+            }
+        });
+    }
+    // Popups
     const popoverURL = (
         <Popover>
             <Popover.Header as="h3">
@@ -35,18 +56,7 @@ export default function Header() {
             </Popover.Body>
         </Popover>
     );
-    const dispatch = useDispatch();
-    const [isLoading, setLoading] = useState(false);
-    useEffect(() => {
-        console.log('isLoading = ', isLoading)
-        dispatch(setProgressLoading(isLoading));
-        if (isLoading) {
-            networkRequest().then(() => {
-                setLoading(false);
-            });
-        }
-    }, [isLoading]);
-    const handleClick = () => setLoading(true);
+    // Render
     return (
         <Container>
             <Row>
@@ -93,19 +103,14 @@ export default function Header() {
                         />
                         <Button
                             variant="success"
-                            disabled={isLoading}
-                            onClick={!isLoading ? handleClick : undefined}
+                            disabled={progressLoading}
+                            onClick={!progressLoading ? handleClick : undefined}
                         >
-                            {!isLoading ? 'Calculate Achievements' : 'Loading Achievements'}
+                            {!progressLoading ? 'Calculate Achievements' : 'Loading Achievements'}
                         </Button>
                     </InputGroup>
                 </Row>
             </Container>
         </Container>
     );
-}
-
-function networkRequest() {
-    calculateAchievements();
-    return new Promise((resolve) => setTimeout(resolve, 2000));
 }

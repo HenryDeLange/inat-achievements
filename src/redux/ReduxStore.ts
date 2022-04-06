@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
+import achievementsReducer from './slices/AchievementsSlice';
 import progressReducer from './slices/ProgressSlice';
 
 const store = configureStore({
     reducer: {
-        progress: progressReducer
+        progress: progressReducer,
+        achievements: achievementsReducer
     }
 });
 export default store;

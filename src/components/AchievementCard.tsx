@@ -16,7 +16,7 @@ export default memo(function AchievementCard(data: AchievementType) {
         </Popover>
     );
     return (
-        <Col className='col-6 col-sm-4 col-md-3 col-lg-2'>
+        <Col className='col-6 col-sm-4 col-md-3 col-lg-2 pb-4'>
             <OverlayTrigger trigger="click" placement="top" overlay={popoverDetails}>
                 <Card className='border-0 p-1'>
                     <Image src={require(`../badges/${data.icon}.svg`)} className={`Card-Icon-${data.iconColor}`} />

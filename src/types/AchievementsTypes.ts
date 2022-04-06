@@ -8,6 +8,7 @@ export declare type AchievementType = {
     count: number;
     iconColor: AchievementStatusType;
     textColor: string;
+    evalFunc: Function | undefined;
 }
 
 export declare type AchievementStatusType =
@@ -15,3 +16,11 @@ export declare type AchievementStatusType =
     'Partial' |
     'Inactive' |
     'Fail';
+
+export type ActionAchievementDataType = {
+    payload: AchievementType;
+}
+
+export type ActionAllAchievementDataType = {
+    payload: AchievementType[];
+}

@@ -1,10 +1,18 @@
+import { AchievementType } from "../types/AchievementsTypes";
 import { Observation } from "../types/iNaturalistTypes";
 import AchievementData from "./AchievementData";
 
+// TODO: In the future add different levels for the goals (for example: "observer 5/15/40 frogs")
+
+// FIXME: See if I can find a better way to do this that does not use so many global variables...
+
+const SPECIES_RANK = 10;
+const SUB_SPECIES_RANK = 5;
+// const RANK_HYBRID = 'rank';
+
 // The array of achievements
 let lstAchievementCardWrappers: AchievementData[] = [];
-    
-// FIXME: See if I can find a better way to do this that does not use so many global variables...
+// Global state variables
 let alltimeSpeciesCount: number[] = [];
 let dailyObsCount = 0;
 let dailyObsCountMax = 0;
@@ -14,7 +22,7 @@ let dailyLifeDate = new Date(Date.UTC(2018, 2, 1)).toISOString().split('T')[0];
 let dailyLifeDatePrev: string | null = null;
 let classCount: number[] = [];
 let flowerOrderCount: number[] = [];
-let alwaysOnOneDay = 24*60*60*1000;
+let alwaysOnOneDay = 24 * 60 * 60 * 1000;
 let alwaysOnDate = new Date(Date.UTC(2018, 2, 1)).toISOString().split('T')[0];
 let alwaysOnCount = 0;
 let alwaysOnCountMax = 0;
@@ -22,6 +30,24 @@ let idCount = 0;
 let mammalDig = 0;
 let mammalSwim = 0;
 let mammalFly = 0;
+
+export function getAchievements(): AchievementData[] {
+    return lstAchievementCardWrappers;
+}
+
+export function getAchievementsAsType(): AchievementType[] {
+    const list = [];
+    for (let achievementData of lstAchievementCardWrappers) {
+        const temp = { ...achievementData, evalFunc: undefined };
+        list.push(temp);
+    }
+    return list;
+}
+
+export function clearAchievements() {
+    lstAchievementCardWrappers = [];
+    clearGlobalState();
+}
     
 function clearGlobalState() {
     alltimeSpeciesCount = [];
@@ -43,14 +69,7 @@ function clearGlobalState() {
     mammalFly = 0;
 }
 
-// TODO: In the future add different levels for the goals (for example: "observer 5/15/40 frogs")
-
-// SETUP THE ACHIEVEMENTS
-const SPECIES_RANK = 10;
-const SUB_SPECIES_RANK = 5;
-// const RANK_HYBRID = 'rank';
-
-function setupAchievementsList() {
+export function initAchievements() {
     lstAchievementCardWrappers = [
 
         new AchievementData(
@@ -134,7 +153,7 @@ function setupAchievementsList() {
             }
         ),
 
-// TODO: Instead I want to count all fish species observed during a week period
+        // TODO: Instead I want to count all fish species observed during a week period
         new AchievementData(
             "King Fisher",
             "Obtain 20+ fish observations.",
@@ -178,7 +197,7 @@ function setupAchievementsList() {
             }
         ),
 
-// TODO: Also need to have left 100+ comments
+        // TODO: Also need to have left 100+ comments
         new AchievementData(
             "Social Butterfly",
             "Obtain 100+ observations of butterflies (and moths) and have an activity count of 10000+ on iNaturalist.",
@@ -219,8 +238,9 @@ function setupAchievementsList() {
             (iNatObsJSON: Observation) => {
                 if (idCount === 0) {
                     idCount = iNatObsJSON?.user?.identifications_count ?? 0;
+                    return idCount;
                 }
-                return idCount;
+                return 0;
             }
         ),
 
@@ -285,19 +305,19 @@ function setupAchievementsList() {
         ),
 
         new AchievementData(
-                "I Lichen Moss",
-                "Obtain 40+ observations of lichens and mosses.",
-                "LickenMoss",
-                40,
-                (iNatObsJSON: Observation) => {
-                    for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
-                        if ([311249, 54743].includes(taxonID)) {
-                            return 1;
-                        }
+            "I Lichen Moss",
+            "Obtain 40+ observations of lichens and mosses.",
+            "LickenMoss",
+            40,
+            (iNatObsJSON: Observation) => {
+                for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
+                    if ([311249, 54743].includes(taxonID)) {
+                        return 1;
                     }
-                    return 0;
                 }
-            ),
+                return 0;
+            }
+        ),
 
         new AchievementData(
             "Toads and Toadstools",
