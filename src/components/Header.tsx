@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, FormControl, Image, InputGroup, OverlayTrigger, Popover, ProgressBar, Row } from 'react-bootstrap';
-import mywild from '../images/mywild.png';
+import { Button, Col, Container, FormControl, Image, InputGroup, OverlayTrigger, Popover, Row } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import inat from '../images/inat_light.png';
-import { doCalculateClick } from '../scripts/ProcessData';
+import mywild from '../images/mywild.png';
+import { setProgressLoading } from '../redux/slices/ProgressSlice';
+import { calculateAchievements } from '../scripts/ProcessData';
 
 export default function Header() {
     const popoverURL = (
-        <Popover id="popover-basic">
-            <Popover.Header as="h3">Available URL Parameters</Popover.Header>
+        <Popover>
+            <Popover.Header as="h3">
+                Available URL Parameters
+            </Popover.Header>
             <Popover.Body>
                 <b>user=username</b>
                 <br />
@@ -20,8 +24,10 @@ export default function Header() {
         </Popover>
     );
     const popoverAbout = (
-        <Popover id="popover-basic">
-            <Popover.Header as="h3">About Wild Achievements</Popover.Header>
+        <Popover>
+            <Popover.Header as="h3">
+                About Wild Achievements
+            </Popover.Header>
             <Popover.Body>
                 <Image src={mywild} className='App-logo' alt='MyWild' fluid />
                 <hr />
@@ -29,8 +35,11 @@ export default function Header() {
             </Popover.Body>
         </Popover>
     );
+    const dispatch = useDispatch();
     const [isLoading, setLoading] = useState(false);
     useEffect(() => {
+        console.log('isLoading = ', isLoading)
+        dispatch(setProgressLoading(isLoading));
         if (isLoading) {
             networkRequest().then(() => {
                 setLoading(false);
@@ -39,7 +48,7 @@ export default function Header() {
     }, [isLoading]);
     const handleClick = () => setLoading(true);
     return (
-        <Container className="pt-3 p-4 bg-success bg-opacity-50 rounded-3">
+        <Container>
             <Row>
                 <Container className="pt-3 pb-3 bg-success bg-opacity-10 rounded-3">
                     <Row className='p-3'>
@@ -50,14 +59,19 @@ export default function Header() {
                     </Row>
                     <Row className='p-1'>
                         <Col />
-                        <Col sm='auto'>
+                        <Col sm='auto' className='p-1'>
+                            <Button variant="outline-secondary">
+                                Android App
+                            </Button>
+                        </Col>
+                        <Col sm='auto' className='p-1'>
                             <OverlayTrigger trigger="click" placement="bottom" overlay={popoverURL}>
                                 <Button variant="outline-secondary">
                                     URL Parameters
                                 </Button>
                             </OverlayTrigger>
                         </Col>
-                        <Col sm='auto'>
+                        <Col sm='auto' className='p-1'>
                             <OverlayTrigger trigger="click" placement="bottom" overlay={popoverAbout}>
                                 <Button variant="outline-secondary">
                                     About
@@ -87,14 +101,11 @@ export default function Header() {
                     </InputGroup>
                 </Row>
             </Container>
-            <ProgressBar variant="success" now={0} />
-            <br />
         </Container>
     );
 }
 
 function networkRequest() {
-    console.log('networkRequest')
-    // doCalculateClick();
+    calculateAchievements();
     return new Promise((resolve) => setTimeout(resolve, 2000));
 }

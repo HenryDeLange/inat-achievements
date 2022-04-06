@@ -1,8 +1,8 @@
 import { Observation } from "../types/iNaturalistTypes";
-import AchievementCardData from "./AchievementCardData";
+import AchievementData from "./AchievementData";
 
 // The array of achievements
-let lstAchievementCardWrappers: AchievementCardData[] = [];
+let lstAchievementCardWrappers: AchievementData[] = [];
     
 // FIXME: See if I can find a better way to do this that does not use so many global variables...
 let alltimeSpeciesCount: number[] = [];
@@ -53,11 +53,11 @@ const SUB_SPECIES_RANK = 5;
 function setupAchievementsList() {
     lstAchievementCardWrappers = [
 
-        new AchievementCardData(
+        new AchievementData(
             "Life Lister",
             "Observe 500+ different species.",
+            "LifeLister",
             500,
-            "icon-LifeLister",
             (iNatObsJSON: Observation) => {
                 if (iNatObsJSON?.taxon?.rank_level === SPECIES_RANK) {
                     if (!alltimeSpeciesCount.includes(iNatObsJSON.taxon.id)) {
@@ -75,11 +75,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Self Pollinator",
             "Add 50+ comments to your own observations.",
+            "SelfPolinator",
             50,
-            "icon-SelfPolinator",
             (iNatObsJSON: Observation) => {
                 for (let comment of iNatObsJSON?.comments ?? []) {
                     if (comment?.user?.id === iNatObsJSON?.user?.id) {
@@ -90,11 +90,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Mammal Tryhard",
             "Obtain 3+ observations of flying, swimming and digging mammals each.",
+            "TryMammals",
             9,
-            "icon-TryMammals",
             (iNatObsJSON: Observation) => {
                 const oldMammalDig = mammalDig;
                 const oldMammalSwim = mammalSwim;
@@ -119,11 +119,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Night Owl",
             "Obtain 12+ owl observations.",
+            "NightOwl",
             12,
-            "icon-NightOwl",
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
                     if ([19350].includes(taxonID)) {
@@ -135,11 +135,11 @@ function setupAchievementsList() {
         ),
 
 // TODO: Instead I want to count all fish species observed during a week period
-        new AchievementCardData(
+        new AchievementData(
             "King Fisher",
             "Obtain 20+ fish observations.",
+            "KingFisher",
             20,
-            "icon-KingFisher",
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
                     if ([47178].includes(taxonID)) {
@@ -150,11 +150,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Daisy Town",
             "Obtain 77+ daisy observations.",
+            "DaisyTown",
             77,
-            "icon-DaisyTown",
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
                     if ([47604].includes(taxonID)) {
@@ -165,11 +165,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Heart Of The Matter",
             "Obtain 13+ observations of endangered species.",
+            "HeartOfTheMatter",
             13,
-            "icon-HeartOfTheMatter",
             (iNatObsJSON: Observation) => {
                 if (iNatObsJSON?.taxon?.threatened === true) {
                     return 1;
@@ -179,11 +179,11 @@ function setupAchievementsList() {
         ),
 
 // TODO: Also need to have left 100+ comments
-        new AchievementCardData(
+        new AchievementData(
             "Social Butterfly",
             "Obtain 100+ observations of butterflies (and moths) and have an activity count of 10000+ on iNaturalist.",
+            "SocialButterfly",
             100,
-            "icon-SocialButterfly",
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
                     if ([47224].includes(taxonID)) {
@@ -196,11 +196,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Air Lovers",
             "Obtain 33+ observations of swifts, swallows, albatrosses or vultures.",
+            "GroupTherapy",
             30,
-            "icon-GroupTherapy",
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
                     if ([6544, 11853, 559244, 5362, 5425, 5391, 5400].includes(taxonID)) {
@@ -211,11 +211,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Name Giver",
             "Make 2000+ identifications.",
+            "NameGiver",
             2000,
-            "icon-NameGiver",
             (iNatObsJSON: Observation) => {
                 if (idCount === 0) {
                     idCount = iNatObsJSON?.user?.identifications_count ?? 0;
@@ -224,11 +224,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Rat King",
             "Obtain 25+ observations of rodents.",
+            "RatKing",
             25,
-            "icon-RatKing",
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
                     if ([43698].includes(taxonID)) {
@@ -239,11 +239,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Craney Storker",
             "Obtain 24+ observations of storks and cranes.",
+            "CraneyStorker",
             24,
-            "icon-CraneyStorker",
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
                     if ([3726, 23].includes(taxonID)) {
@@ -254,11 +254,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "So Many Bugs",
             "Obtain 99+ observations of bugs.",
+            "TooManyBugs",
             99,
-            "icon-TooManyBugs",
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
                     if ([61267].includes(taxonID)) {
@@ -269,11 +269,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Not A Bug",
             "Obtain 101+ observations of species commonly thought to be bugs, but aren't. (Myriapods, Arachnids, Entognathans and Insects which are not true bugs.)",
+            "NotABug",
             101,
-            "icon-NotABug",
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
                     if ([144128, 47119, 47158, 243773].includes(taxonID) && ![61267].includes(taxonID)) {
@@ -284,11 +284,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
                 "I Lichen Moss",
                 "Obtain 40+ observations of lichens and mosses.",
+                "LickenMoss",
                 40,
-                "icon-LickenMoss",
                 (iNatObsJSON: Observation) => {
                     for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
                         if ([311249, 54743].includes(taxonID)) {
@@ -299,11 +299,11 @@ function setupAchievementsList() {
                 }
             ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Toads and Toadstools",
             "Obtain 42+ observations of frogs/toads and mushrooms.",
+            "ToadsAndToadstools",
             42,
-            "icon-ToadsAndToadstools",
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
                     if ([20979, 47169].includes(taxonID) || [47169].includes(taxonID)) {
@@ -314,11 +314,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Flower Child",
             "Make observations of 30+ different orders of flowers.",
+            "FlowerChild",
             30,
-            "icon-FlowerChild",
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
                     if ((iNatObsJSON?.taxon?.rank_level ?? 100 <= 40) && [47125].includes(taxonID)) {
@@ -333,11 +333,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Classy Observer",
             "Make observations in 20+ different classes.",
+            "WorldClass",
             20,
-            "icon-WorldClass",
             (iNatObsJSON: Observation) => {
                 let classID = iNatObsJSON?.taxon?.iconic_taxon_id ?? -1;
                 if (!classCount.includes(classID)) {
@@ -348,11 +348,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Daily Life",
             "On 24+ days make 24+ observations of 24+ different species.",
+            "DailyLife",
             24,
-            "icon-DailyLife",
             (iNatObsJSON: Observation) => {
                 let wasTriggered = false;
                 let obsDate = iNatObsJSON?.observed_on_details?.date ?? dailyLifeDate;
@@ -389,11 +389,11 @@ function setupAchievementsList() {
             }
         ),
 
-        new AchievementCardData(
+        new AchievementData(
             "Always On",
             "Make 400+ observations over a 4 day period.",
+            "AlwaysOn",
             400,
-            "icon-AlwaysOn",
             (iNatObsJSON: Observation) => {
                 let obsDate = iNatObsJSON?.observed_on_details?.date ?? alwaysOnDate;
                 var date1 = new Date(Number(alwaysOnDate.substring(0, 5)), Number(alwaysOnDate.substring(5, 8)), Number(alwaysOnDate.substring(8, 10)));

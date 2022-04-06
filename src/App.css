@@ -10,6 +10,46 @@
     color: white;
 }
 
+.Alert {
+    font-size: calc(10px + 1vmin);
+    margin-top: 3vmax;
+}
+
+.Card-Icon-Success {
+    filter: invert(47%) sepia(91%) saturate(2600%) hue-rotate(57deg) brightness(95%) contrast(90%);
+}
+
+.Card-Icon-Partial {
+    filter: invert(94%) sepia(11%) saturate(932%) hue-rotate(30deg) brightness(91%) contrast(89%);;
+}
+
+.Card-Icon-Inactive {
+    filter: invert(87%) sepia(30%) saturate(1%) hue-rotate(314deg) brightness(85%) contrast(105%);
+}
+
+.Card-Icon-Fail {
+    filter: invert(12%) sepia(100%) saturate(4097%) hue-rotate(353deg) brightness(94%) contrast(95%);
+}
+
+.Card-Title {
+    font-size: calc(12px + 1.2vmin);
+    font-weight: bold;
+}
+
+.Card-Text {
+    font-size: calc(9px + 0.5vmax);
+    margin: 3px;
+}
+
+.Card-Popup-Title {
+    font-size: calc(12px + 1vmax);
+    font-weight: bold;
+}
+
+.Card-Popup-Text {
+    font-size: calc(11px + 0.75vmax);
+}
+
 .App-logo {
     height: 100px;
     pointer-events: none;

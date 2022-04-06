@@ -4,6 +4,7 @@
         "inaturalist",
         "inaturalistjs",
         "mywild",
-        "predeploy"
+        "predeploy",
+        "reduxjs"
     ]
 }

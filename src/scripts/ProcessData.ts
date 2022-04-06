@@ -2,10 +2,11 @@
 let activeUserName = '';
 let readLimit = 300;
 
-export function doCalculateClick() {
-    document.getElementById('PanelAchievements')!.style.display = '';
-    document.getElementById('PanelLoading')!.style.display = '';
-    setTimeout(loadUserData, 0);
+export function calculateAchievements() {
+    // document.getElementById('PanelAchievements')!.style.display = '';
+    // document.getElementById('PanelLoading')!.style.display = '';
+    // setTimeout(loadUserData, 0);
+    console.log('calculateAchievements');
 }
 
 // Load the user's data

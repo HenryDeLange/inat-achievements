@@ -1,34 +1,33 @@
 import React, { memo } from 'react';
-import { AchievementType } from '../types/iNatAchievementsTypes';
+import { Card, Col, Image, OverlayTrigger, Popover } from 'react-bootstrap';
+import { AchievementType } from '../types/AchievementsTypes';
 
-export default memo(function AchievementCard({
-                                                icon = 'icon-template', 
-                                                title = '..TEMPLATE..', 
-                                                details = '???', 
-                                                goal = 0, 
-                                                count = 0, 
-                                                color = 'red'
-                                            }: AchievementType) {
-    // TODO: Fix the alignment of the icons when using 'fontSize': '6rem'
+export default memo(function AchievementCard(data: AchievementType) {
+    const popoverDetails = (
+        <Popover>
+            <Popover.Header className='Card-Popup-Title'>
+                {data.title}
+            </Popover.Header>
+            <Popover.Body className='Card-Popup-Text'>
+                {data.details}
+                <hr />
+                {`(${data.count} of ${data.goal})`}
+            </Popover.Body>
+        </Popover>
+    );
     return (
-        <div className='col-6 col-sm-4 col-md-3 col-lg-2'>
-            <div className='card text-center border-0' style={{ 'margin': '2rem' }}>
-                <a /*tabIndex='0'*/ 
-                    data-toggle='popover'
-                    data-trigger='focus'
-                    className={icon + ' btn text-center'}
-                    role='button'
-                    data-placement='top'
-                    style={{ 'color': color, 'fontSize': '5.25rem' }}
-                    title='Achievement Details'
-                    data-content={details} />
-                <h6 className='card-title' style={{ 'color': color }}>
-                    {title}
-                </h6>
-                <div className='card-text' style={{ 'color': color }}>
-                    <small>{'(' + count + ' of ' + goal + ')'}</small>
-                </div>
-            </div>
-        </div>
+        <Col className='col-6 col-sm-4 col-md-3 col-lg-2'>
+            <OverlayTrigger trigger="click" placement="top" overlay={popoverDetails}>
+                <Card className='border-0 p-1'>
+                    <Image src={require(`../badges/${data.icon}.svg`)} className={`Card-Icon-${data.iconColor}`} />
+                    <Card.Title className='Card-Title' style={{ color: data.textColor }}>
+                        {data.title}
+                    </Card.Title>
+                    <Card.Text className='Card-Text' style={{ color: data.textColor }}>
+                        {`(${data.count} of ${data.goal})`}
+                    </Card.Text>
+                </Card>
+            </OverlayTrigger>
+        </Col>
     );
 });
