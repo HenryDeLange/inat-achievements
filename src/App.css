@@ -15,6 +15,11 @@
     margin-top: 3vmax;
 }
 
+.Card:hover {
+    cursor: pointer;
+    /* background-color: rgb(247, 252, 243); */
+}
+
 .Card-Icon-Success {
     filter: invert(0%) sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%) contrast(100%);
 }

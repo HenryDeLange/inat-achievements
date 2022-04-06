@@ -75,14 +75,14 @@ export default function Header() {
                             </Button>
                         </Col>
                         <Col sm='auto' className='p-1'>
-                            <OverlayTrigger trigger="click" placement="bottom" overlay={popoverURL}>
+                            <OverlayTrigger trigger="click" placement="bottom" overlay={popoverURL} rootClose>
                                 <Button variant="outline-secondary">
                                     URL Parameters
                                 </Button>
                             </OverlayTrigger>
                         </Col>
                         <Col sm='auto' className='p-1'>
-                            <OverlayTrigger trigger="click" placement="bottom" overlay={popoverAbout}>
+                            <OverlayTrigger trigger="click" placement="bottom" overlay={popoverAbout} rootClose>
                                 <Button variant="outline-secondary">
                                     About
                                 </Button>

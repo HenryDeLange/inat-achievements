@@ -17,8 +17,8 @@ export default memo(function AchievementCard(data: AchievementType) {
     );
     return (
         <Col className='col-6 col-sm-4 col-md-3 col-lg-2 pb-4'>
-            <OverlayTrigger trigger="click" placement="top" overlay={popoverDetails}>
-                <Card className='border-0 p-1'>
+            <OverlayTrigger trigger="click" placement="top" overlay={popoverDetails} rootClose>
+                <Card className='border-0 p-1 Card'>
                     <Image src={require(`../badges/${data.icon}.svg`)} className={`Card-Icon-${data.iconColor}`} />
                     <Card.Title className='Card-Title' style={{ color: data.textColor }}>
                         {data.title}
