@@ -2,7 +2,6 @@ import React, { memo } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/ReduxStore';
-import AchievementData from '../scripts/AchievementData';
 import { AchievementType } from '../types/AchievementsTypes';
 import AchievementCard from './AchievementCard';
 

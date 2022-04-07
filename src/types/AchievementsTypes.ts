@@ -1,3 +1,4 @@
+import { Option } from "react-bootstrap-typeahead/types/types";
 
 export declare type AchievementType = {
     icon: string;
@@ -23,4 +24,10 @@ export type ActionAchievementDataType = {
 
 export type ActionAllAchievementDataType = {
     payload: AchievementType[];
+}
+
+export type TypeaheadOptionType = Option & {
+    id: number;
+    login: string;
+    avatar_url?: string;
 }

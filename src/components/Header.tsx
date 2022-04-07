@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, FormControl, Image, InputGroup, OverlayTrigger, Popover, Row } from 'react-bootstrap';
+import React, { Fragment, useState } from 'react';
+import { Button, Col, Container, Image, InputGroup, OverlayTrigger, Popover, Row } from 'react-bootstrap';
+import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { useDispatch, useSelector } from 'react-redux';
 import inat from '../images/inat_light.png';
 import mywild from '../images/mywild.png';
@@ -8,19 +9,41 @@ import { setAllAchievements, updateAchievement } from '../redux/slices/Achieveme
 import { setProgressLoading, setProgressValue } from '../redux/slices/ProgressSlice';
 import { clearAchievements, getAchievements, getAchievementsAsType, initAchievements } from '../scripts/AchievementImplementations';
 import { calculateAchievements } from '../scripts/ProcessData';
+import { TypeaheadOptionType } from '../types/AchievementsTypes';
+import { UserAutocompleteResponse } from '../types/iNaturalistTypes';
 
 export default function Header() {
     // Loading
     const dispatch = useDispatch();
     const progressLoading = useSelector((state: RootState) => state.progress.loading);
+    // Username Input
+    const [username, setUsername] = useState('');
+    const [isUsernameLoading, setIsUsernameLoading] = useState(false);
+    const [options, setOptions] = useState([] as TypeaheadOptionType[]);
+    const handleSearch = (query: string) => {
+        setIsUsernameLoading(true);
+        // Not using inatjs module because at the moment it does not support the autocomplete
+        fetch(`https://api.inaturalist.org/v1/users/autocomplete?q=${query}`)
+            .then((response) => response.json())
+            .then((userAutocompleteResponse: UserAutocompleteResponse) => {
+                const options = userAutocompleteResponse.results.map((user) => ({
+                    id: user.id,
+                    login: user.login ?? user.id.toString(),
+                    avatar_url: user.icon_url ?? require('../images/inat_empty.png')
+                }));
+                setOptions(options);
+                setIsUsernameLoading(false);
+            });
+    };
+    const filterBy = () => true; // Bypass client-side filtering by returning `true`. Results are already filtered by the search endpoint, so no need to do it again.
+    // Calculate Button
     const handleClick = () => {
         dispatch(setProgressValue(0));
         dispatch(setProgressLoading(true));
         clearAchievements();
         initAchievements();
         dispatch(setAllAchievements(getAchievementsAsType()));
-        console.log('<<< calculateAchievements >>>')
-        calculateAchievements(dispatch, 'henrydelange', (observation) => {
+        calculateAchievements(dispatch, username, (observation) => {
             for (let achievementData of getAchievements()) {
                 achievementData.evaluate(observation);
                 dispatch(updateAchievement({ ...achievementData, evalFunc: undefined }));
@@ -30,7 +53,7 @@ export default function Header() {
     // Popups
     const popoverURL = (
         <Popover>
-            <Popover.Header as="h3">
+            <Popover.Header as='h3'>
                 Available URL Parameters
             </Popover.Header>
             <Popover.Body>
@@ -46,7 +69,7 @@ export default function Header() {
     );
     const popoverAbout = (
         <Popover>
-            <Popover.Header as="h3">
+            <Popover.Header as='h3'>
                 About Wild Achievements
             </Popover.Header>
             <Popover.Body>
@@ -60,7 +83,7 @@ export default function Header() {
     return (
         <Container>
             <Row>
-                <Container className="pt-3 pb-3 bg-success bg-opacity-10 rounded-3">
+                <Container className='pt-3 pb-3 bg-success bg-opacity-10 rounded-3'>
                     <Row className='p-3'>
                         <h1>Wild Achievements</h1>
                     </Row>
@@ -70,20 +93,25 @@ export default function Header() {
                     <Row className='p-1'>
                         <Col />
                         <Col sm='auto' className='p-1'>
-                            <Button variant="outline-secondary">
+                            <Button variant='outline-secondary'>
                                 Android App
                             </Button>
                         </Col>
                         <Col sm='auto' className='p-1'>
-                            <OverlayTrigger trigger="click" placement="bottom" overlay={popoverURL} rootClose>
-                                <Button variant="outline-secondary">
+                            <Button variant='outline-secondary'>
+                                Windows App
+                            </Button>
+                        </Col>
+                        <Col sm='auto' className='p-1'>
+                            <OverlayTrigger trigger='click' placement='bottom' overlay={popoverURL} rootClose>
+                                <Button variant='outline-secondary'>
                                     URL Parameters
                                 </Button>
                             </OverlayTrigger>
                         </Col>
                         <Col sm='auto' className='p-1'>
-                            <OverlayTrigger trigger="click" placement="bottom" overlay={popoverAbout} rootClose>
-                                <Button variant="outline-secondary">
+                            <OverlayTrigger trigger='click' placement='bottom' overlay={popoverAbout} rootClose>
+                                <Button variant='outline-secondary'>
                                     About
                                 </Button>
                             </OverlayTrigger>
@@ -91,18 +119,36 @@ export default function Header() {
                     </Row>
                 </Container>
             </Row>
-            <Container className="p-5 rounded-5">
+            <Container className='p-5 rounded-5'>
                 <Row>
                     <InputGroup size='lg'>
-                        <FormControl
-                            type='text'
-                            className='form-control'
+                        <AsyncTypeahead
+                            id='username-search'
+                            filterBy={filterBy}
+                            isLoading={isUsernameLoading}
+                            labelKey='login'
+                            minLength={3}
+                            onSearch={handleSearch}
+                            options={options}
                             placeholder='iNaturalist Username'
-                            aria-label='Username'
-                            aria-describedby='inputGroup-sizing-lg'
+                            defaultInputValue={username}
+                            onChange={(selected) => setUsername(selected.map((option) => (option as TypeaheadOptionType).login)[0])}
+                            renderMenuItemChildren={(option, props) => (
+                                <Fragment>
+                                    <Image
+                                        src={(option as TypeaheadOptionType).avatar_url}
+                                        style={{
+                                            height: '24px',
+                                            marginRight: '10px',
+                                            width: '24px',
+                                        }}
+                                    />
+                                    {(option as TypeaheadOptionType).login}
+                                </Fragment>
+                            )}
                         />
                         <Button
-                            variant="success"
+                            variant='success'
                             disabled={progressLoading}
                             onClick={!progressLoading ? handleClick : undefined}
                         >
