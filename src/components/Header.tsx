@@ -7,7 +7,7 @@ import inat_dark from '../images/inat_dark.png';
 import mywild from '../images/mywild.png';
 import { RootState } from '../redux/ReduxStore';
 import { setAllAchievements, updateAchievement } from '../redux/slices/AchievementsSlice';
-import { setProgressLoading, setProgressValue } from '../redux/slices/ProgressSlice';
+import { setProgressAlert, setProgressLoading, setProgressValue } from '../redux/slices/ProgressSlice';
 import { clearAchievements, getAchievements, getAchievementsAsType, initAchievements } from '../scripts/AchievementImplementations';
 import { calculateAchievements } from '../scripts/ProcessData';
 import { TypeaheadOptionType } from '../types/AchievementsTypes';
@@ -43,6 +43,7 @@ export default function Header() {
     const handleClick = () => {
         dispatch(setProgressValue(0));
         dispatch(setProgressLoading(true));
+        dispatch(setProgressAlert(true));
         clearAchievements();
         initAchievements();
         dispatch(setAllAchievements(getAchievementsAsType()));

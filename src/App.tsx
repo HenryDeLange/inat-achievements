@@ -8,6 +8,7 @@ import Achievements from './components/Achievements';
 // TODO: Add light/dark mode
 // TODO: Add caching of iNat observations
 // TODO: Add i18n-js support
+// TODO: Add a way to share the achievements (as a png?)
 
 export default function App() {
     return (
