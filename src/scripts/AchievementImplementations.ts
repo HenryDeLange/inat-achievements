@@ -13,7 +13,7 @@ const SUB_SPECIES_RANK = 5;
 // The array of achievements
 let lstAchievementCardWrappers: AchievementData[] = [];
 // Global state variables
-let alltimeSpeciesCount: number[] = [];
+let allTimeSpeciesCount: number[] = [];
 let dailyObsCount = 0;
 let dailyObsCountMax = 0;
 let dailySpeciesCountMax = 0;
@@ -50,7 +50,7 @@ export function clearAchievements() {
 }
     
 function clearGlobalState() {
-    alltimeSpeciesCount = [];
+    allTimeSpeciesCount = [];
     dailyObsCount = 0;
     dailyObsCountMax = 0;
     dailySpeciesCountMax = 0;
@@ -79,14 +79,14 @@ export function initAchievements() {
             500,
             (iNatObsJSON: Observation) => {
                 if (iNatObsJSON?.taxon?.rank_level === SPECIES_RANK) {
-                    if (!alltimeSpeciesCount.includes(iNatObsJSON.taxon.id)) {
-                        alltimeSpeciesCount.push(iNatObsJSON.taxon.id);
+                    if (!allTimeSpeciesCount.includes(iNatObsJSON.taxon.id)) {
+                        allTimeSpeciesCount.push(iNatObsJSON.taxon.id);
                         return 1;
                     }
                 }
                 else if (iNatObsJSON?.taxon?.rank_level === SUB_SPECIES_RANK) {
-                    if (!alltimeSpeciesCount.includes(iNatObsJSON?.taxon?.parent_id ?? 0)) {
-                        alltimeSpeciesCount.push(iNatObsJSON?.taxon?.parent_id ?? 0);
+                    if (!allTimeSpeciesCount.includes(iNatObsJSON?.taxon?.parent_id ?? 0)) {
+                        allTimeSpeciesCount.push(iNatObsJSON?.taxon?.parent_id ?? 0);
                         return 1;
                     }
                 }
@@ -97,7 +97,7 @@ export function initAchievements() {
         new AchievementData(
             "Self Pollinator",
             "Add 50+ comments to your own observations.",
-            "SelfPolinator",
+            "SelfPollinator",
             50,
             (iNatObsJSON: Observation) => {
                 for (let comment of iNatObsJSON?.comments ?? []) {
@@ -307,7 +307,7 @@ export function initAchievements() {
         new AchievementData(
             "I Lichen Moss",
             "Obtain 40+ observations of lichens and mosses.",
-            "LickenMoss",
+            "LichenMoss",
             40,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {

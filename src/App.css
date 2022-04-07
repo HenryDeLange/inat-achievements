@@ -10,9 +10,24 @@
     color: white;
 }
 
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+a:hover {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.Popover-About {
+    min-width: 20vw;
+    max-width: 40vw;
+}
+
 .Alert {
     font-size: calc(10px + 1vmin);
-    margin-top: 3vmax;
+    margin-top: 5vmax;
 }
 
 .Card:hover {
@@ -55,15 +70,20 @@
     font-size: calc(11px + 0.75vmax);
 }
 
-.App-logo {
-    height: 100px;
+.Image-iNat {
+    max-width: 20vw;
+    max-width: 30vw;
+}
+
+.Image-MyWild {
+    max-width: 80px;
     pointer-events: none;
     /* margin: 4vmin; */
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
+    .Image-MyWild {
+        animation: App-logo-spin infinite 40s linear;
     }
 }
 
@@ -71,6 +91,7 @@
     from {
         transform: rotate(360deg);
     }
+
     to {
         transform: rotate(0deg);
     }

@@ -5,7 +5,7 @@ import { Observation, ObservationsResponse } from '../types/iNaturalistTypes';
 
 // TODO: Implement requests per minute limit
 const REQUEST_PER_MINUTE_LIMIT = 100; // 100 seems to be the maximum iNat wants
-const TOTAL_RESULTS_LIMIT = 500;
+const TOTAL_RESULTS_LIMIT = 5;//500;
 const RESULT_PER_PAGE_LIMIT = 200; // 200 seems to be the maximum iNat wants
 const FIRST_PAGE = 1; // 1 is the first page (not 0)
 

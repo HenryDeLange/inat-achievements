@@ -5,6 +5,10 @@ import Header from './components/Header';
 import Progress from './components/Progress';
 import Achievements from './components/Achievements';
 
+// TODO: Add light/dark mode
+// TODO: Add caching of iNat observations
+// TODO: Add i18n-js support
+
 export default function App() {
     return (
         <Container className='d-flex flex-column p-3 App' fluid>

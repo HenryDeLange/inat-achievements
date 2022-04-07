@@ -2,7 +2,8 @@ import React, { Fragment, useState } from 'react';
 import { Button, Col, Container, Image, InputGroup, OverlayTrigger, Popover, Row } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { useDispatch, useSelector } from 'react-redux';
-import inat from '../images/inat_light.png';
+import inat_light from '../images/inat_light.png';
+import inat_dark from '../images/inat_dark.png';
 import mywild from '../images/mywild.png';
 import { RootState } from '../redux/ReduxStore';
 import { setAllAchievements, updateAchievement } from '../redux/slices/AchievementsSlice';
@@ -16,6 +17,7 @@ export default function Header() {
     // Loading
     const dispatch = useDispatch();
     const progressLoading = useSelector((state: RootState) => state.progress.loading);
+
     // Username Input
     const [username, setUsername] = useState('');
     const [isUsernameLoading, setIsUsernameLoading] = useState(false);
@@ -36,6 +38,7 @@ export default function Header() {
             });
     };
     const filterBy = () => true; // Bypass client-side filtering by returning `true`. Results are already filtered by the search endpoint, so no need to do it again.
+
     // Calculate Button
     const handleClick = () => {
         dispatch(setProgressValue(0));
@@ -50,6 +53,7 @@ export default function Header() {
             }
         });
     }
+
     // Popups
     const popoverURL = (
         <Popover>
@@ -67,28 +71,46 @@ export default function Header() {
             </Popover.Body>
         </Popover>
     );
+    // TODO: Make this popover resize differently for large vs small screens
     const popoverAbout = (
-        <Popover>
+        <Popover className='Popover-About'>
             <Popover.Header as='h3'>
                 About Wild Achievements
             </Popover.Header>
             <Popover.Body>
-                <Image src={mywild} className='App-logo' alt='MyWild' fluid />
+                <Container>
+                    <Row>
+                        <Col sm='auto'>
+                            <Image src={mywild} alt='MyWild' className='Image-MyWild' fluid />
+                        </Col>
+                        <Col>
+                            <h5>MyWild</h5>
+                            <h6>Developed by MyWild (Henry de Lange).</h6>
+                            <p>This is not an officially iNaturalist website.</p>
+                        </Col>
+                    </Row>
+                </Container>
                 <hr />
-                <Image src={inat} alt='iNaturalist' fluid />
+                <Container>
+                    <Image src={inat_light} alt='iNaturalist' className='Image-iNat' style={{ marginBottom: 15 }} />
+                    <h6>This website is powered by the <a href='https://api.inaturalist.org/v1/docs'>iNaturalist API</a>.</h6>
+                </Container>
             </Popover.Body>
         </Popover>
     );
+
     // Render
     return (
         <Container>
             <Row>
                 <Container className='pt-3 pb-3 bg-success bg-opacity-10 rounded-3'>
                     <Row className='p-3'>
-                        <h1>Wild Achievements</h1>
+                        <h1><b>Wild Achievements</b></h1>
                     </Row>
                     <Row className='p-3'>
-                        <h4>Upload observation on iNaturalist.org to try and unlock all achievements!</h4>
+                        <h5>The goal of Wild Achievements is to enhance your iNaturalist experience.
+                            Your iNaturalist observations are analyzed and counted towards progressing the various fun achievements.</h5>
+                        <h6>Upload more observations on <a href='https://www.inaturalist.org'>iNaturalist.org</a> to try and unlock all achievements!</h6>
                     </Row>
                     <Row className='p-1'>
                         <Col />
@@ -102,6 +124,7 @@ export default function Header() {
                                 Windows App
                             </Button>
                         </Col>
+                        <Col />
                         <Col sm='auto' className='p-1'>
                             <OverlayTrigger trigger='click' placement='bottom' overlay={popoverURL} rootClose>
                                 <Button variant='outline-secondary'>
@@ -109,12 +132,24 @@ export default function Header() {
                                 </Button>
                             </OverlayTrigger>
                         </Col>
+                        <Col />
                         <Col sm='auto' className='p-1'>
                             <OverlayTrigger trigger='click' placement='bottom' overlay={popoverAbout} rootClose>
                                 <Button variant='outline-secondary'>
                                     About
                                 </Button>
                             </OverlayTrigger>
+                        </Col>
+                        <Col sm='auto' className='p-1'>
+                            <Button variant='outline-secondary' href='https://github.com/HenryDeLange/inat-achievements'>
+                                GitHub
+                            </Button>
+                        </Col>
+                        <Col />
+                        <Col sm='auto' className='p-1'>
+                            <a href='https://www.inaturalist.org'>
+                                <Image src={inat_dark} alt='iNaturalist' height={25} />
+                            </a>
                         </Col>
                     </Row>
                 </Container>
@@ -126,6 +161,8 @@ export default function Header() {
                             id='username-search'
                             filterBy={filterBy}
                             isLoading={isUsernameLoading}
+                            isValid={username && username.trim().length > 0 ? true : false}
+                            // isInvalid={!username || username.trim().length === 0 ? true : false}
                             labelKey='login'
                             minLength={3}
                             onSearch={handleSearch}
@@ -133,6 +170,7 @@ export default function Header() {
                             placeholder='iNaturalist Username'
                             defaultInputValue={username}
                             onChange={(selected) => setUsername(selected.map((option) => (option as TypeaheadOptionType).login)[0])}
+                            // onInputChange={(text) => setUsername(text)}
                             renderMenuItemChildren={(option, props) => (
                                 <Fragment>
                                     <Image
@@ -148,8 +186,8 @@ export default function Header() {
                             )}
                         />
                         <Button
-                            variant='success'
-                            disabled={progressLoading}
+                            variant={!username ? 'secondary' : progressLoading ? 'secondary' : 'success'}
+                            disabled={progressLoading || !username}
                             onClick={!progressLoading ? handleClick : undefined}
                         >
                             {!progressLoading ? 'Calculate Achievements' : 'Loading Achievements'}
