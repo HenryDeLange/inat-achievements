@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { Card, Col, Image, OverlayTrigger, Popover } from 'react-bootstrap';
 import { AchievementType } from '../types/AchievementsTypes';
 
+// FIXME: Fix the card height problem
 export default memo(function AchievementCard(data: AchievementType) {
     const popoverDetails = (
         <Popover>

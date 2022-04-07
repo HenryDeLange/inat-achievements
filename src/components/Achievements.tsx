@@ -8,7 +8,7 @@ import AchievementCard from './AchievementCard';
 export default memo(function Achievements() {
     const achievementData = useSelector((state: RootState) => state.achievements.data);
     let list: AchievementType[] = Array.from(achievementData.values());
-// TODO: Maybe sort the list to show passed achievements first?
+// TODO: Sort the list to show passed achievements first, then by furthest complete (percentage), then by title
     return (
         <Container>
             <Row>
