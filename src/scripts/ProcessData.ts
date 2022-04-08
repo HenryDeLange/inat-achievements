@@ -9,7 +9,7 @@ const THROTTLE_SLEEP_TIME = 60 * 1000 / REQUEST_PER_MINUTE_LIMIT;
 const TOTAL_RESULTS_LIMIT = REQUEST_PER_MINUTE_LIMIT * RESULT_PER_PAGE_LIMIT; // Default to one minute of loading data (the top 500 observers seems to have 15000+ observations)
 const FIRST_PAGE = 1; // 1 is the first page (not 0)
 
-const printLog = false;
+const printLog = true;
 
 export async function calculateAchievements(
     dispatch: Dispatch<any>,

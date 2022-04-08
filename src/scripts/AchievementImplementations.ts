@@ -17,7 +17,6 @@ import AchievementData from './AchievementData';
 
 const SPECIES_RANK = 10;
 const SUB_SPECIES_RANK = 5;
-// const RANK_HYBRID = 'rank';
 
 // The array of achievements
 let lstAchievementCardWrappers: AchievementData[] = [];

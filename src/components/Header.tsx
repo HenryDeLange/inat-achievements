@@ -13,13 +13,18 @@ import { calculateAchievements } from '../scripts/ProcessData';
 import { TypeaheadOptionType } from '../types/AchievementsTypes';
 import { UserAutocompleteResponse } from '../types/iNaturalistTypes';
 
+let firstLoad = true;
+
 export default function Header() {
+    const queryParams = new URLSearchParams(window.location.search);
+
     // Loading
     const dispatch = useDispatch();
     const progressLoading = useSelector((state: RootState) => state.progress.loading);
 
     // Username Input
-    const [username, setUsername] = useState('');
+    const urlUser = queryParams.get('user') ?? '';
+    const [username, setUsername] = useState(urlUser);
     const [isUsernameLoading, setIsUsernameLoading] = useState(false);
     const [options, setOptions] = useState([] as TypeaheadOptionType[]);
     const handleSearch = (query: string) => {
@@ -28,18 +33,19 @@ export default function Header() {
         fetch(`https://api.inaturalist.org/v1/users/autocomplete?q=${query}`)
             .then((response) => response.json())
             .then((userAutocompleteResponse: UserAutocompleteResponse) => {
-                const options = userAutocompleteResponse.results.map((user) => ({
+                const newOptions = userAutocompleteResponse.results.map((user) => ({
                     id: user.id,
                     login: user.login ?? user.id.toString(),
                     avatar_url: user.icon_url ?? require('../images/inat_empty.png')
                 }));
-                setOptions(options);
+                setOptions(newOptions);
                 setIsUsernameLoading(false);
             });
     };
     const filterBy = () => true; // Bypass client-side filtering by returning `true`. Results are already filtered by the search endpoint, so no need to do it again.
 
     // Calculate Button
+    const urlLimit = Number(queryParams.get('limit'));
     const handleClick = () => {
         dispatch(setProgressValue(0));
         dispatch(setProgressLoading(true));
@@ -52,7 +58,11 @@ export default function Header() {
                 achievementData.evaluate(observation);
                 dispatch(updateAchievement({ ...achievementData, evalFunc: undefined }));
             }
-        });
+        }, undefined, undefined, urlLimit);
+    }
+    if (firstLoad && urlUser) {
+        firstLoad = false;
+        handleClick();
     }
 
     // Popups
@@ -62,13 +72,15 @@ export default function Header() {
                 Available URL Parameters
             </Popover.Header>
             <Popover.Body>
-                <b>user=username</b>
+                <b>user</b>
                 <br />
                 Immediately load the achievements for the specified user.
                 <hr />
-                <b>limit=100</b>
+                <b>limit</b>
                 <br />
-                Limit the number of observations that are read.
+                The maximum number of observations that should be fetched from iNaturalist.
+                <hr />
+                <u>Example:</u>{' .../inat-achievements?user=henrydelange&limit=100'}
             </Popover.Body>
         </Popover>
     );
@@ -174,7 +186,7 @@ export default function Header() {
                             defaultInputValue={username}
                             onChange={(selected) => setUsername(selected.map((option) => (option as TypeaheadOptionType).login)[0])}
                             // onInputChange={(text) => setUsername(text)}
-                            renderMenuItemChildren={(option, props) => (
+                            renderMenuItemChildren={(option) => (
                                 <Fragment>
                                     <Image
                                         src={(option as TypeaheadOptionType).avatar_url}
