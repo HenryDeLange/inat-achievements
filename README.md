@@ -1,10 +1,14 @@
 # Wild Achievements
 
+![GitHub package.json version](https://img.shields.io/github/package-json/v/HenryDeLange/inat-achievements) ![GitHub](https://img.shields.io/github/license/HenryDeLange/inat-achievements)
+
 This project aims to show fun personal achievements based on observations recorded on iNaturalist.
 
 ---
 
 ## Live Site
+![Website](https://img.shields.io/website?down_message=offline&up_message=online&url=https%3A%2F%2Fwild-achievements.mywild.co.za) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/HenryDeLange/inat-achievements/Deploy%20to%20GitHub%20Pages?label=deploy)
+
 [https://wild-achievements.mywild.co.za](https://wild-achievements.mywild.co.za)\
 or\
 [https://henrydelange.github.io/inat-achievements](https://henrydelange.github.io/inat-achievements)
@@ -12,6 +16,8 @@ or\
 ---
 
 ## Development
+
+![GitHub language count](https://img.shields.io/github/languages/count/HenryDeLange/inat-achievements) ![GitHub top language](https://img.shields.io/github/languages/top/HenryDeLange/inat-achievements)
 
 ### Setup
 `npm install`\

@@ -2,8 +2,6 @@ import { AchievementType } from '../types/AchievementsTypes';
 import { Observation } from '../types/iNaturalistTypes';
 import AchievementData from './AchievementData';
 
-// TODO: In the future add different levels for the goals (for example: 'observer 5/15/40 frogs')
-
 // TODO: Add more achievements
 //          - Plenty of Places: Obtain observations in 50+ different 0.5 degree grids.
 //          - All Corners: Obtain observations in each corder of the globe (North-West, North-East, South-West and South-East).

@@ -84,7 +84,6 @@ export default function Header() {
             </Popover.Body>
         </Popover>
     );
-    // TODO: Make this popover resize differently for large vs small screens
     const popoverAbout = (
         <Popover className='Popover'>
             <Popover.Header as='h3'>
