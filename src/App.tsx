@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import './App.css';
+import Achievements from './components/Achievements';
 import Header from './components/Header';
 import Progress from './components/Progress';
-import Achievements from './components/Achievements';
 
 // TODO: Add light/dark mode
 // TODO: Add local caching of iNat observations (maybe the 'updated_since' search parameter can help with only fetching recent changes)
