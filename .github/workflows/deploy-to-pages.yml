@@ -35,10 +35,11 @@ jobs:
       - name: Install Dependencies
         run: npm install
       # Build the application
-      - name: Install Dependencies
+      - name: Build Dependencies
         run: npm build
       # Deploy the "build" folder to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build
+      - name: Deploy build to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
