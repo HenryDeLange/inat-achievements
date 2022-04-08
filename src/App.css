@@ -20,9 +20,10 @@ a:hover {
     text-decoration: underline;
 }
 
-.Popover-About {
-    min-width: 20vw;
-    max-width: 40vw;
+@media (min-width: 550px) {
+    .Popover {
+        max-width: 500px;
+    }
 }
 
 .Alert {
@@ -60,7 +61,7 @@ a:hover {
 
 .Card-Text {
     font-size: calc(9px + 0.5vmax);
-    }
+}
 
 .Card-Popup-Title {
     font-size: calc(12px + 1vmax);
@@ -72,8 +73,7 @@ a:hover {
 }
 
 .Image-iNat {
-    max-width: 20vw;
-    max-width: 30vw;
+    max-width: 150px;
 }
 
 .Image-MyWild {

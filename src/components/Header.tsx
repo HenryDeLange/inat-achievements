@@ -67,7 +67,7 @@ export default function Header() {
 
     // Popups
     const popoverURL = (
-        <Popover>
+        <Popover className='Popover'>
             <Popover.Header as='h3'>
                 Available URL Parameters
             </Popover.Header>
@@ -86,7 +86,7 @@ export default function Header() {
     );
     // TODO: Make this popover resize differently for large vs small screens
     const popoverAbout = (
-        <Popover className='Popover-About'>
+        <Popover className='Popover'>
             <Popover.Header as='h3'>
                 About Wild Achievements
             </Popover.Header>
@@ -130,7 +130,7 @@ export default function Header() {
                     <Row className='p-1'>
                         <Col />
                         <Col sm='auto' className='p-1'>
-                            <OverlayTrigger trigger='click' placement='bottom' overlay={popoverAbout} rootClose>
+                            <OverlayTrigger trigger='click' placement='top' overlay={popoverAbout} rootClose>
                                 <Button variant='outline-secondary'>
                                     About
                                 </Button>
@@ -149,7 +149,7 @@ export default function Header() {
                         </Col>
                         <Col />
                         <Col sm='auto' className='p-1'>
-                            <OverlayTrigger trigger='click' placement='bottom' overlay={popoverURL} rootClose>
+                            <OverlayTrigger trigger='click' placement='top' overlay={popoverURL} rootClose>
                                 <Button variant='outline-secondary'>
                                     URL Parameters
                                 </Button>
