@@ -1,0 +1,98 @@
+.App {
+    text-align: center;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+a:hover {
+    color: inherit;
+    text-decoration: underline;
+}
+
+@media (min-width: 550px) {
+    .Popover {
+        max-width: 500px;
+    }
+}
+
+.Alert {
+    font-size: calc(10px + 1vmin);
+}
+
+.Card:hover {
+    cursor: pointer;
+}
+
+.Card-Icon-Success {
+    filter: invert(0%) sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%) contrast(100%);
+}
+
+.Card-Icon-Partial {
+    filter: invert(0%) sepia(0%) saturate(70%) hue-rotate(0deg) brightness(300%) contrast(30%);
+}
+
+.Card-Icon-Started {
+    filter: invert(0%) sepia(0%) saturate(50%) hue-rotate(0deg) brightness(380%) contrast(30%);
+}
+
+.Card-Icon-Inactive {
+    filter: invert(0%) sepia(0%) saturate(5%) hue-rotate(0deg) brightness(300%) contrast(70%);
+}
+
+.Card-Icon-Fail {
+    filter: invert(60%) sepia(65%) saturate(210%) hue-rotate(340deg) brightness(95%) contrast(120%);
+}
+
+.Card-Title {
+    font-size: calc(12px + 1.2vmin);
+    font-weight: bold;
+}
+
+.Card-Text {
+    font-size: calc(9px + 0.5vmax);
+}
+
+.Card-Popup-Title {
+    font-size: calc(12px + 1vmax);
+    font-weight: bold;
+}
+
+.Card-Popup-Text {
+    font-size: calc(11px + 0.75vmax);
+}
+
+.Image-iNat {
+    max-width: 150px;
+}
+
+.Image-MyWild {
+    max-width: 80px;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .Image-MyWild {
+        animation: App-logo-spin infinite 40s linear;
+    }
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}
