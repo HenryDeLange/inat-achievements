@@ -21,11 +21,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Clone
         uses: actions/checkout@v3
-      # Setup the Git identity
-      - name: Set GitHub Identity
-        run: |
-          git config user.email "henrydelange@gmail.com"
-          git config user.name "Henry"
       # Get NodeJS
       - name: Setup Node.js
         uses: actions/setup-node@v3.1.0
@@ -36,7 +31,7 @@ jobs:
         run: npm install
       # Build the application
       - name: Build Dependencies
-        run: npm build
+        run: npm run build
       # Deploy the "build" folder to GitHub Pages
       - name: Deploy build to gh-pages
         uses: peaceiris/actions-gh-pages@v3
