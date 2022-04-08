@@ -58,7 +58,7 @@ export default function Header() {
                 achievementData.evaluate(observation);
                 dispatch(updateAchievement({ ...achievementData, evalFunc: undefined }));
             }
-        }, undefined, undefined, urlLimit);
+        }, urlLimit > 0 ?  urlLimit : undefined);
     }
     if (firstLoad && urlUser) {
         firstLoad = false;
@@ -80,7 +80,7 @@ export default function Header() {
                 <br />
                 The maximum number of observations that should be fetched from iNaturalist.
                 <hr />
-                Example:{' .../inat-achievements?user=henrydelange&limit=100'}
+                Example:{' https://wild-achievements.mywild.co.za?user=henrydelange&limit=100'}
             </Popover.Body>
         </Popover>
     );

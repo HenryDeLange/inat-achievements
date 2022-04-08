@@ -15,9 +15,9 @@ export async function calculateAchievements(
     dispatch: Dispatch<any>,
     username: string,
     callback: (observation: Observation) => void,
+    readLimit = TOTAL_RESULTS_LIMIT,
     page = FIRST_PAGE,
     totalResults = 0,
-    readLimit = TOTAL_RESULTS_LIMIT,
     resultCount = 0
 ) {
     printLog && console.log('calculateAchievements: BEGIN', username, '| page=', page, '| total=', totalResults, '| limit=', readLimit);
@@ -51,7 +51,7 @@ export async function calculateAchievements(
                     resultCount++;
                     dispatch(setProgressValue(resultCount / Math.min(totalResults, readLimit) * 100));
                 }
-                calculateAchievements(dispatch, username, callback, page + 1, totalResults, readLimit, resultCount);
+                calculateAchievements(dispatch, username, callback, readLimit, page + 1, totalResults, resultCount);
                 printLog && console.log('calculateAchievements: promise completed', username, '| page=', page);
             })
             .catch((e: any) => console.log('Failed observations search:', e));

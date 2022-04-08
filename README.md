@@ -5,6 +5,8 @@ This project aims to show fun personal achievements based on observations record
 ---
 
 ## Live Site
+[https://wild-achievements.mywild.co.za](https://wild-achievements.mywild.co.za)\
+or\
 [https://henrydelange.github.io/inat-achievements](https://henrydelange.github.io/inat-achievements)
 
 ---
