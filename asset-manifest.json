@@ -1,0 +1,37 @@
+{
+  "files": {
+    "main.css": "/inat-achievements/static/css/main.b9d036bb.css",
+    "main.js": "/inat-achievements/static/js/main.51b55589.js",
+    "static/media/TooManyBugs.svg": "/inat-achievements/static/media/TooManyBugs.ead099e0d7da2a47e990.svg",
+    "static/media/mywild.png": "/inat-achievements/static/media/mywild.4ce09f219a47f35ad9c7.png",
+    "static/media/RatKing.svg": "/inat-achievements/static/media/RatKing.0ea247839a8118a88c44.svg",
+    "static/media/inat_dark.png": "/inat-achievements/static/media/inat_dark.8ab623a021bdb4a1b0a6.png",
+    "static/media/inat_light.png": "/inat-achievements/static/media/inat_light.f7200ab86c3a999131ff.png",
+    "static/media/LifeLister.svg": "/inat-achievements/static/media/LifeLister.f47f8a947437dbb7fd57.svg",
+    "static/media/DaisyTown.svg": "/inat-achievements/static/media/DaisyTown.08b863625b7296cc4b14.svg",
+    "static/media/FlowerChild.svg": "/inat-achievements/static/media/FlowerChild.d32c79868fd90bd944e7.svg",
+    "static/media/NotABug.svg": "/inat-achievements/static/media/NotABug.722aec77f8f028d5ca7e.svg",
+    "static/media/GroupTherapy.svg": "/inat-achievements/static/media/GroupTherapy.538f183ca4084aaf47d0.svg",
+    "static/media/DailyLife.svg": "/inat-achievements/static/media/DailyLife.73f73d3c2f2fe0d40077.svg",
+    "static/media/KingFisher.svg": "/inat-achievements/static/media/KingFisher.9246f5e39f02796e8bd5.svg",
+    "static/media/ToadsAndToadstools.svg": "/inat-achievements/static/media/ToadsAndToadstools.dec315f76fd61542c6bd.svg",
+    "static/media/TryMammals.svg": "/inat-achievements/static/media/TryMammals.a687ae62622a1ad02782.svg",
+    "static/media/NightOwl.svg": "/inat-achievements/static/media/NightOwl.9745d9480c9b5d294e63.svg",
+    "static/media/WorldClass.svg": "/inat-achievements/static/media/WorldClass.d35cb4898c0939d76b8b.svg",
+    "static/media/AlwaysOn.svg": "/inat-achievements/static/media/AlwaysOn.25ea9888f16ea3d590a5.svg",
+    "static/media/LichenMoss.svg": "/inat-achievements/static/media/LichenMoss.4defe7314f7cbe2ac03a.svg",
+    "static/media/SelfPollinator.svg": "/inat-achievements/static/media/SelfPollinator.1d1a77ee0385e6bac796.svg",
+    "static/media/SocialButterfly.svg": "/inat-achievements/static/media/SocialButterfly.4f3cb23cf2d22dc67d9d.svg",
+    "static/media/_template.svg": "/inat-achievements/static/media/_template.a7cde002ef4ece185eb1.svg",
+    "static/media/CraneyStorker.svg": "/inat-achievements/static/media/CraneyStorker.a7fbf67fed8ba369c52f.svg",
+    "static/media/HeartOfTheMatter.svg": "/inat-achievements/static/media/HeartOfTheMatter.ae5661c3c1e92a34a3c7.svg",
+    "static/media/NameGiver.svg": "/inat-achievements/static/media/NameGiver.81e9a29988da3e5bc300.svg",
+    "index.html": "/inat-achievements/index.html",
+    "main.b9d036bb.css.map": "/inat-achievements/static/css/main.b9d036bb.css.map",
+    "main.51b55589.js.map": "/inat-achievements/static/js/main.51b55589.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b9d036bb.css",
+    "static/js/main.51b55589.js"
+  ]
+}

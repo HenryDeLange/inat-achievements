@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="105.03123mm"
+   height="110.91075mm"
+   viewBox="0 0 105.03123 110.91075"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   sodipodi:docname="CraneyStorker.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="155.95705"
+     inkscape:cy="226.56301"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1680"
+     inkscape:window-height="997"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-3.2632255,-3.3278717)">
+    <path
+       style="fill:#008000;stroke:none;stroke-width:0.26458332;stroke-opacity:1"
+       d="m 76.126476,13.6792 c -11.938791,-0.194504 0.958361,19.567676 1.969581,36.788582 0.638595,10.875175 1.157119,19.753401 -15.03251,26.101391 -1.931914,0.757508 0.38397,6.469377 0.396426,14.696402 0.01182,7.80849 -2.797933,15.768835 -5.028957,15.698985 -2.458753,-0.077 1.40588,-7.044913 1.549206,-15.707981 0.130529,-7.889568 -2.952,-15.144432 -4.298513,-15.144432 -2.281957,0 -0.687589,7.048602 -0.518856,15.009449 0.20001,9.436464 -3.947616,19.884044 -5.953322,17.694054 -1.011805,-1.10476 2.277011,-10.685995 2.211525,-18.898947 -0.05055,-6.340019 -0.635437,-13.851223 -3.41292,-13.758389 -4.418928,0.147697 -7.224765,-5.148069 -8.924232,-8.498472 -4.000716,-7.887187 -11.694162,-1.414316 -8.390545,-6.005762 1.617466,-2.247992 -7.050113,-5.443136 -3.715836,-4.740295 5.3059,1.118446 -7.217006,-9.677124 -0.766773,-6.737914 3.43139,1.563598 -6.831807,-10.339869 -2.333848,-8.213826 7.124928,3.367729 0.328531,-3.391592 1.397883,-5.25351 3.985447,-6.939322 23.327919,21.669719 14.103483,6.211168 -2.38086,-3.989907 0.90401,-4.708447 5.425692,-4.089685 19.895738,2.722598 15.865826,15.747233 22.514389,7.291827 6.965514,-8.858493 -0.830255,-12.424892 -2.908786,-31.649163 -0.360132,-3.330851 2.826404,-9.83167 6.232672,-7.9431297 6.539098,3.6254777 41.399635,7.7347727 5.484241,7.1496477 z"
+       id="path816"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sssssssssssssssssssssss" />
+  </g>
+</svg>
