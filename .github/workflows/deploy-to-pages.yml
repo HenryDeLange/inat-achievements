@@ -21,10 +21,14 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Clone
         uses: actions/checkout@v3
-      - name: Setup Node.js environment
+      # Get NodeJS
+      - name: Setup Node.js
         uses: actions/setup-node@v3.1.0
         with:
           node-version: 17.x
+      # Install all dependencies
+      - name: Install Dependencies
+        run: npm install
       # Runs a single command using the runners shell
       - name: Build and Deploy to GitHub Pages
         run: npm run deploy
