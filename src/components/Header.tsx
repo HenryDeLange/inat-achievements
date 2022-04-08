@@ -87,14 +87,15 @@ export default function Header() {
                         <Col>
                             <h5>MyWild</h5>
                             <h6>Developed by MyWild (Henry de Lange).</h6>
-                            <p>This is not an officially iNaturalist website.</p>
+                            <p>For any feedback you are welcome to log an issue on GitHub, or email me directly at <a href='mailto:henry@mywild.co.za'>henry@mywild.co.za</a>.</p>
+                            <p><i>Note that this is not an officially iNaturalist website.</i></p>
                         </Col>
                     </Row>
                 </Container>
                 <hr />
                 <Container>
-                    <Image src={inat_light} alt='iNaturalist' className='Image-iNat' style={{ marginBottom: 15 }} />
-                    <h6>This website is powered by the <a href='https://api.inaturalist.org/v1/docs'>iNaturalist API</a>.</h6>
+                    <Image src={inat_light} alt='iNaturalist' className='Image-iNat' />
+                    <h6 style={{ marginTop: 15 }}>This website is powered by the <a href='https://api.inaturalist.org/v1/docs'>iNaturalist API</a>.</h6>
                 </Container>
             </Popover.Body>
         </Popover>
@@ -111,9 +112,18 @@ export default function Header() {
                     <Row className='p-3'>
                         <h5>The goal of Wild Achievements is to enhance your iNaturalist experience.
                             Your iNaturalist observations are analyzed and counted towards progressing the various fun achievements.</h5>
-                        <h6>Upload more observations on <a href='https://www.inaturalist.org'>iNaturalist.org</a> to try and unlock all achievements!</h6>
+                        <h5>Upload more observations on <a href='https://www.inaturalist.org'>iNaturalist.org</a> to try and unlock all achievements!</h5>
+                        <h6>Observations of captive, casual and non-verifiable observations are excluded.</h6>
                     </Row>
                     <Row className='p-1'>
+                        <Col />
+                        <Col sm='auto' className='p-1'>
+                            <OverlayTrigger trigger='click' placement='bottom' overlay={popoverAbout} rootClose>
+                                <Button variant='outline-secondary'>
+                                    About
+                                </Button>
+                            </OverlayTrigger>
+                        </Col>
                         <Col />
                         <Col sm='auto' className='p-1'>
                             <Button variant='outline-secondary'>
@@ -135,18 +145,10 @@ export default function Header() {
                         </Col>
                         <Col />
                         <Col sm='auto' className='p-1'>
-                            <OverlayTrigger trigger='click' placement='bottom' overlay={popoverAbout} rootClose>
-                                <Button variant='outline-secondary'>
-                                    About
-                                </Button>
-                            </OverlayTrigger>
-                        </Col>
-                        <Col sm='auto' className='p-1'>
                             <Button variant='outline-secondary' href='https://github.com/HenryDeLange/inat-achievements'>
                                 GitHub
                             </Button>
                         </Col>
-                        <Col />
                         <Col sm='auto' className='p-1'>
                             <a href='https://www.inaturalist.org'>
                                 <Image src={inat_dark} alt='iNaturalist' height={25} />
@@ -178,11 +180,10 @@ export default function Header() {
                                         src={(option as TypeaheadOptionType).avatar_url}
                                         style={{
                                             height: '24px',
-                                            marginRight: '10px',
                                             width: '24px',
                                         }}
                                     />
-                                    {(option as TypeaheadOptionType).login}
+                                    {' ' + (option as TypeaheadOptionType).login}
                                 </Fragment>
                             )}
                         />

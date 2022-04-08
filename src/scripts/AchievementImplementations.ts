@@ -1,8 +1,17 @@
-import { AchievementType } from "../types/AchievementsTypes";
-import { Observation } from "../types/iNaturalistTypes";
-import AchievementData from "./AchievementData";
+import { AchievementType } from '../types/AchievementsTypes';
+import { Observation } from '../types/iNaturalistTypes';
+import AchievementData from './AchievementData';
 
-// TODO: In the future add different levels for the goals (for example: "observer 5/15/40 frogs")
+// TODO: In the future add different levels for the goals (for example: 'observer 5/15/40 frogs')
+
+// TODO: Add more achievements
+//          - Plenty of Places: Obtain observations in 50+ different 0.5 degree grids.
+//          - All Corners: Obtain observations in each corder of the globe (North-West, North-East, South-West and South-East).
+//          - Cats and Dogs: Obtain 17+ observations of both Feline and Canine species each.
+//          - Super Star: Obtain 10+ observations of Starfish and Britlestars, as well as 10+ observation with favorite stars added.
+//          - Old Geeser: Obtain 80+ observations of Ducks, Geese or Swans, with the first and last observation being at least a span of 5 years apart.
+//          - Scatter: Obtain 22+ observations with the Scat annotation, identified to species level.
+//          - Fly Lover: Obtain observations of 33+ different Fly species, including at least 3+ observations of larvae.
 
 // FIXME: See if I can find a better way to do this that does not use so many global variables...
 
@@ -73,9 +82,9 @@ export function initAchievements() {
     lstAchievementCardWrappers = [
 
         new AchievementData(
-            "Life Lister",
-            "Obtain 500+ observations with different species level (or lower) identifications.",
-            "LifeLister",
+            'LifeLister',
+            'Life Lister',
+            'Obtain 500+ observations with different species level (or lower) identifications.',
             500,
             (iNatObsJSON: Observation) => {
                 if (iNatObsJSON?.taxon?.rank_level === SPECIES_RANK) {
@@ -103,9 +112,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "Self Pollinator",
-            "Add comments on 50+ of your own observations.",
-            "SelfPollinator",
+            'SelfPollinator',
+            'Self Pollinator',
+            'Add comments on 50+ of your own observations.',
             50,
             (iNatObsJSON: Observation) => {
                 for (let comment of iNatObsJSON?.comments ?? []) {
@@ -118,9 +127,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "Mammal Tryhard",
-            "Obtain 3+ observations of flying, swimming and digging mammals each.",
-            "TryMammals",
+            'TryMammals',
+            'Mammal Tryhard',
+            'Obtain 3+ observations of flying, swimming and digging mammals each.',
             9,
             (iNatObsJSON: Observation) => {
                 const oldMammalDig = mammalDig;
@@ -150,9 +159,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "Night Owl",
-            "Obtain 12+ Owl or Nightjar observations at night (after 6PM and before 6AM).",
-            "NightOwl",
+            'NightOwl',
+            'Night Owl',
+            'Obtain 12+ Owl or Nightjar observations at night (after 6PM and before 6AM).',
             12,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -168,9 +177,9 @@ export function initAchievements() {
 
         // TODO: Instead I want to count all fish species observed during a week period
         new AchievementData(
-            "King Fisher",
-            "Obtain 20+ Fish observations.",
-            "KingFisher",
+            'KingFisher',
+            'King Fisher',
+            'Obtain 20+ Fish observations.',
             20,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -183,9 +192,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "Daisy Town",
-            "Obtain 77+ Daisy observations.",
-            "DaisyTown",
+            'DaisyTown',
+            'Daisy Town',
+            'Obtain 77+ Daisy observations.',
             77,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -198,9 +207,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "Heart Of The Matter",
-            "Obtain 13+ observations of threatened species.",
-            "HeartOfTheMatter",
+            'HeartOfTheMatter',
+            'Heart Of The Matter',
+            'Obtain 13+ observations of threatened species.',
             13,
             (iNatObsJSON: Observation) => {
                 if (iNatObsJSON?.taxon?.threatened === true) {
@@ -212,9 +221,9 @@ export function initAchievements() {
 
         // TODO: Also need to have left 100+ comments (also indicate the user's current comment and activity count in the details section)
         new AchievementData(
-            "Social Butterfly",
-            "Have an activity count of 10000+ on iNaturalist and obtain 100+ observations of Lepidoptera (Butterflies and Moths).",
-            "SocialButterfly",
+            'SocialButterfly',
+            'Social Butterfly',
+            'Have an activity count of 10000+ on iNaturalist and obtain 100+ observations of Lepidoptera (Butterflies and Moths).',
             100,
             (iNatObsJSON: Observation) => {
                 if (iNatObsJSON?.user?.activity_count ?? 0 >= 10000) {
@@ -229,9 +238,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "Air Lovers",
-            "Obtain 33+ observations of Swifts, Swallows, Albatrosses or Vultures.",
-            "GroupTherapy",
+            'GroupTherapy',
+            'Air Lovers',
+            'Obtain 33+ observations of Swifts, Swallows, Albatrosses or Vultures.',
             30,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -244,9 +253,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "Name Giver",
-            "Contribute 2000+ identifications on observations.",
-            "NameGiver",
+            'NameGiver',
+            'Name Giver',
+            'Contribute 2000+ identifications on observations.',
             2000,
             (iNatObsJSON: Observation) => {
                 if (idCount === 0) {
@@ -258,9 +267,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "Rat King",
-            "Obtain 25+ observations of Rodents.",
-            "RatKing",
+            'RatKing',
+            'Rat King',
+            'Obtain 25+ observations of Rodents.',
             25,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -273,9 +282,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "Craney Storker",
-            "Obtain 24+ observations of Cranes and Storks.",
-            "CraneyStorker",
+            'CraneyStorker',
+            'Craney Storker',
+            'Obtain 24+ observations of Cranes and Storks.',
             24,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -288,9 +297,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "So Many Bugs",
-            "Obtain 99+ observations of true Bugs.",
-            "TooManyBugs",
+            'TooManyBugs',
+            'So Many Bugs',
+            'Obtain 99+ observations of true Bugs.',
             99,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -303,9 +312,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "Not A Bug",
-            "Obtain 201+ observations of species commonly thought to be \"bugs\", but aren't: Myriapods, Arachnids, Entognathans and Insects which are not true Bugs.",
-            "NotABug",
+            'NotABug',
+            'Not A Bug',
+            'Obtain 201+ observations of species commonly thought to be "bugs", but aren\'t: Myriapods, Arachnids, Entognathans and Insects which are not true Bugs.',
             201,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -318,9 +327,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "I Lichen Moss",
-            "Obtain 40+ observations of Lichens and Mosses.",
-            "LichenMoss",
+            'LichenMoss',
+            'I Lichen Moss',
+            'Obtain 40+ observations of Lichens and Mosses.',
             40,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -334,9 +343,9 @@ export function initAchievements() {
 
         // TODO: Add some condition to link the two groups better
         new AchievementData(
-            "Toads and Toadstools",
-            "Obtain 42+ observations of either Toads (and Frogs) or Mushrooms.",
-            "ToadsAndToadstools",
+            'ToadsAndToadstools',
+            'Toads and Toadstools',
+            'Obtain 42+ observations of either Toads (and Frogs) or Mushrooms.',
             42,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -348,11 +357,11 @@ export function initAchievements() {
             }
         ),
 
-        // TODO: Add condition to have "flowering" annotation
+        // TODO: Add condition to have 'flowering' annotation
         new AchievementData(
-            "Flower Child",
-            "Make observations of 30+ different orders of Flowering Plants.",
-            "FlowerChild",
+            'FlowerChild',
+            'Flower Child',
+            'Make observations of 30+ different orders of Flowering Plants.',
             30,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -369,9 +378,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "Classy Observer",
-            "Make observations in 16+ different taxonomic classes.",
-            "WorldClass",
+            'WorldClass',
+            'Classy Observer',
+            'Make observations in 16+ different taxonomic classes.',
             16,
             (iNatObsJSON: Observation) => {
                 let classID = iNatObsJSON?.taxon?.iconic_taxon_id ?? -1;
@@ -384,9 +393,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "Daily Life",
-            "On 24+ days make 24+ observations of 24+ different species.",
-            "DailyLife",
+            'DailyLife',
+            'Daily Life',
+            'On 24+ days make 24+ observations of 24+ different species.',
             24,
             (iNatObsJSON: Observation) => {
                 let wasTriggered = false;
@@ -425,9 +434,9 @@ export function initAchievements() {
         ),
 
         new AchievementData(
-            "Always On",
-            "Make 400+ observations over a 5 day period.",
-            "AlwaysOn",
+            'AlwaysOn',
+            'Always On',
+            'Make 400+ observations over a 5 day period.',
             400,
             (iNatObsJSON: Observation) => {
                 let obsDate = iNatObsJSON?.observed_on_details?.date ?? alwaysOnDate;

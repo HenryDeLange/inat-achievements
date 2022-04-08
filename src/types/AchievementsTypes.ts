@@ -1,4 +1,4 @@
-import { Option } from "react-bootstrap-typeahead/types/types";
+import { Option } from 'react-bootstrap-typeahead/types/types';
 
 export declare type AchievementType = {
     icon: string;
@@ -16,6 +16,7 @@ export declare type AchievementStatusType =
     'Success' |
     'Partial' |
     'Inactive' |
+    'Started' |
     'Fail';
 
 export type ActionAchievementDataType = {

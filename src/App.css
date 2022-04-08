@@ -31,7 +31,6 @@ a:hover {
 
 .Card:hover {
     cursor: pointer;
-    /* background-color: rgb(247, 252, 243); */
 }
 
 .Card-Icon-Success {
@@ -39,7 +38,11 @@ a:hover {
 }
 
 .Card-Icon-Partial {
-    filter: invert(0%) sepia(0%) saturate(55%) hue-rotate(0deg) brightness(330%) contrast(25%);
+    filter: invert(0%) sepia(0%) saturate(70%) hue-rotate(0deg) brightness(300%) contrast(30%);
+}
+
+.Card-Icon-Started {
+    filter: invert(0%) sepia(0%) saturate(50%) hue-rotate(0deg) brightness(380%) contrast(30%);
 }
 
 .Card-Icon-Inactive {
@@ -57,8 +60,7 @@ a:hover {
 
 .Card-Text {
     font-size: calc(9px + 0.5vmax);
-    margin: 3px;
-}
+    }
 
 .Card-Popup-Title {
     font-size: calc(12px + 1vmax);
@@ -77,7 +79,6 @@ a:hover {
 .Image-MyWild {
     max-width: 80px;
     pointer-events: none;
-    /* margin: 4vmin; */
 }
 
 @media (prefers-reduced-motion: no-preference) {

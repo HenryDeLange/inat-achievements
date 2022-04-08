@@ -28,7 +28,9 @@ export async function calculateAchievements(
         user_id: username,
         per_page: RESULT_PER_PAGE_LIMIT, 
         page: page,
-        order_by: 'observed_on'
+        order_by: 'observed_on', // Sort by observation date (descending by default)
+        captive: false, // Only wild observations
+        verifiable: true // Exclude casual observations
     }
     if (page * RESULT_PER_PAGE_LIMIT > readLimit) {
         params.per_page = Math.max(0, readLimit - ((page - 1) * RESULT_PER_PAGE_LIMIT));

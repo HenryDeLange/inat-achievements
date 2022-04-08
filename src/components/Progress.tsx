@@ -16,7 +16,7 @@ export default function Progress() {
                 {loading &&
                     <Row className='pb-5'>
                         <Col className='w-75'>
-                            <ProgressBar variant="success" now={value} />
+                            <ProgressBar variant='success' now={value} />
                         </Col>
                     </Row>
                 }

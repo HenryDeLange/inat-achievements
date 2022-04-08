@@ -1,5 +1,5 @@
-import { AchievementStatusType, AchievementType } from "../types/AchievementsTypes";
-import { Observation } from "../types/iNaturalistTypes";
+import { AchievementStatusType, AchievementType } from '../types/AchievementsTypes';
+import { Observation } from '../types/iNaturalistTypes';
 
 export default class AchievementData implements AchievementType {
     icon: string;
@@ -12,7 +12,7 @@ export default class AchievementData implements AchievementType {
     iconColor: AchievementStatusType;
     textColor: string;
 
-    constructor(title: string, details: string, icon: string, goal: number, evalFunc: Function, count?: number) {
+    constructor(icon: string, title: string, details: string, goal: number, evalFunc: Function, count?: number) {
         this.icon = icon;
         this.title = title;
         this.details = details;
@@ -43,6 +43,9 @@ export default class AchievementData implements AchievementType {
         else if (this.count > (this.goal / 2)) {
             this.status = 'Partial';
         }
+        else if (this.count > 0) {
+            this.status = 'Started';
+        }
         else {
             this.status = 'Inactive';
         }
@@ -55,10 +58,13 @@ export default class AchievementData implements AchievementType {
     private calcTextColor() {
         switch (this.status) {
             case 'Success':
-                this.textColor = 'green';
+                this.textColor = 'Green';
                 break;
             case 'Partial':
-                this.textColor = 'light-green';
+                this.textColor = 'Green';
+                break;
+            case 'Started':
+                this.textColor = 'DarkOliveGreen';
                 break;
             case 'Inactive':
                 this.textColor = 'grey';
