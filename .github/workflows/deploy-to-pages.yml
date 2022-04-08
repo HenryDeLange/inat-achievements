@@ -19,7 +19,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Clone
+      - name: Clone Repository
         uses: actions/checkout@v3
       # Get NodeJS
       - name: Setup Node.js
@@ -30,7 +30,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
       # Build the application
-      - name: Build Dependencies
+      - name: Build Application
         run: npm run build
       # Deploy the "build" folder to GitHub Pages
       - name: Deploy build to gh-pages

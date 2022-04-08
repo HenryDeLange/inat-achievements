@@ -27,7 +27,13 @@ Builds the app for production to the `build` folder.\
 ### Hosting
 This page is hosted via GitHub Pages integration.
 
-#### Steps to publish a new hosted version
+#### _Custom Subdomain_
+The custom subdomain `wild-achievements.mywild.co.za` has been configured on GitHub, as specified in the `CNAME` file. As a result the `homepage` property is set in the `package.json` file should be `http://HenryDeLange.github.io/` instead of `http://HenryDeLange.github.io/inat-achievements` when using the GitHub IO domain.
+
+#### _GitHub Action automatically publish a new hosted version_
+The GitHub Action defined in `./.github/workflows/deploy-to-pages.yml` will run automatically when code is committed into the `master` branch, resulting in the latest code in the branch being available online.
+
+#### _Manual steps to publish a new hosted version_
   1. Make sure the `homepage` property is set in the `package.json` file.
   2. Make sure `gh-pages` is installed under a `devDependencies` in the `package.json` file.
   3. Make sure the `predeploy` and `deploy` scripts are configured in the `package.json` file.
