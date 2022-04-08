@@ -80,7 +80,7 @@ export default function Header() {
                 <br />
                 The maximum number of observations that should be fetched from iNaturalist.
                 <hr />
-                <u>Example:</u>{' .../inat-achievements?user=henrydelange&limit=100'}
+                Example:{' .../inat-achievements?user=henrydelange&limit=100'}
             </Popover.Body>
         </Popover>
     );
