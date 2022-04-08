@@ -34,6 +34,11 @@ jobs:
       # Install all dependencies
       - name: Install Dependencies
         run: npm install
-      # Runs a single command using the runners shell
-      - name: Build and Deploy to GitHub Pages
-        run: npm run deploy
+      # Build the application
+      - name: Install Dependencies
+        run: npm build
+      # Deploy the "build" folder to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build
