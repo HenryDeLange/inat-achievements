@@ -60,3 +60,15 @@ Run this project as A desktop application using Electron.
   2. Run the _npm script_ for the relevant environment.
       - For example: `npm run electron:package:win`
   3. The distributable application will be in the `dist` folder. Done :)
+
+### Android App
+The `expo-app` folder contains an Expo application that contains a simple _WebView_ that points directly to the live website.
+
+#### _Manual steps to build a new Android release_
+  1. Install Expo CLI `npm install --global expo-cli` and Expo EAS CLI `npm install -g eas-cli`.
+  2. Log in to Expo `eas whoami`.
+  3. Run the Android build `eas build --platform android`.
+  4. Download the `apk` file from the Expo website, and either:
+      - Manually install it on your Android device.
+      - Manually upload it to the Google Play Store from the Google Play Console.
+      - Use Expo EAS Submit to upload it to the Google Play Store.
