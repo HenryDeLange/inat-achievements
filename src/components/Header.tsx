@@ -58,7 +58,7 @@ export default function Header() {
                 achievementData.evaluate(observation);
                 dispatch(updateAchievement({ ...achievementData, evalFunc: undefined }));
             }
-        }, urlLimit > 0 ?  urlLimit : undefined);
+        }, urlLimit > 0 ? urlLimit : undefined);
     }
     if (firstLoad && urlUser) {
         firstLoad = false;
@@ -98,7 +98,22 @@ export default function Header() {
                         <Col>
                             <h5>MyWild</h5>
                             <h6>Developed by MyWild (Henry de Lange).</h6>
-                            <p>For any feedback you are welcome to log an issue on GitHub, or email me directly at <a href='mailto:henry@mywild.co.za'>henry@mywild.co.za</a>.</p>
+                            <p>
+                                For any feedback you are welcome to log an issue on GitHub, or email me directly at
+                                <a
+                                    href='mailto:henry@mywild.co.za'
+                                    rel="noreferrer"
+                                    target={(window as any).openLink ? '_self' : '_blank'}
+                                    onClick={() => {
+                                        if ((window as any).openLink) {
+                                            (window as any).openLink('mailto:henry@mywild.co.za');
+                                        }
+                                    }}
+                                >
+                                    {' henry@mywild.co.za'}
+                                </a>
+                                .
+                            </p>
                             <p><i>Note that this is not an officially iNaturalist website.</i></p>
                         </Col>
                     </Row>
@@ -106,7 +121,22 @@ export default function Header() {
                 <hr />
                 <Container>
                     <Image src={inat_light} alt='iNaturalist' className='Image-iNat' />
-                    <h6 style={{ marginTop: 15 }}>This website is powered by the <a href='https://api.inaturalist.org/v1/docs'>iNaturalist API</a>.</h6>
+                    <h6 style={{ marginTop: 15 }}>
+                        This website is powered by the
+                        <a
+                            href='https://api.inaturalist.org/v1/docs'
+                            rel="noreferrer"
+                            target={(window as any).openLink ? '_self' : '_blank'}
+                            onClick={() => {
+                                if ((window as any).openLink) {
+                                    (window as any).openLink('https://api.inaturalist.org/v1/docs');
+                                }
+                            }}
+                        >
+                            {' iNaturalist API'}
+                        </a>
+                        .
+                    </h6>
                 </Container>
             </Popover.Body>
         </Popover>
@@ -123,7 +153,22 @@ export default function Header() {
                     <Row className='p-3'>
                         <h5>The goal of Wild Achievements is to enhance your iNaturalist experience.
                             Your iNaturalist observations are analyzed and counted towards progressing the various fun achievements.</h5>
-                        <h5>Upload more observations on <a href='https://www.inaturalist.org'>iNaturalist.org</a> to try and unlock all achievements!</h5>
+                        <h5>
+                            Upload more observations on
+                                <a
+                                    href='https://www.inaturalist.org'
+                                    rel="noreferrer"
+                                    target={(window as any).openLink ? '_self' : '_blank'}
+                                    onClick={() => {
+                                        if ((window as any).openLink) {
+                                            (window as any).openLink('https://www.inaturalist.org');
+                                        }
+                                    }}
+                                >
+                                    {' iNaturalist.org '}
+                                </a>
+                            to try and unlock all achievements!
+                        </h5>
                         <h6>Observations of captive, casual and non-verifiable observations are excluded.</h6>
                     </Row>
                     <Row className='p-1'>
@@ -156,12 +201,30 @@ export default function Header() {
                         </Col>
                         <Col />
                         <Col sm='auto' className='p-1'>
-                            <Button variant='outline-secondary' href='https://github.com/HenryDeLange/inat-achievements'>
+                            <Button
+                                variant='outline-secondary'
+                                href='https://github.com/HenryDeLange/inat-achievements'
+                                target={(window as any).openLink ? '_self' : '_blank'}
+                                onClick={() => {
+                                    if ((window as any).openLink) {
+                                        (window as any).openLink('https://github.com/HenryDeLange/inat-achievements');
+                                    }
+                                }}
+                            >
                                 GitHub
                             </Button>
                         </Col>
                         <Col sm='auto' className='p-1'>
-                            <a href='https://www.inaturalist.org'>
+                            <a
+                                href='https://www.inaturalist.org'
+                                rel="noreferrer"
+                                target={(window as any).openLink ? '_self' : '_blank'}
+                                onClick={() => {
+                                    if ((window as any).openLink) {
+                                        (window as any).openLink('https://www.inaturalist.org');
+                                    }
+                                }}
+                            >
                                 <Image src={inat_dark} alt='iNaturalist' height={25} />
                             </a>
                         </Col>

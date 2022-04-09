@@ -1,50 +1,115 @@
 {
-  "name": "inat-achievements",
-  "version": "2.0.0",
-  "private": true,
-  "homepage": "http://HenryDeLange.github.io/",
-  "dependencies": {
-    "@reduxjs/toolkit": "^1.8.1",
-    "@types/node": "^16.11.26",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^17.0.14",
-    "@types/react-redux": "^7.1.23",
-    "bootstrap": "^5.1.3",
-    "inaturalistjs": "github:inaturalist/inaturalistjs",
-    "react": "^18.0.0",
-    "react-bootstrap": "^2.2.2",
-    "react-bootstrap-typeahead": "^6.0.0-alpha.11",
-    "react-dom": "^18.0.0",
-    "react-redux": "^7.2.8",
-    "react-scripts": "5.0.0",
-    "typescript": "^4.6.3"
-  },
-  "devDependencies": {
-    "gh-pages": "^3.2.3"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "inat-achievements",
+    "description": "Achievements based on observations recorded on iNaturalist.",
+    "author": "MyWild",
+    "version": "2.0.1",
+    "private": true,
+    "homepage": "./",
+    "main": "./public/electron.js",
+    "dependencies": {
+        "@reduxjs/toolkit": "^1.8.1",
+        "@types/node": "^16.11.26",
+        "@types/react": "^18.0.0",
+        "@types/react-dom": "^17.0.14",
+        "@types/react-redux": "^7.1.23",
+        "bootstrap": "^5.1.3",
+        "inaturalistjs": "github:inaturalist/inaturalistjs",
+        "react": "^18.0.0",
+        "react-bootstrap": "^2.2.2",
+        "react-bootstrap-typeahead": "^6.0.0-alpha.11",
+        "react-dom": "^18.0.0",
+        "react-redux": "^7.2.8",
+        "react-scripts": "5.0.0",
+        "typescript": "^4.6.3"
+    },
+    "devDependencies": {
+        "electron": "^18.0.3",
+        "electron-builder": "^22.14.13",
+        "electronmon": "^2.0.2",
+        "gh-pages": "^3.2.3"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build",
+        "electron:start": "electronmon .",
+        "electron:package:mac": "npm run build && electron-builder -m -c.extraMetadata.main=build/electron.js",
+        "electron:package:win": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js",
+        "electron:package:linux": "npm run build && electron-builder -l -c.extraMetadata.main=build/electron.js",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            "last 1 electron version",
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 electron version",
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "build": {
+        "appId": "za.vo.mywild.wild-achievements",
+        "productName": "Wild Achievements",
+        "files": [
+            "build/**/*",
+            "node_modules/**/*"
+        ],
+        "directories": {
+            "buildResources": "public"
+        },
+        "mac": {
+            "target": "dmg"
+        },
+        "win": {
+            "target": [
+                {
+                    "target": "nsis",
+                    "arch": [
+                        "x64"
+                    ]
+                },
+                {
+                    "target": "portable",
+                    "arch": [
+                        "x64"
+                    ]
+                },
+                {
+                    "target": "zip",
+                    "arch": [
+                        "x64",
+                        "ia32"
+                    ]
+                }
+            ]
+        },
+        "linux": {
+            "target": [
+                {
+                    "target": "deb",
+                    "arch": [
+                        "x64"
+                    ]
+                },
+                {
+                    "target": "zip",
+                    "arch": [
+                        "x64",
+                        "ia32"
+                    ]
+                }
+            ]
+        }
+    }
 }
