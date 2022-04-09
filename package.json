@@ -2,7 +2,7 @@
     "name": "inat-achievements",
     "description": "Achievements based on observations recorded on iNaturalist.",
     "author": "MyWild",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "private": true,
     "homepage": "./",
     "main": "./public/electron.js",
