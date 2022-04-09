@@ -2,7 +2,7 @@
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/HenryDeLange/inat-achievements) ![GitHub](https://img.shields.io/github/license/HenryDeLange/inat-achievements)
 
-This project aims to show fun personal achievements based on observations recorded on iNaturalist.
+This project aims to show fun personal achievements based on observations recorded on [iNaturalist](https://www.inaturalist.org).
 
 ---
 
