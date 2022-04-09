@@ -70,5 +70,6 @@ The `expo-app` folder contains an Expo application that contains a simple _WebVi
   3. Run the Android build `eas build --platform android`.
   4. Download the `apk` file from the Expo website, and either:
       - Manually install it on your Android device.
+          - To do this download [bundletool](https://github.com/google/bundletool) and then run a command like this to obtain the APK file from the AAB created by Expo EAS Build: `java -jar bundletool-all-1.9.1.jar build-apks --bundle=WildAchievements.aab --output=WildAchievements.apks --mode=universal`.
       - Manually upload it to the Google Play Store from the Google Play Console.
       - Use Expo EAS Submit to upload it to the Google Play Store.
