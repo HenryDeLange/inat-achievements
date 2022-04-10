@@ -6,7 +6,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: calc(10px + 2vmin);
+    font-size: calc(10px + 1.5vmin);
     color: white;
 }
 
@@ -64,12 +64,12 @@ a:hover {
 }
 
 .Card-Popup-Title {
-    font-size: calc(12px + 1vmax);
+    font-size: calc(10px + 1vmax);
     font-weight: bold;
 }
 
 .Card-Popup-Text {
-    font-size: calc(11px + 0.75vmax);
+    font-size: calc(10px + 0.75vmax);
 }
 
 .Image-iNat {
@@ -94,5 +94,52 @@ a:hover {
 
     to {
         transform: rotate(0deg);
+    }
+}
+
+.Shine {
+    background-image: linear-gradient(-225deg,
+            #13610c 0%,
+            #50b30e 29%,
+            #28c913 67%,
+            #13610c 100%);
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+.Card-AnimateBG {
+    background-size: 300% 300%;
+    background-image: linear-gradient(-45deg,
+            rgb(255, 255, 255) 0%,
+            rgb(225, 255, 233) 35%,
+            rgb(225, 255, 230) 50%,
+            rgb(225, 255, 233) 65%,
+            rgb(255, 255, 255) 100%);
+    animation: AnimateCardBG 10s ease infinite;
+}
+
+@keyframes AnimateCardBG {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0% 50%
     }
 }

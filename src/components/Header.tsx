@@ -1,10 +1,7 @@
 import React, { Fragment, useState } from 'react';
-import { Button, Col, Container, Image, InputGroup, OverlayTrigger, Popover, Row } from 'react-bootstrap';
+import { Button, Container, Image, InputGroup, Row } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { useDispatch, useSelector } from 'react-redux';
-import inat_dark from '../images/inat_dark.png';
-import inat_light from '../images/inat_light.png';
-import mywild from '../images/mywild.png';
 import { RootState } from '../redux/ReduxStore';
 import { setAllAchievements, updateAchievement } from '../redux/slices/AchievementsSlice';
 import { setProgressAlert, setProgressLoading, setProgressValue } from '../redux/slices/ProgressSlice';
@@ -65,159 +62,22 @@ export default function Header() {
         handleClick();
     }
 
-    // Popups
-    const popoverURL = (
-        <Popover className='Popover'>
-            <Popover.Header as='h3'>
-                Available URL Parameters
-            </Popover.Header>
-            <Popover.Body>
-                <b>user</b>
-                <br />
-                Immediately load the achievements for the specified user.
-                <hr />
-                <b>limit</b>
-                <br />
-                The maximum number of observations that should be fetched from iNaturalist.
-                <hr />
-                Example:{' https://wild-achievements.mywild.co.za?user=henrydelange&limit=100'}
-            </Popover.Body>
-        </Popover>
-    );
-    const popoverAbout = (
-        <Popover className='Popover'>
-            <Popover.Header as='h3'>
-                About Wild Achievements
-            </Popover.Header>
-            <Popover.Body>
-                <Container>
-                    <Row>
-                        <Col sm='auto'>
-                            <Image src={mywild} alt='MyWild' className='Image-MyWild' fluid />
-                        </Col>
-                        <Col>
-                            <h5>MyWild</h5>
-                            <h6>Developed by MyWild (Henry de Lange).</h6>
-                            <p>
-                                For any feedback you are welcome to log an issue on GitHub, or email me directly at
-                                <a
-                                    href='mailto:henry@mywild.co.za'
-                                    rel="noreferrer"
-                                    target={(window as any).openLink ? '_self' : '_blank'}
-                                    onClick={() => {
-                                        if ((window as any).openLink) {
-                                            (window as any).openLink('mailto:henry@mywild.co.za');
-                                        }
-                                    }}
-                                >
-                                    {' henry@mywild.co.za'}
-                                </a>
-                                .
-                            </p>
-                            <p><i>Note that this is not an officially iNaturalist website.</i></p>
-                        </Col>
-                    </Row>
-                </Container>
-                <hr />
-                <Container>
-                    <Image src={inat_light} alt='iNaturalist' className='Image-iNat' />
-                    <h6 style={{ marginTop: 15 }}>
-                        This website is powered by the
-                        <a
-                            href='https://api.inaturalist.org/v1/docs'
-                            rel="noreferrer"
-                            target={(window as any).openLink ? '_self' : '_blank'}
-                            onClick={() => {
-                                if ((window as any).openLink) {
-                                    (window as any).openLink('https://api.inaturalist.org/v1/docs');
-                                }
-                            }}
-                        >
-                            {' iNaturalist API'}
-                        </a>
-                        .
-                    </h6>
-                </Container>
-            </Popover.Body>
-        </Popover>
-    );
-
     // Render
     return (
         <Container>
             <Row>
-                <Container className='pt-3 pb-3 bg-success bg-opacity-10 rounded-3'>
-                    <Row className='p-3'>
+                <Container className='p-1 bg-success bg-opacity-10 rounded-3'>
+                    <Row className='p-1'>
                         <h1><b>Wild Achievements</b></h1>
                     </Row>
-                    <Row className='p-3'>
+                    <Row className='p-1'>
                         <h5>The goal of Wild Achievements is to enhance your iNaturalist experience.
                             Your iNaturalist observations are analyzed and counted towards progressing the various fun achievements.</h5>
                         <h5>
                             Upload more observations on
-                                <a
-                                    href='https://www.inaturalist.org'
-                                    rel="noreferrer"
-                                    target={(window as any).openLink ? '_self' : '_blank'}
-                                    onClick={() => {
-                                        if ((window as any).openLink) {
-                                            (window as any).openLink('https://www.inaturalist.org');
-                                        }
-                                    }}
-                                >
-                                    {' iNaturalist.org '}
-                                </a>
-                            to try and unlock all achievements!
-                        </h5>
-                        <h6>Observations of captive, casual and non-verifiable observations are excluded.</h6>
-                    </Row>
-                    <Row className='p-1'>
-                        <Col />
-                        <Col sm='auto' className='p-1'>
-                            <OverlayTrigger trigger='click' placement='top' overlay={popoverAbout} rootClose>
-                                <Button variant='outline-secondary'>
-                                    About
-                                </Button>
-                            </OverlayTrigger>
-                        </Col>
-                        <Col />
-                        <Col sm='auto' className='p-1'>
-                            <Button variant='outline-secondary'>
-                                Android App
-                            </Button>
-                        </Col>
-                        <Col sm='auto' className='p-1'>
-                            <Button variant='outline-secondary'>
-                                Windows App
-                            </Button>
-                        </Col>
-                        <Col />
-                        <Col sm='auto' className='p-1'>
-                            <OverlayTrigger trigger='click' placement='top' overlay={popoverURL} rootClose>
-                                <Button variant='outline-secondary'>
-                                    URL Parameters
-                                </Button>
-                            </OverlayTrigger>
-                        </Col>
-                        <Col />
-                        <Col sm='auto' className='p-1'>
-                            <Button
-                                variant='outline-secondary'
-                                href='https://github.com/HenryDeLange/inat-achievements'
-                                target={(window as any).openLink ? '_self' : '_blank'}
-                                onClick={() => {
-                                    if ((window as any).openLink) {
-                                        (window as any).openLink('https://github.com/HenryDeLange/inat-achievements');
-                                    }
-                                }}
-                            >
-                                GitHub
-                            </Button>
-                        </Col>
-                        <Col sm='auto' className='p-1'>
                             <a
                                 href='https://www.inaturalist.org'
-                                rel="noreferrer"
+                                rel='noreferrer'
                                 target={(window as any).openLink ? '_self' : '_blank'}
                                 onClick={() => {
                                     if ((window as any).openLink) {
@@ -225,9 +85,11 @@ export default function Header() {
                                     }
                                 }}
                             >
-                                <Image src={inat_dark} alt='iNaturalist' height={25} />
+                                {' iNaturalist.org '}
                             </a>
-                        </Col>
+                            to try and unlock all achievements!
+                        </h5>
+                        <h6>Observations of captive, casual and non-verifiable observations are excluded.</h6>
                     </Row>
                 </Container>
             </Row>
