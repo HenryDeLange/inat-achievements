@@ -1,3 +1,4 @@
+import I18n from 'i18n-js';
 import React, { Fragment, useState } from 'react';
 import { Button, Container, Image, InputGroup, Row } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
@@ -68,13 +69,12 @@ export default function Header() {
             <Row>
                 <Container className='p-1 bg-success bg-opacity-10 rounded-3'>
                     <Row className='p-1'>
-                        <h1><b>Wild Achievements</b></h1>
+                        <h1><b>{I18n.t('appTitle')}</b></h1>
                     </Row>
                     <Row className='p-1'>
-                        <h5>The goal of Wild Achievements is to enhance your iNaturalist experience.
-                            Your iNaturalist observations are analyzed and counted towards progressing the various fun achievements.</h5>
+                        <h5>{I18n.t('appIntro')}</h5>
                         <h5>
-                            Upload more observations on
+                            {I18n.t('appIntroINatStart')}
                             <a
                                 href='https://www.inaturalist.org'
                                 rel='noreferrer'
@@ -85,9 +85,9 @@ export default function Header() {
                                     }
                                 }}
                             >
-                                {' iNaturalist.org '}
+                                iNaturalist.org
                             </a>
-                            to try and unlock all achievements!
+                            {I18n.t('appIntroINatEnd')}
                         </h5>
                         <h6>Observations of captive, casual and non-verifiable observations are excluded.</h6>
                     </Row>
