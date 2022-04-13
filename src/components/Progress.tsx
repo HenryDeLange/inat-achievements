@@ -25,7 +25,8 @@ export default function Progress() {
                         <Alert
                             variant={value === 100 ? 'success' : 'secondary'}
                             className='w-50 Alert'
-                            dismissible={!loading}
+                            // dismissible={!loading}
+                            dismissible={true}
                             onClose={() => dispatch(setProgressAlert(false))}
                         >
                             {message}
