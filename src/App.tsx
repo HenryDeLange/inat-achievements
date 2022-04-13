@@ -5,6 +5,7 @@ import Achievements from './components/Achievements';
 import Header from './components/Header';
 import Menu from './components/Menu';
 import Progress from './components/Progress';
+import Version from './components/Version';
 
 export default function App() {
     return (
@@ -15,6 +16,7 @@ export default function App() {
                 <Progress />
                 <Achievements />
             </Container>
+            <Version />
         </Container>
     );
 }

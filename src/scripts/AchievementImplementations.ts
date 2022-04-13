@@ -2,15 +2,6 @@ import { AchievementType } from '../types/AchievementsTypes';
 import { Observation } from '../types/iNaturalistTypes';
 import AchievementData from './AchievementData';
 
-// TODO: Add more achievements
-//          - Plenty of Places: Obtain observations in 50+ different 0.5 degree grids.
-//          - All Corners: Obtain observations in each corder of the globe (North-West, North-East, South-West and South-East).
-//          - Cats and Dogs: Obtain 17+ observations of both Feline and Canine species each.
-//          - Super Star: Obtain 10+ observations of Starfish and Britlestars, as well as 10+ observation with favorite stars added.
-//          - Old Geeser: Obtain 80+ observations of Ducks, Geese or Swans, with the first and last observation being at least a span of 5 years apart.
-//          - Scatter: Obtain 22+ observations with the Scat annotation, identified to species level.
-//          - Fly Lover: Obtain observations of 33+ different Fly species, including at least 3+ observations of larvae.
-
 // FIXME: See if I can find a better way to do this that does not use so many global variables...
 
 const SPECIES_RANK = 10;

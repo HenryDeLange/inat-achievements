@@ -2,7 +2,7 @@
     "name": "inat-achievements",
     "description": "Achievements based on observations recorded on iNaturalist.",
     "author": "MyWild",
-    "version": "2.0.3",
+    "version": "2.0.4",
     "private": true,
     "homepage": "./",
     "main": "./public/electron.js",
@@ -28,7 +28,8 @@
         "electron": "^18.0.3",
         "electron-builder": "^22.14.13",
         "electronmon": "^2.0.2",
-        "gh-pages": "^3.2.3"
+        "gh-pages": "^3.2.3",
+        "react-git-info": "^2.0.1"
     },
     "scripts": {
         "start": "react-scripts start",
