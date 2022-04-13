@@ -14,8 +14,6 @@ import { af, en } from './translations/Translations';
 I18n.fallbacks = true;
 I18n.translations = { en, af };
 I18n.defaultLocale = 'en';
-// TODO: How to get this from the browser?
-I18n.locale = 'af';
 
 // Setup the App
 const root = createRoot(document.getElementById('root')!);

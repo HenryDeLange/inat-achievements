@@ -20,6 +20,12 @@ a:hover {
     text-decoration: underline;
 }
 
+.Version {
+    margin-top: 20px;
+    font-size: calc(8px + 0.5vmax);
+    opacity: 50%;
+}
+
 @media (min-width: 550px) {
     .Popover {
         max-width: 500px;
