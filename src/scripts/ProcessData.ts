@@ -1,12 +1,13 @@
 import { Dispatch } from '@reduxjs/toolkit';
+import I18n from 'i18n-js';
 import inatjs from 'inaturalistjs';
-import { setProgressLoading, setProgressMessage, setProgressValue } from '../redux/slices/ProgressSlice';
+import { setProgressAlert, setProgressLoading, setProgressMessage, setProgressValue } from '../redux/slices/ProgressSlice';
 import { Observation, ObservationsResponse } from '../types/iNaturalistTypes';
 
 const RESULT_PER_PAGE_LIMIT = 200; // 200 seems to be the maximum iNat wants
-const REQUEST_PER_MINUTE_LIMIT = 60; // 100 seems to be the maximum iNat wants
+const REQUEST_PER_MINUTE_LIMIT = 90; // 100 seems to be the maximum iNat wants (the time taken for iNat to respond results in this being effectively less than the specified value)
 const THROTTLE_SLEEP_TIME = 60 * 1000 / REQUEST_PER_MINUTE_LIMIT;
-const TOTAL_RESULTS_LIMIT = REQUEST_PER_MINUTE_LIMIT //* RESULT_PER_PAGE_LIMIT; // Default to one minute of loading data (the top 500 observers seems to have 15000+ observations)
+const TOTAL_RESULTS_LIMIT = REQUEST_PER_MINUTE_LIMIT * RESULT_PER_PAGE_LIMIT; // Default to one minute of loading data (the top 500 observers seems to have 15000+ observations)
 const FIRST_PAGE = 1; // 1 is the first page (not 0)
 
 const printLog = false;
@@ -17,13 +18,13 @@ export async function calculateAchievements(
     callback: (observation: Observation) => void,
     readLimit = TOTAL_RESULTS_LIMIT,
     page = FIRST_PAGE,
-    totalResults = 0,
+    totalResults = -1,
     resultCount = 0
 ) {
     printLog && console.log('calculateAchievements: BEGIN', username, '| page=', page, '| total=', totalResults, '| limit=', readLimit);
     // Sleep for a bit before starting (to comply with the iNat requests per minute limit)
     printLog && console.log('calculateAchievements: rest for', THROTTLE_SLEEP_TIME, 'ms');
-    dispatch(setProgressMessage('Giving the iNaturalist server a brief rest...'));
+    dispatch(setProgressMessage(I18n.t('progressSleep')));
     await new Promise(resolve => setTimeout(resolve, THROTTLE_SLEEP_TIME));
     // Request data from iNat
     const params = {
@@ -40,12 +41,12 @@ export async function calculateAchievements(
     }
     if (page === 1 || (params.per_page > 0 && ((page - 1) * RESULT_PER_PAGE_LIMIT + params.per_page) <= Math.min(totalResults, readLimit))) {
         printLog && console.log('calculateAchievements: search for', username, 'page', page);
-        dispatch(setProgressMessage(`Fetching the next ${params.per_page} observations from iNaturalist...`));
+        dispatch(setProgressMessage(I18n.t('progressFetching', { per_page: params.per_page, count: resultCount, total: totalResults < 0 ? '?' : Math.min(totalResults, readLimit) })));
         inatjs.observations.search(params)
             .then((observationsResponse: ObservationsResponse) => {
                 printLog && console.log('calculateAchievements: found ', observationsResponse.results.length ?? 0, ' results to evaluate');
                 totalResults = observationsResponse.total_results!;
-                dispatch(setProgressMessage(`Calculating the next Wild Achievements from the next ${observationsResponse.results.length ?? 0} observations...`));
+                dispatch(setProgressMessage(I18n.t('progressCalculating', { per_page: observationsResponse.results.length ?? 0 })));
                 for (let observation of observationsResponse.results) {
                     callback(observation);
                     resultCount++;
@@ -58,9 +59,10 @@ export async function calculateAchievements(
     }
     else {
         printLog && console.log('calculateAchievements: don\'t fetch any more data (processed', Math.min(page * RESULT_PER_PAGE_LIMIT, readLimit), 'results)');
-        dispatch(setProgressMessage(`Wild Achievements for ${username} have been calculated, using the ${resultCount} most recent observations from iNaturalist!`));
+        dispatch(setProgressMessage(I18n.t('progressDone', { user: username, count: resultCount })));
         dispatch(setProgressValue(100));
         dispatch(setProgressLoading(false));
+        dispatch(setProgressAlert(true));
     }
     printLog && console.log('calculateAchievements: END', username, '| page=', page, '| total=', totalResults, '| limit=', readLimit);
 }

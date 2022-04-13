@@ -1,3 +1,4 @@
+import I18n from 'i18n-js';
 import React, { Fragment, useState } from 'react';
 import { Button, Container, Image, InputGroup, Row } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
@@ -9,6 +10,7 @@ import { clearAchievements, getAchievements, getAchievementsAsType, initAchievem
 import { calculateAchievements } from '../scripts/ProcessData';
 import { TypeaheadOptionType } from '../types/AchievementsTypes';
 import { UserAutocompleteResponse } from '../types/iNaturalistTypes';
+import HyperLink from './HyperLink';
 
 let firstLoad = true;
 
@@ -68,28 +70,16 @@ export default function Header() {
             <Row>
                 <Container className='p-1 bg-success bg-opacity-10 rounded-3'>
                     <Row className='p-1'>
-                        <h1><b>Wild Achievements</b></h1>
+                        <h1><b>{I18n.t('headerTitle')}</b></h1>
                     </Row>
                     <Row className='p-1'>
-                        <h5>The goal of Wild Achievements is to enhance your iNaturalist experience.
-                            Your iNaturalist observations are analyzed and counted towards progressing the various fun achievements.</h5>
+                        <h5>{I18n.t('headerIntro')}</h5>
                         <h5>
-                            Upload more observations on
-                            <a
-                                href='https://www.inaturalist.org'
-                                rel='noreferrer'
-                                target={(window as any).openLink ? '_self' : '_blank'}
-                                onClick={() => {
-                                    if ((window as any).openLink) {
-                                        (window as any).openLink('https://www.inaturalist.org');
-                                    }
-                                }}
-                            >
-                                {' iNaturalist.org '}
-                            </a>
-                            to try and unlock all achievements!
+                            {I18n.t('headerIntroINatStart')}
+                            <HyperLink linkContent={I18n.t('iNaturalistWeb')} linkURL='https://www.inaturalist.org' />
+                            {I18n.t('headerIntroINatEnd')}
                         </h5>
-                        <h6>Observations of captive, casual and non-verifiable observations are excluded.</h6>
+                        <h6>{I18n.t('headerIntroRules')}</h6>
                     </Row>
                 </Container>
             </Row>
@@ -128,7 +118,7 @@ export default function Header() {
                             disabled={progressLoading || !username}
                             onClick={!progressLoading ? handleClick : undefined}
                         >
-                            {!progressLoading ? 'Calculate Achievements' : 'Loading Achievements'}
+                            {!progressLoading ? I18n.t('headerCalculate') : I18n.t('headerLoading')}
                         </Button>
                     </InputGroup>
                 </Row>

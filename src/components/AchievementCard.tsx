@@ -1,3 +1,4 @@
+import I18n from 'i18n-js';
 import React, { memo } from 'react';
 import { Card, Col, Image, OverlayTrigger, Popover, ProgressBar } from 'react-bootstrap';
 import { AchievementType } from '../types/AchievementsTypes';
@@ -12,7 +13,7 @@ export default memo(function AchievementCard(data: AchievementType) {
             <Popover.Body className='Card-Popup-Text'>
                 {data.details}
                 <hr />
-                {`Completed ${percentage}%`}
+                {I18n.t('cardCompletedPercentage', { percentage })}
             </Popover.Body>
         </Popover>
     );
@@ -33,9 +34,8 @@ export default memo(function AchievementCard(data: AchievementType) {
                     <Card.Title className='Card-Title' style={{ color: data.textColor, marginTop: 'auto' }}>
                         {data.title}
                     </Card.Title>
-
                     <Card.Text className='Card-Text' style={{ color: data.textColor, marginTop: 'auto' }}>
-                        {`${data.count} of ${data.goal}`}
+                        {I18n.t('cardCountOfGoal', { count: data.count, goal: data.goal })}
                     </Card.Text>
                     <ProgressBar variant='success' now={percentage} style={{ height: 5 }} />
                 </Card>
@@ -46,19 +46,19 @@ export default memo(function AchievementCard(data: AchievementType) {
 
 function getTitleRank(percentage: number) {
     if (percentage >= 200) {
-        return 'Master'
+        return I18n.t('cardMaster')
     }
     else if (percentage >= 100) {
-        return 'Expert'
+        return I18n.t('cardExpert')
     }
     else if (percentage > 50) {
-        return 'Advanced'
+        return I18n.t('cardAdvanced')
     }
     else if (percentage > 25) {
-        return 'Novice'
+        return I18n.t('cardNovice')
     }
     else if (percentage < 25 && percentage > 0) {
-        return 'Casual'
+        return I18n.t('cardCasual')
     }
     return '';
 }

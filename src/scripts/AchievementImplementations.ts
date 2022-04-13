@@ -80,9 +80,7 @@ export function initAchievements() {
 
         new AchievementData(
             'LifeLister',
-            'Life Lister',
-            'Obtain 500+ observations with different species level (or lower) identifications.',
-            500,
+            365,
             (iNatObsJSON: Observation) => {
                 if (iNatObsJSON?.taxon?.rank_level === SPECIES_RANK) {
                     if (!allTimeSpeciesCount.includes(iNatObsJSON.taxon.id)) {
@@ -99,7 +97,7 @@ export function initAchievements() {
                 else if (iNatObsJSON?.taxon?.rank_level! < SPECIES_RANK) {
                     // For these I'm not sure if Species is the parent, but I assume it is so
                     if (!allTimeSpeciesCount.includes(iNatObsJSON?.taxon?.parent_id ?? 0)) {
-                        console.log('Adding parent_id', iNatObsJSON?.taxon?.parent_id ?? 0, 'for unknown rank', iNatObsJSON?.taxon?.rank_level)
+                        // console.log('Adding parent_id', iNatObsJSON?.taxon?.parent_id ?? 0, 'for unknown rank', iNatObsJSON?.taxon?.rank_level)
                         allTimeSpeciesCount.push(iNatObsJSON?.taxon?.parent_id ?? 0);
                         return 1;
                     }
@@ -110,8 +108,6 @@ export function initAchievements() {
 
         new AchievementData(
             'SelfPollinator',
-            'Self Pollinator',
-            'Add comments on 50+ of your own observations.',
             50,
             (iNatObsJSON: Observation) => {
                 for (let comment of iNatObsJSON?.comments ?? []) {
@@ -125,8 +121,6 @@ export function initAchievements() {
 
         new AchievementData(
             'TryMammals',
-            'Mammal Tryhard',
-            'Obtain 3+ observations of flying, swimming and digging mammals each.',
             9,
             (iNatObsJSON: Observation) => {
                 const oldMammalDig = mammalDig;
@@ -157,8 +151,6 @@ export function initAchievements() {
 
         new AchievementData(
             'NightOwl',
-            'Night Owl',
-            'Obtain 12+ Owl or Nightjar observations at night (after 6PM and before 6AM).',
             12,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -175,8 +167,6 @@ export function initAchievements() {
         // TODO: Instead I want to count all fish species observed during a week period
         new AchievementData(
             'KingFisher',
-            'King Fisher',
-            'Obtain 20+ Fish observations.',
             20,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -190,8 +180,6 @@ export function initAchievements() {
 
         new AchievementData(
             'DaisyTown',
-            'Daisy Town',
-            'Obtain 77+ Daisy observations.',
             77,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -205,8 +193,6 @@ export function initAchievements() {
 
         new AchievementData(
             'HeartOfTheMatter',
-            'Heart Of The Matter',
-            'Obtain 13+ observations of threatened species.',
             13,
             (iNatObsJSON: Observation) => {
                 if (iNatObsJSON?.taxon?.threatened === true) {
@@ -219,8 +205,6 @@ export function initAchievements() {
         // TODO: Also need to have left 100+ comments (also indicate the user's current comment and activity count in the details section)
         new AchievementData(
             'SocialButterfly',
-            'Social Butterfly',
-            'Have an activity count of 10000+ on iNaturalist and obtain 100+ observations of Lepidoptera (Butterflies and Moths).',
             100,
             (iNatObsJSON: Observation) => {
                 if (iNatObsJSON?.user?.activity_count ?? 0 >= 10000) {
@@ -236,8 +220,6 @@ export function initAchievements() {
 
         new AchievementData(
             'GroupTherapy',
-            'Air Lovers',
-            'Obtain 33+ observations of Swifts, Swallows, Albatrosses or Vultures.',
             30,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -251,8 +233,6 @@ export function initAchievements() {
 
         new AchievementData(
             'NameGiver',
-            'Name Giver',
-            'Contribute 2000+ identifications on observations.',
             2000,
             (iNatObsJSON: Observation) => {
                 if (idCount === 0) {
@@ -265,8 +245,6 @@ export function initAchievements() {
 
         new AchievementData(
             'RatKing',
-            'Rat King',
-            'Obtain 25+ observations of Rodents.',
             25,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -280,8 +258,6 @@ export function initAchievements() {
 
         new AchievementData(
             'CraneyStorker',
-            'Craney Storker',
-            'Obtain 24+ observations of Cranes and Storks.',
             24,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -295,8 +271,6 @@ export function initAchievements() {
 
         new AchievementData(
             'TooManyBugs',
-            'So Many Bugs',
-            'Obtain 99+ observations of true Bugs.',
             99,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -310,8 +284,6 @@ export function initAchievements() {
 
         new AchievementData(
             'NotABug',
-            'Not A Bug',
-            'Obtain 201+ observations of species commonly thought to be "bugs", but aren\'t: Myriapods, Arachnids, Entognathans and Insects which are not true Bugs.',
             201,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -325,8 +297,6 @@ export function initAchievements() {
 
         new AchievementData(
             'LichenMoss',
-            'I Lichen Moss',
-            'Obtain 40+ observations of Lichens and Mosses.',
             40,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -341,8 +311,6 @@ export function initAchievements() {
         // TODO: Add some condition to link the two groups better
         new AchievementData(
             'ToadsAndToadstools',
-            'Toads and Toadstools',
-            'Obtain 42+ observations of either Toads (and Frogs) or Mushrooms.',
             42,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -357,8 +325,6 @@ export function initAchievements() {
         // TODO: Add condition to have 'flowering' annotation
         new AchievementData(
             'FlowerChild',
-            'Flower Child',
-            'Make observations of 30+ different orders of Flowering Plants.',
             30,
             (iNatObsJSON: Observation) => {
                 for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
@@ -376,8 +342,6 @@ export function initAchievements() {
 
         new AchievementData(
             'WorldClass',
-            'Classy Observer',
-            'Make observations in 16+ different taxonomic classes.',
             16,
             (iNatObsJSON: Observation) => {
                 let classID = iNatObsJSON?.taxon?.iconic_taxon_id ?? -1;
@@ -391,8 +355,6 @@ export function initAchievements() {
 
         new AchievementData(
             'DailyLife',
-            'Daily Life',
-            'On 24+ days make 24+ observations of 24+ different species.',
             24,
             (iNatObsJSON: Observation) => {
                 let wasTriggered = false;
@@ -432,8 +394,6 @@ export function initAchievements() {
 
         new AchievementData(
             'AlwaysOn',
-            'Always On',
-            'Make 400+ observations over a 5 day period.',
             400,
             (iNatObsJSON: Observation) => {
                 let obsDate = iNatObsJSON?.observed_on_details?.date ?? alwaysOnDate;

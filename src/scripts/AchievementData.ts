@@ -1,3 +1,4 @@
+import I18n from 'i18n-js';
 import { AchievementStatusType, AchievementType } from '../types/AchievementsTypes';
 import { Observation } from '../types/iNaturalistTypes';
 
@@ -12,65 +13,58 @@ export default class AchievementData implements AchievementType {
     iconColor: AchievementStatusType;
     textColor: string;
 
-    constructor(icon: string, title: string, details: string, goal: number, evalFunc: Function, count?: number) {
-        this.icon = icon;
-        this.title = title;
-        this.details = details;
-        this.status = 'Fail';
+    constructor(key: string, goal: number, evalFunc: Function, count?: number) {
+        this.icon = key;
+        this.title = I18n.t(`achievement${key}Title`);
+        this.details = I18n.t(`achievement${key}Details`, { goal });
         this.goal = goal;
         this.count = count ?? 0;
         this.evalFunc = evalFunc;
-        this.iconColor = this.status;
-        this.textColor = 'red';
-        this.calcStatus();
-        this.calcIconColor();
-        this.calcTextColor();
+        this.status = this.calcStatus(this.count, this.goal);
+        this.iconColor = this.calcIconColor(this.status);
+        this.textColor = this.calcTextColor(this.status);
     }
 
     public evaluate(iNatObsJSON: Observation) {
         // Evaluate the Observation
         this.count = this.count + this.evalFunc(iNatObsJSON);
         // Update the status
-        this.calcStatus();
-        this.calcIconColor();
-        this.calcTextColor();
+        this.status = this.calcStatus(this.count, this.goal);
+        this.iconColor = this.calcIconColor(this.status);
+        this.textColor = this.calcTextColor(this.status);
     }
 
-    private calcStatus() {
-        if (this.count >= this.goal) {
-            this.status = 'Success';
+    private calcStatus(count: number, goal: number) {
+        if (count >= goal) {
+            return 'Success';
         }
-        else if (this.count > (this.goal / 2)) {
-            this.status = 'Partial';
+        else if (count > (goal / 2)) {
+            return 'Partial';
         }
-        else if (this.count > 0) {
-            this.status = 'Started';
+        else if (count > 0) {
+            return 'Started';
         }
         else {
-            this.status = 'Inactive';
+            return 'Inactive';
         }
     }
 
-    private calcIconColor() {
-        this.iconColor = this.status;
+    private calcIconColor(status: AchievementStatusType) {
+        return status;
     }
 
-    private calcTextColor() {
-        switch (this.status) {
+    private calcTextColor(status: AchievementStatusType) {
+        switch (status) {
             case 'Success':
-                this.textColor = 'Green';
-                break;
+                return 'Green';
             case 'Partial':
-                this.textColor = 'Green';
-                break;
+                return 'Green';
             case 'Started':
-                this.textColor = 'DarkOliveGreen';
-                break;
+                return 'DarkOliveGreen';
             case 'Inactive':
-                this.textColor = 'grey';
-                break;
+                return 'grey';
             default:
-                this.textColor = 'red';
+                return 'red';
         }
     }
 
