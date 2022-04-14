@@ -1,5 +1,5 @@
 import I18n from 'i18n-js';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, KeyboardEventHandler, useCallback, useState } from 'react';
 import { Button, Container, Image, InputGroup, Row } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { useDispatch, useSelector } from 'react-redux';
@@ -64,6 +64,12 @@ export default function Header() {
         handleClick();
     }
 
+    const onKeyDown = (event: any) => {
+        if (username && event.keyCode === 13) {
+            handleClick();
+        }
+    }
+
     // Render
     return (
         <Container>
@@ -100,6 +106,7 @@ export default function Header() {
                             defaultInputValue={username}
                             onChange={(selected) => setUsername(selected.map((option) => (option as TypeaheadOptionType).login)[0])}
                             // onInputChange={(text) => setUsername(text)}
+                            onKeyDown={onKeyDown}
                             renderMenuItemChildren={(option) => (
                                 <Fragment>
                                     <Image

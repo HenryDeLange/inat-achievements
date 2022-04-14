@@ -32,3 +32,16 @@ export type TypeaheadOptionType = Option & {
     login: string;
     avatar_url?: string;
 }
+
+export declare type ThemeType =
+    'Light' |
+    'Dark';
+
+export type ThemeToggleType = {
+    name: string;
+    value: ThemeType;
+}
+
+export type ActionThemeType = {
+    payload: ThemeType;
+}
