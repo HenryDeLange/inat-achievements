@@ -1,10 +1,11 @@
 import I18n from 'i18n-js';
 import React, { useState } from 'react';
 import { ButtonGroup, Col, Container, Image, Nav, Navbar, Popover, Row, ToggleButton } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import inat_dark from '../images/inat_dark.png';
 import inat_light from '../images/inat_light.png';
 import mywild from '../images/mywild.png';
+import { RootState } from '../redux/ReduxStore';
 import { toggleTheme } from '../redux/slices/AppSlice';
 import { ThemeToggleType, ThemeType } from '../types/AchievementsTypes';
 import HyperLink from './HyperLink';
@@ -12,7 +13,8 @@ import MenuButton from './MenuButton';
 
 export default function Menu() {
     const dispatch = useDispatch();
-    const [radioValue, setRadioValue] = useState<ThemeType>('Light');
+    const theme = useSelector((state: RootState) => state.app.mode);
+    const [radioValue, setRadioValue] = useState<ThemeType>(theme);
     const radios: ThemeToggleType[] = [
         { name: 'Light Mode', value: 'Light' },
         { name: 'Dark Mode', value: 'Dark' }
@@ -104,7 +106,10 @@ export default function Menu() {
                     </Nav>
                 </Navbar.Collapse>
                 <Navbar.Brand>
-                    <HyperLink linkContent={<Image src={inat_dark} alt='iNaturalist' height={30} />} linkURL='https://www.inaturalist.org' />
+                    <HyperLink
+                        linkContent={<Image src={theme === 'Light' ? inat_light : inat_dark} alt='iNaturalist' height={30} />}
+                        linkURL='https://www.inaturalist.org'
+                    />
                 </Navbar.Brand>
             </Container>
         </Navbar>

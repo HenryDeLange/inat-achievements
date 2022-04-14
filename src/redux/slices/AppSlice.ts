@@ -4,7 +4,7 @@ import { ActionThemeType, ThemeType } from '../../types/AchievementsTypes';
 export const AppSlice = createSlice({
     name: 'app',
     initialState: {
-        mode: 'Light' as ThemeType
+        mode: 'Dark' as ThemeType
     },
     reducers: {
         toggleTheme: (state, action: ActionThemeType) => {

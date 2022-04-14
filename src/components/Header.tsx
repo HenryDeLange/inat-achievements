@@ -1,5 +1,5 @@
 import I18n from 'i18n-js';
-import React, { Fragment, KeyboardEventHandler, useCallback, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Button, Container, Image, InputGroup, Row } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { useDispatch, useSelector } from 'react-redux';
@@ -74,7 +74,7 @@ export default function Header() {
     return (
         <Container>
             <Row>
-                <Container className='p-1 bg-success bg-opacity-10 rounded-3'>
+                <Container>
                     <Row className='p-1'>
                         <h1><b>{I18n.t('headerTitle')}</b></h1>
                     </Row>
@@ -89,7 +89,7 @@ export default function Header() {
                     </Row>
                 </Container>
             </Row>
-            <Container className='p-5 rounded-5'>
+            <Container className='p-3 pb-5 pt-5 p-md-5 rounded-5'>
                 <Row>
                     <InputGroup size='lg'>
                         <AsyncTypeahead
@@ -102,11 +102,12 @@ export default function Header() {
                             minLength={3}
                             onSearch={handleSearch}
                             options={options}
-                            placeholder='iNaturalist Username'
+                            placeholder={I18n.t('headerInput')}
                             defaultInputValue={username}
                             onChange={(selected) => setUsername(selected.map((option) => (option as TypeaheadOptionType).login)[0])}
                             // onInputChange={(text) => setUsername(text)}
                             onKeyDown={onKeyDown}
+                            style={{ minWidth: 160 }}
                             renderMenuItemChildren={(option) => (
                                 <Fragment>
                                     <Image

@@ -1,22 +1,16 @@
 .App {
     text-align: center;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 1.5vmin);
-    
 }
 
 .Light {
-    background-color: #a1cfc5;
-    color: rgb(0, 0, 0);
+    background-color: #e7ebe3;
+    color: rgb(39, 39, 39);
 }
 
 .Dark {
-    background-color: #283428;
-    color: white;
+    background-color: #2b3428;
+    color: rgb(225, 235, 225);
 }
 
 a {
@@ -75,16 +69,16 @@ a:hover {
 }
 
 .Card-Text {
-    font-size: calc(9px + 0.5vmax);
+    font-size: calc(8px + 1vmin);
 }
 
 .Card-Popup-Title {
-    font-size: calc(10px + 1vmax);
+    font-size: calc(11px + 1vmin);
     font-weight: bold;
 }
 
 .Card-Popup-Text {
-    font-size: calc(10px + 0.75vmax);
+    font-size: calc(9px + 1vmin);
 }
 
 .Image-iNat {

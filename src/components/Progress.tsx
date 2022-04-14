@@ -24,7 +24,7 @@ export default function Progress() {
                     <Row className='justify-content-center'>
                         <Alert
                             variant={value === 100 ? 'success' : 'secondary'}
-                            className='w-50 Alert'
+                            className='Alert'
                             // dismissible={!loading}
                             dismissible={true}
                             onClose={() => dispatch(setProgressAlert(false))}
