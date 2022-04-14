@@ -1,13 +1,25 @@
 import I18n from 'i18n-js';
-import React from 'react';
-import { Col, Container, Image, Nav, Navbar, Popover, Row } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { ButtonGroup, Col, Container, Image, Nav, Navbar, Popover, Row, ToggleButton } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import inat_dark from '../images/inat_dark.png';
 import inat_light from '../images/inat_light.png';
 import mywild from '../images/mywild.png';
+import { RootState } from '../redux/ReduxStore';
+import { toggleTheme } from '../redux/slices/AppSlice';
+import { ThemeToggleType, ThemeType } from '../types/AchievementsTypes';
 import HyperLink from './HyperLink';
 import MenuButton from './MenuButton';
 
 export default function Menu() {
+    const dispatch = useDispatch();
+    const theme = useSelector((state: RootState) => state.app.mode);
+    const [radioValue, setRadioValue] = useState<ThemeType>(theme);
+    const radios: ThemeToggleType[] = [
+        { name: 'Light Mode', value: 'Light' },
+        { name: 'Dark Mode', value: 'Dark' }
+    ];
+
     const popoverURL = (
         <Popover className='Popover'>
             <Popover.Header>
@@ -70,10 +82,34 @@ export default function Menu() {
                         <MenuButton buttonContent={I18n.t('menuButtonGitHub')} linkURL='https://github.com/HenryDeLange/inat-achievements' />
                         <MenuButton buttonContent={I18n.t('menuButtonDesktopApp')} linkURL='https://github.com/HenryDeLange/inat-achievements/releases' />
                         <MenuButton buttonContent={I18n.t('menuButtonMobileApp')} linkURL='https://github.com/HenryDeLange/inat-achievements/releases' />
+                        <ButtonGroup className='m-1'>
+                            {radios.map((radio, idx) => (
+                                <ToggleButton
+                                    key={idx}
+                                    id={`radio-${idx}`}
+                                    type='radio'
+                                    variant={'success'}
+                                    className={radioValue === radio.value ? 'bg-success' : 'bg-secondary'}
+                                    name='radio'
+                                    value={radio.value}
+                                    checked={radioValue === radio.value}
+                                    onChange={(event) => {
+                                        const theme = event.currentTarget.value as ThemeType;
+                                        setRadioValue(theme);
+                                        dispatch(toggleTheme(theme));
+                                    }}
+                                >
+                                    {radio.name}
+                                </ToggleButton>
+                            ))}
+                        </ButtonGroup>
                     </Nav>
                 </Navbar.Collapse>
                 <Navbar.Brand>
-                    <HyperLink linkContent={<Image src={inat_dark} alt='iNaturalist' height={30} />} linkURL='https://www.inaturalist.org' />
+                    <HyperLink
+                        linkContent={<Image src={theme === 'Light' ? inat_light : inat_dark} alt='iNaturalist' height={30} />}
+                        linkURL='https://www.inaturalist.org'
+                    />
                 </Navbar.Brand>
             </Container>
         </Navbar>
