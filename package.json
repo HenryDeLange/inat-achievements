@@ -2,6 +2,7 @@
     "name": "inat-achievements",
     "description": "Achievements based on observations recorded on iNaturalist.",
     "author": "MyWild",
+    "email": "henry@mywild.co.za",
     "version": "2.0.5",
     "private": true,
     "homepage": "./",
@@ -37,9 +38,9 @@
         "predeploy": "npm run build",
         "deploy": "gh-pages -d build",
         "electron:start": "electronmon .",
-        "electron:package:mac": "npm run build && electron-builder -m -c.extraMetadata.main=build/electron.js",
         "electron:package:win": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js",
         "electron:package:linux": "npm run build && electron-builder -l -c.extraMetadata.main=build/electron.js",
+        "electron:package:mac": "npm run build && electron-builder -m -c.extraMetadata.main=build/electron.js",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {

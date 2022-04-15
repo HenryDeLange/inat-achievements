@@ -1,0 +1,50 @@
+name: Release Electron App
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  # This workflow contains platform specific release jobs
+  release-win:
+    runs-on: windows-latest
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3.1.0
+        with:
+          node-version: 17.x
+      - name: Install Dependencies
+        run: npm install
+      - name: Run Electron-Builder
+        run: npm run electron:package:win
+      - name: Read package.json
+        run: |
+          echo 'PACKAGE_JSON<<EOF' >> $GITHUB_ENV
+          cat ./package.json >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      - name: Read app version
+        run: echo '${{ fromJson(env.PACKAGE_JSON).version }}' # TODO: If this works then maybe rather read it once into a variable instead of parsing JSON very time?
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }} v${{ fromJson(env.PACKAGE_JSON).version }}
+          release_name: Release ${{ github.ref }} v${{ fromJson(env.PACKAGE_JSON).version }}
+          body: This release was automatically generated for ${{ fromJson(env.PACKAGE_JSON).version }} ${{ github.ref }} ${{ github.sha }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Artifacts
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./dist/Wild Achievements ${{ fromJson(env.PACKAGE_JSON).version }}.exe
+          asset_name: Wild Achievements ${{ fromJson(env.PACKAGE_JSON).version }}.exe
+          asset_content_type: application/vnd.microsoft.portable-executable # Or for ZIP use application/zip
