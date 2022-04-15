@@ -63,7 +63,7 @@
         ]
     },
     "build": {
-        "appId": "za.vo.mywild.wild-achievements",
+        "appId": "za.co.mywild.inat-achievements",
         "productName": "Wild Achievements",
         "files": [
             "build/**/*",
@@ -73,7 +73,10 @@
             "buildResources": "public"
         },
         "mac": {
-            "target": "dmg"
+            "target": [
+                "dmg",
+                "zip"
+            ]
         },
         "win": {
             "target": [
