@@ -19,7 +19,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Run Electron-Builder
-        run: npm run electron:package:win
+        run: npm run electron:package:win:release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

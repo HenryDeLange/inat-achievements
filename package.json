@@ -39,6 +39,7 @@
         "deploy": "gh-pages -d build",
         "electron:start": "electronmon .",
         "electron:package:win": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js",
+        "electron:package:win:release": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js --publish=always",
         "electron:package:linux": "npm run build && electron-builder -l -c.extraMetadata.main=build/electron.js",
         "electron:package:mac": "npm run build && electron-builder -m -c.extraMetadata.main=build/electron.js",
         "eject": "react-scripts eject"
