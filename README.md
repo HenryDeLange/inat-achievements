@@ -42,7 +42,7 @@ Hosts this project using GitHub Pages.
 The custom subdomain `wild-achievements.mywild.co.za` has been configured on GitHub, as specified in the `CNAME` file. As a result the `homepage` property is set in the `package.json` file should be `http://HenryDeLange.github.io/` instead of `http://HenryDeLange.github.io/inat-achievements` when using the GitHub IO domain. However due to the Electron build the property is instead set to the `./` relative path.
 
 #### _GitHub Action to automatically publish a new hosted version_
-The GitHub Action defined in `./.github/workflows/deploy-to-pages.yml` will run automatically when code is committed into the `master` branch, resulting in the latest code in the branch being available online on GitHub Pages.
+The GitHub Action defined in `./.github/workflows/deploy-to-pages.yml` will run automatically when code is committed into the `master` branch, resulting in a website of the latest code in the branch being available online on GitHub Pages.
 
 #### _Manual steps to publish a new hosted version_
   1. Make sure the `homepage` property is set in the `package.json` file as described above in the _Custom Subdomain_ section.
@@ -54,6 +54,9 @@ The GitHub Action defined in `./.github/workflows/deploy-to-pages.yml` will run 
 
 ### Desktop App Distributable
 Run this project as A desktop application using Electron.
+
+#### _GitHub Action to automatically build a new desktop release_
+The GitHub Action defined in `./.github/workflows/release-electron.yml` will run automatically when code is committed into the `master` branch, resulting in the desktop application of the latest code in the branch being available as a GitHub Release.
 
 #### _Manual steps to build a new desktop release_
   1. Make sure the `homepage` property is set in the `package.json` file as described above in the _Custom Subdomain_ section.to the `./` relative path.

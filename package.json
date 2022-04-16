@@ -42,7 +42,7 @@
         "electron:package:win": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js",
         "electron:package:linux": "npm run build && electron-builder -l -c.extraMetadata.main=build/electron.js",
         "electron:package:mac": "npm run build && electron-builder -m -c.extraMetadata.main=build/electron.js",
-        "electron:package:release": "npm run build && electron-builder -wl -c.extraMetadata.main=build/electron.js --publish=always",
+        "electron:package:release:win": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js --publish=always",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
