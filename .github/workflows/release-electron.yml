@@ -6,9 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  # This workflow contains platform specific release jobs
-  release-win:
-    runs-on: windows-latest
+  release:
+    runs-on: ubuntu-latest
     steps:
       - name: Clone Repository
         uses: actions/checkout@v3
