@@ -6,8 +6,10 @@ const url = require("url");
 // Create the native browser window.
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    // fullscreen: true,
+    // frame: false,
+    width: 1000,
+    height: 650,
     // Set the path of an additional "preload" script that can be used to communicate between node-land and browser-land.
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -29,6 +31,9 @@ function createWindow() {
   if (!app.isPackaged) {
     mainWindow.webContents.openDevTools();
   }
+
+  // Maximize the window on startup
+  mainWindow.maximize();
 }
 
 // Setup a local proxy to adjust the paths of requested files when loading them from the local production bundle (e.g.: local fonts, etc...).
