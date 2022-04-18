@@ -3,10 +3,11 @@ import React, { Fragment, useState } from 'react';
 import { Button, Container, Image, InputGroup, Row } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { useDispatch, useSelector } from 'react-redux';
+import icon from '../images/icon.png';
 import { RootState } from '../redux/ReduxStore';
 import { setAllAchievements, updateAchievement } from '../redux/slices/AchievementsSlice';
 import { setProgressAlert, setProgressLoading, setProgressValue } from '../redux/slices/ProgressSlice';
-import { clearAchievements, getAchievements, getAchievementsAsType, initAchievements } from '../scripts/AchievementImplementations';
+import { getAchievements, getAchievementsAsType, initAchievements, resetAchievements } from '../scripts/AchievementImplementations';
 import { calculateAchievements } from '../scripts/ProcessData';
 import { TypeaheadOptionType } from '../types/AchievementsTypes';
 import { UserAutocompleteResponse } from '../types/iNaturalistTypes';
@@ -16,6 +17,7 @@ let firstLoad = true;
 
 export default function Header() {
     const queryParams = new URLSearchParams(window.location.search);
+    initAchievements();
 
     // Loading
     const dispatch = useDispatch();
@@ -49,13 +51,12 @@ export default function Header() {
         dispatch(setProgressValue(0));
         dispatch(setProgressLoading(true));
         dispatch(setProgressAlert(true));
-        clearAchievements();
-        initAchievements();
+        resetAchievements();
         dispatch(setAllAchievements(getAchievementsAsType()));
         calculateAchievements(dispatch, username, (observation) => {
             for (let achievementData of getAchievements()) {
                 achievementData.evaluate(observation);
-                dispatch(updateAchievement({ ...achievementData, evalFunc: undefined }));
+                dispatch(updateAchievement({ ...achievementData, evalFunc: undefined, resetFunc: undefined }));
             }
         }, urlLimit > 0 ? urlLimit : undefined);
     }
@@ -76,7 +77,10 @@ export default function Header() {
             <Row>
                 <Container>
                     <Row className='p-1'>
-                        <h1><b>{I18n.t('headerTitle')}</b></h1>
+                        <h1>
+                            <b>{I18n.t('headerTitle')}</b>
+                            <Image src={icon} className='Title-Image' />
+                        </h1>
                     </Row>
                     <Row className='p-1'>
                         <h5>{I18n.t('headerIntro')}</h5>

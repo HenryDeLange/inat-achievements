@@ -8,10 +8,10 @@ export default memo(function AchievementCard(data: AchievementType) {
     const popoverDetails = (
         <Popover>
             <Popover.Header className='Card-Popup-Title'>
-                {data.title}
+                {I18n.t(data.title)}
             </Popover.Header>
             <Popover.Body className='Card-Popup-Text'>
-                {data.details}
+                {I18n.t(data.details, { goal: data.goal })}
                 <hr />
                 {I18n.t('cardCompletedPercentage', { percentage })}
             </Popover.Body>
@@ -32,7 +32,7 @@ export default memo(function AchievementCard(data: AchievementType) {
                     </Card.Text>
                     <Image src={require(`../badges/${data.icon}.svg`)} className={`Card-Icon-${data.iconColor}`} />
                     <Card.Title className='Card-Title' style={{ color: data.textColor, marginTop: 'auto' }}>
-                        {data.title}
+                        {I18n.t(data.title)}
                     </Card.Title>
                     <Card.Text className='Card-Text' style={{ color: data.textColor, marginTop: 'auto' }}>
                         {I18n.t('cardCountOfGoal', { count: data.count, goal: data.goal })}

@@ -1,4 +1,3 @@
-import I18n from 'i18n-js';
 import { AchievementStatusType, AchievementType } from '../types/AchievementsTypes';
 import { Observation } from '../types/iNaturalistTypes';
 
@@ -9,17 +8,19 @@ export default class AchievementData implements AchievementType {
     status: AchievementStatusType;
     goal: number;
     count: number;
-    evalFunc: Function;
     iconColor: AchievementStatusType;
     textColor: string;
+    evalFunc: Function;
+    resetFunc?: Function;
 
-    constructor(key: string, goal: number, evalFunc: Function, count?: number) {
+    constructor(key: string, goal: number, evalFunc: Function, resetFunc?: Function, count?: number) {
         this.icon = key;
-        this.title = I18n.t(`achievement${key}Title`);
-        this.details = I18n.t(`achievement${key}Details`, { goal });
+        this.title = `achievement${key}Title`;
+        this.details = `achievement${key}Details`;
         this.goal = goal;
         this.count = count ?? 0;
         this.evalFunc = evalFunc;
+        this.resetFunc = resetFunc;
         this.status = this.calcStatus(this.count, this.goal);
         this.iconColor = this.calcIconColor(this.status);
         this.textColor = this.calcTextColor(this.status);
@@ -32,6 +33,13 @@ export default class AchievementData implements AchievementType {
         this.status = this.calcStatus(this.count, this.goal);
         this.iconColor = this.calcIconColor(this.status);
         this.textColor = this.calcTextColor(this.status);
+    }
+
+    public reset() {
+        this.count = 0;
+        if (this.resetFunc) {
+            this.resetFunc();
+        }
     }
 
     private calcStatus(count: number, goal: number) {

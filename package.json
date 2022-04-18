@@ -1,10 +1,10 @@
 {
     "name": "inat-achievements",
     "description": "Achievements based on observations recorded on iNaturalist.",
-    "author": "MyWild <henry@mywild.co.za> (http://www.mywild.co.za/)",
+    "author": "MyWild <henry@mywild.co.za> (http://www.mywild.co.za)",
     "email": "henry@mywild.co.za",
     "license": "MIT",
-    "version": "2.0.5",
+    "version": "2.0.6",
     "private": true,
     "homepage": "./",
     "main": "./public/electron.js",

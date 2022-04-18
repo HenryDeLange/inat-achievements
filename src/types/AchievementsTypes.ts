@@ -9,7 +9,8 @@ export declare type AchievementType = {
     count: number;
     iconColor: AchievementStatusType;
     textColor: string;
-    evalFunc: Function | undefined;
+    evalFunc?: Function;
+    resetFunc?: Function;
 }
 
 export declare type AchievementStatusType =
