@@ -1,12 +1,13 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
+
 export default new AchievementData(
-    'NotSeeingIsBelieving',
-    50,
+    'Microcosm',
+    12,
     (iNatObsJSON: Observation) => {
-        for (const annotation of iNatObsJSON.annotations ?? []) {
-            if (annotation.controlled_attribute_id === 22 && annotation.controlled_value_id !== 24) {
+        for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
+            if ([123880, 67333, 126917, 124337, 151817, 47686, 54960, 131236].includes(taxonID)) {
                 return 1;
             }
         }

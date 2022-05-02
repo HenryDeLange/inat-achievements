@@ -45,20 +45,23 @@ export default memo(function AchievementCard(data: AchievementType) {
 });
 
 function getTitleRank(percentage: number) {
-    if (percentage >= 200) {
-        return I18n.t('cardMaster')
+    if (percentage < 20 && percentage > 0) {
+        return I18n.t('cardCasual')
     }
-    else if (percentage >= 100) {
-        return I18n.t('cardExpert')
-    }
-    else if (percentage > 50) {
-        return I18n.t('cardAdvanced')
-    }
-    else if (percentage > 25) {
+    else if (percentage < 50) {
         return I18n.t('cardNovice')
     }
-    else if (percentage < 25 && percentage > 0) {
-        return I18n.t('cardCasual')
+    else if (percentage < 100) {
+        return I18n.t('cardAdvanced')
+    }
+    else if (percentage < 200) {
+        return I18n.t('cardExpert')
+    }
+    else if (percentage < 400) {
+        return I18n.t('cardMaster')
+    }
+    else if (percentage >= 400) {
+        return I18n.t('cardLegend')
     }
     return '';
 }
