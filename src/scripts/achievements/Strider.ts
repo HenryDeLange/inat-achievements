@@ -23,8 +23,8 @@ export default new AchievementData(
                     obsPerDay.set(key, dayObs);
                 }
                 const newObs = {
-                    lat: parseFloat(iNatObsJSON.geojson?.coordinates[0]),
-                    lon: parseFloat(iNatObsJSON.geojson?.coordinates[1])
+                    lon: parseFloat(iNatObsJSON.geojson?.coordinates[0]),
+                    lat: parseFloat(iNatObsJSON.geojson?.coordinates[1])
                 };
                 dayObs.push(newObs)
                 if (dayObs.length > 1) {

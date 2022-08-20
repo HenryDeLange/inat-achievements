@@ -26,7 +26,7 @@ import PlentyOfPlaces from './achievements/PlentyOfPlaces';
 import RatKing from './achievements/RatKing';
 import Scatter from './achievements/Scatter';
 import SelfPollinator from './achievements/SelfPollinator';
-import Slugfest from './achievements/Microcosm';
+import Microcosm from './achievements/Microcosm';
 import SocialButterfly from './achievements/SocialButterfly';
 import Strider from './achievements/Strider';
 import SuperStar from './achievements/SuperStar';
@@ -81,7 +81,7 @@ export function initAchievements() {
         EarlyBird,
         TentacleSuckers,
         HomelyHermit,
-        Slugfest,
+        Microcosm,
         EmployeeOfTheMonth,
         Strider,
         ForeverSpring,
