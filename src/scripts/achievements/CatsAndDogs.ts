@@ -6,7 +6,7 @@ let dogDays: string[] = [];
 
 export default new AchievementData(
     'CatsAndDogs',
-    10,
+    9,
     (iNatObsJSON: Observation) => {
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
             if ([41944].includes(taxonID)) { // Feline

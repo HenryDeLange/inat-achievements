@@ -105,12 +105,11 @@ export const en = {
     achievementCatsAndDogsTitle: 'Cats and Dogs',
     achievementCatsAndDogsDetails: 'Obtain observations of both Feline and Canine species on the same day, {{goal}} times.',
     achievementSuperStarTitle: 'Super Star',
-    achievementSuperStarDetails: 'Obtain {{goal}} observations of Starfish and Brittlestars, as well as having at least {{goal}} observations that have been "starred" by others.',
+    achievementSuperStarDetails: 'Observe {{goal}} species of Sea Star or Brittle Star, as well as having at least {{goal}} observations that have been "starred" by others.',
     achievementOldGeeserTitle: 'Old Geeser',
-    achievementOldGeeserDetails: 'Obtain {{goal}} observations of Geese, Ducks and Swans, with the oldest observation being from at least 25 years ago.',
+    achievementOldGeeserDetails: 'Obtain an observations of a Goose, Duck or Swan from {{goal}} years ago.',
     achievementScatterTitle: 'Scatter',
     achievementScatterDetails: 'Make {{goal}} observation, identified to species level, that have been annotated as "scat", and have been observed in {{goal}} different 0.25 degree grids.',
-    // TODO: add more
 }
 
 export const af = {
@@ -220,9 +219,9 @@ export const af = {
     achievementCatsAndDogsTitle: 'Katte en Honde',
     achievementCatsAndDogsDetails: 'Kry observasies van beide Kat Familie en Hond Familie species op dieselfde dag, {{goal}} keer.',
     achievementSuperStarTitle: 'Super Ster',
-    achievementSuperStarDetails: 'Kry {{goal}} observatsies van Seesterre en Brossterre, en ook minstens {{goal}} observasies wat "gester" is deur ander mense.',
+    achievementSuperStarDetails: 'Kry {{goal}} Seester of Brosster spesies, en ook minstens {{goal}} observasies wat "gester" is deur ander mense.',
     achievementOldGeeserTitle: 'Ou Gaans',
-    achievementOldGeeserDetails: 'Kry {{goal}} observatsies van Gaanse, Eende en Swane, met die oudste observasie minstens 25 jaar gelede.',
+    achievementOldGeeserDetails: 'Kry \'n observatsie van \'n Gaans, Eend of Swaan van minstens {{goal}} jaar gelede.',
     achievementScatterTitle: 'Misser',
     achievementScatterDetails: 'Maak {{goal}} observsies, geidentifiseer na spesies vlak, wat geannoteer is as "mis", en oor {{goal}} verskillende 0.25 grade blokke waargeneem is.',
 }

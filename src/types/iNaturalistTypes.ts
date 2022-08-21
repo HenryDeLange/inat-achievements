@@ -254,7 +254,6 @@ export declare type Identification = {
 
 export declare type Fave = {
     id: number;
-    votable_id: number;
     created_at?: string;
     user?: ShowUser;
 }
