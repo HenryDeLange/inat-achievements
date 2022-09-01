@@ -8,7 +8,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
-   sodipodi:docname="AppIcon.svg"
+   sodipodi:docname="EarlyBird.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.7255553"
-     inkscape:cx="142.27304"
-     inkscape:cy="206.88992"
+     inkscape:zoom="1.2201519"
+     inkscape:cx="194.6479"
+     inkscape:cy="221.28393"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -59,110 +59,35 @@
      transform="translate(-3.2632255,-3.3278717)">
     <path
        id="path1781"
-       style="fill:#008000;stroke-width:0.242484;stroke-miterlimit:4;stroke-dasharray:none"
-       inkscape:transform-center-x="4.954777"
-       inkscape:transform-center-y="-0.49871899"
-       d="M 107.43642,92.73127 C 99.711003,102.32939 81.951112,86.524309 69.320861,86.904185 57.830913,87.249766 54.926092,114.90916 43.028342,110.82303 31.130594,106.7369 38.495611,89.603633 39.641138,80.49241 41.449592,66.108434 5.3047966,72.650546 5.676994,60.527064 6.0491911,48.403579 34.02026,53.306362 39.194345,42.483829 44.46453,31.460279 34.09886,10.052092 46.226641,6.6454867 58.354419,3.2388823 59.979007,29.504879 71.079467,34.509308 c 11.437596,5.156419 31.210433,-16.181386 38.333603,-6.1633 7.1232,10.018087 -22.873532,24.315017 -17.186329,34.295782 6.063532,10.641203 22.935089,20.491358 15.209679,30.08948 z"
-       sodipodi:nodetypes="sssssssssss"
+       style="fill:#008000;stroke-width:0.259406;stroke-miterlimit:4;stroke-dasharray:none"
+       inkscape:transform-center-x="5.3005564"
+       inkscape:transform-center-y="-0.53352347"
+       d="m 68.01067,60.318325 c -6.362948,9.231039 -20.337213,5.824105 -20.194782,11.160289 0.0948,3.551733 -0.356166,10.048911 0.244327,13.384604 0.608113,3.378022 3.772782,1.233277 4.689479,3.196842 0.529659,1.13453 -2.641753,0.360115 -5.475131,0.44902 -2.943765,0.09237 -5.565274,1.013104 -5.61176,0.341295 -0.120124,-1.736038 2.937227,-1.327891 3.68319,-3.94793 0.859317,-3.01817 0.223141,-6.989958 -0.865009,-10.236953 -0.381422,-1.138149 -0.78333,-2.550346 -1.920242,-3.046384 -1.39452,-0.608433 -1.924201,-0.909344 -2.9548,-1.135876 -2.994037,-0.658108 -7.680185,-1.369996 -9.176676,-0.60405 C 14.186226,78.192828 9.7090957,92.862397 8.7516908,84.854518 7.1814677,71.720936 27.175132,48.901744 40.913664,34.471322 45.55483,29.59642 49.153104,26.23135 57.380234,22.783811 63.767796,20.107134 68.568236,12.368543 74.902855,11.66955 91.847787,9.799762 89.501577,23.4301 92.250482,36.910135 c 0.555405,2.723588 2.222611,8.071107 -1.065489,5.196761 -3.153434,-2.756625 -15.395485,-11.869361 -15.268598,-2.231547 0.08941,6.7909 -3.492401,14.04035 -7.905725,20.442976 z"
+       sodipodi:nodetypes="sssssssasassassssss"
        inkscape:export-filename="C:\_Code\GitHub\inat-achievements\public\icon.png"
        inkscape:export-xdpi="23.258366"
        inkscape:export-ydpi="23.258366" />
     <path
-       id="path1781-7"
-       style="fill:#ffffff;stroke-width:0.0394728;stroke-miterlimit:4;stroke-dasharray:none"
-       inkscape:transform-center-x="0.79019078"
-       inkscape:transform-center-y="-0.082864997"
-       d="m 69.795539,65.829485 c -1.232054,1.594788 -4.064414,-1.031328 -6.078695,-0.96821 -1.832424,0.05742 -2.295687,4.653205 -4.193148,3.974272 -1.897461,-0.678937 -0.722883,-3.525739 -0.540194,-5.03963 0.288413,-2.38999 -5.475983,-1.302976 -5.416625,-3.317371 0.05936,-2.014396 4.520204,-1.199766 5.34537,-2.998 0.840493,-1.831634 -0.812631,-5.388743 1.121515,-5.954772 1.934147,-0.56603 2.193237,3.798236 3.963546,4.629754 1.824075,0.856772 4.977458,-2.688642 6.113469,-1.024072 1.13601,1.66457 -3.647887,4.040097 -2.740888,5.698466 0.967017,1.768104 3.657703,3.40477 2.42565,4.999563 z"
-       sodipodi:nodetypes="sssssssssss" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3466"
-       cx="52.452908"
-       cy="29.547691"
-       r="2.4533167" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3468"
-       cx="55.596218"
-       cy="41.430946"
-       r="4.2166381" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3470"
-       cx="50.229588"
-       cy="19.811092"
-       r="1.3033243" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3466-0"
-       cx="50.076252"
-       cy="90.190613"
-       r="2.4533167" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3468-3"
-       cx="55.672878"
-       cy="78.767357"
-       r="4.2166381" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3470-1"
-       cx="46.779606"
-       cy="100.08054"
-       r="1.3033243" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3466-4"
-       cx="89.94265"
-       cy="79.764008"
-       r="2.4533167" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3468-5"
-       cx="78.979385"
-       cy="73.400726"
-       r="4.2166381" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3470-12"
-       cx="98.145927"
-       cy="86.740631"
-       r="1.3033243" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3466-1"
-       cx="90.402649"
-       cy="40.510944"
-       r="2.4533167" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3468-8"
-       cx="78.21273"
-       cy="49.940884"
-       r="4.2166381" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3470-5"
-       cx="98.299263"
-       cy="34.147659"
-       r="1.3033243" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3466-8"
-       cx="29.223066"
-       cy="59.677486"
-       r="2.4533167" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3468-9"
-       cx="42.639641"
-       cy="59.90749"
-       r="4.2166381" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.238;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3470-4"
-       cx="19.333132"
-       cy="59.75415"
-       r="1.3033243" />
+       id="path1781-8"
+       style="fill:#008000;stroke-width:0.259406;stroke-miterlimit:4;stroke-dasharray:none"
+       inkscape:transform-center-x="4.9270309"
+       inkscape:transform-center-y="0.51427635"
+       d="m 53.055221,71.663557 c 0.328594,2.298241 1.49612,9.943299 2.699237,13.111883 1.218384,3.208795 5.316087,1.158806 5.276865,3.354212 -0.02237,1.251878 -2.610498,-0.234014 -5.379315,0.373922 -2.87668,0.631665 -4.796509,1.394909 -4.96563,0.743078 -0.437031,-1.684419 2.155364,-1.221496 2.407266,-3.933989 0.29018,-3.124672 -1.36925,-6.761725 -2.731057,-9.903783 -0.755133,-1.742297 -1.763445,-4.581207 -2.972138,-4.859924 -1.482567,-0.34187 -7.396831,0.770853 -6.289559,-1.634493 11.402781,-7.542469 12.613486,-5.592362 11.954331,2.749097 z"
+       sodipodi:nodetypes="csssssasccc"
+       inkscape:export-filename="C:\_Code\GitHub\inat-achievements\public\icon.png"
+       inkscape:export-xdpi="23.258366"
+       inkscape:export-ydpi="23.258366" />
+    <path
+       id="rect3742"
+       style="fill:#008000;stroke-width:0.254609"
+       d="m 68.108877,93.589547 c 6.662457,-11.998424 25.427038,-3.403791 36.655753,-18.748572 2.40145,-3.281737 9.68769,-4.328425 3.48057,3.562842 -6.20717,7.891295 -16.623317,10.891004 -30.905663,13.780846 -2.358032,0.477111 -11.855605,6.13222 -9.230624,1.40485 z"
+       sodipodi:nodetypes="sszss" />
+    <ellipse
+       style="fill:#ffffff;fill-opacity:1;stroke-width:0.254609"
+       id="path11270"
+       cx="85.273857"
+       cy="22.896202"
+       rx="2.0504112"
+       ry="2.2964604" />
   </g>
 </svg>

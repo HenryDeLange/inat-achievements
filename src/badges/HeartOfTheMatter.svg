@@ -2,20 +2,20 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="105.03123mm"
    height="110.91075mm"
    viewBox="0 0 105.03123 110.91075"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="HeartOfTheMatter.svg">
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="HeartOfTheMatter.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,16 +26,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="103.7156"
-     inkscape:cy="241.49897"
+     inkscape:cx="103.92857"
+     inkscape:cy="184.28571"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="997"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     inkscape:pagecheckerboard="0" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -44,7 +45,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -54,8 +54,8 @@
      id="layer1"
      transform="translate(-3.2632255,-3.3278717)">
     <path
-       style="fill:#008000;stroke-width:0.26458332"
-       d="M 93.788519,73.606184 C 82.135324,130.18046 73.207705,119.77472 36.714117,84.189516 17.768683,65.715666 -4.6877082,23.554172 36.33614,29.760946 63.021696,33.798384 20.893883,13.863325 28.952227,7.2018796 32.72557,4.0826387 48.800906,33.252446 52.400129,26.926124 c 25.700932,-45.174299 47.052189,19.183282 41.38839,46.68006 z"
+       style="fill:#008000;stroke-width:0.286266"
+       d="M 98.673428,69.637434 C 85.031972,126.21171 76.299445,113.63545 31.861029,80.220766 8.5492101,62.691856 -0.20208083,27.160238 26.9939,22.579398 45.303925,19.495292 47.376724,31.256857 51.502871,29.313486 55.856024,27.263198 50.807088,13.90401 63.497366,9.161243 99.682126,-4.3621706 105.30358,42.140656 98.673428,69.637434 Z"
        id="path12"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ssssss" />
