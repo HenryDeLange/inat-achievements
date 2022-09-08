@@ -160,7 +160,7 @@ export declare type DateDetails = {
 
 export declare type PointGeoJson = {
     type?: string;
-    coordinates?: string[]; // An array of [long, lat]
+    coordinates: string[]; // An array of [long, lat]
 }
 
 export declare type NonOwnerIdentification = {
@@ -254,7 +254,6 @@ export declare type Identification = {
 
 export declare type Fave = {
     id: number;
-    votable_id: number;
     created_at?: string;
     user?: ShowUser;
 }

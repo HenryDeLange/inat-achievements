@@ -13,6 +13,12 @@
     color: rgb(225, 235, 225);
 }
 
+.Title-Image {
+    max-width: calc(10px + 1.75vmax);
+    margin-top: -6px;
+    margin-left: 20px;
+}
+
 a {
     color: inherit;
     text-decoration: inherit;
