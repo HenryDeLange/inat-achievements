@@ -5,7 +5,6 @@ import AchievementData from "../AchievementData";
 const GOAL = 5;
 const TAXA = [47178, 85497, 47273];
 
-
 let maximum = 0;
 let fishDays: string[] = [];
 

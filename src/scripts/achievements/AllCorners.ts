@@ -1,6 +1,8 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
+const GOAL = 4;
+
 let northWest = false;
 let northEast = false;
 let southWest = false;
@@ -8,7 +10,7 @@ let southEast = false;
 
 export default new AchievementData(
     'AllCorners',
-    4,
+    GOAL,
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON.geojson) {
             let lon = parseFloat(iNatObsJSON.geojson.coordinates[0]);

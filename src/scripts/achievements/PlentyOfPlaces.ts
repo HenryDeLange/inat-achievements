@@ -1,11 +1,13 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
+const GOAL = 20;
+
 let grids: string[] = [];
 
 export default new AchievementData(
     'PlentyOfPlaces',
-    20,
+    GOAL,
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON.geojson && iNatObsJSON.geojson.coordinates) {
             let lon = Math.round((Math.trunc(parseFloat(iNatObsJSON.geojson?.coordinates[0]) * 10) / 10) * 2) / 2;

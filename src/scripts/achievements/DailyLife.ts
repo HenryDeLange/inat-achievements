@@ -2,6 +2,8 @@ import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 import { SPECIES_RANK, SUB_SPECIES_RANK } from "./utils";
 
+const GOAL = 24;
+
 let dailyObsCount = 0;
 let dailyObsCountMax = 0;
 let dailySpeciesCountMax = 0;
@@ -11,7 +13,7 @@ let dailyLifeDatePrev: string | null = null;
 
 export default new AchievementData(
     'DailyLife',
-    24,
+    GOAL,
     (iNatObsJSON: Observation) => {
         let wasTriggered = false;
         let obsDate = iNatObsJSON?.observed_on_details?.date ?? dailyLifeDate;
@@ -39,7 +41,7 @@ export default new AchievementData(
             wasTriggered = true;
         }
         if (wasTriggered) {
-            if (dailyObsCountMax >= 24 && dailySpeciesCountMax >= 24 && dailyLifeDatePrev !== dailyLifeDate) {
+            if (dailyObsCountMax >= GOAL && dailySpeciesCountMax >= GOAL && dailyLifeDatePrev !== dailyLifeDate) {
                 dailyLifeDatePrev = dailyLifeDate;
                 return 1;
             }

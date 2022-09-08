@@ -1,15 +1,19 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
+const GOAL = 9;
+const TAXA_FELINE = 41944;
+const TAXA_CANINE = 42043;
+
 let catDays: string[] = [];
 let dogDays: string[] = [];
 
 export default new AchievementData(
     'CatsAndDogs',
-    9,
+    GOAL,
     (iNatObsJSON: Observation) => {
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
-            if ([41944].includes(taxonID)) { // Feline
+            if (TAXA_FELINE === taxonID) {
                 const date = getDate(iNatObsJSON);
                 if (!catDays.includes(date)) {
                     catDays.push(date);
@@ -18,7 +22,7 @@ export default new AchievementData(
                     }
                 }
             }
-            else if ([42043].includes(taxonID)) { // Canine
+            else if (TAXA_CANINE === taxonID) {
                 const date = getDate(iNatObsJSON);
                 if (!dogDays.includes(date)) {
                     dogDays.push(date);

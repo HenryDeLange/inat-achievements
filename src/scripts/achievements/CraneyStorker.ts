@@ -1,12 +1,15 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
+const GOAL = 24;
+const TAXA = [3726, 23];
+
 export default new AchievementData(
     'CraneyStorker',
-    24,
+    GOAL,
     (iNatObsJSON: Observation) => {
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
-            if ([3726, 23].includes(taxonID)) {
+            if (TAXA.includes(taxonID)) {
                 return 1;
             }
         }

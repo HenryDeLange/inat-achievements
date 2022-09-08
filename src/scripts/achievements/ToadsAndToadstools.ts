@@ -1,13 +1,16 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
+const GOAL = 42;
+const TAXA = [20979, 47169];
+
 // TODO: Add some condition to link the two groups better
 export default new AchievementData(
     'ToadsAndToadstools',
-    42,
+    GOAL,
     (iNatObsJSON: Observation) => {
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
-            if ([20979, 47169].includes(taxonID) || [47169].includes(taxonID)) {
+            if (TAXA.includes(taxonID)) {
                 return 1;
             }
         }

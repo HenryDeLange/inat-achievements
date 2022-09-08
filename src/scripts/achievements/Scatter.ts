@@ -2,11 +2,13 @@ import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 import { SPECIES_RANK } from "./utils";
 
+const GOAL = 25;
+
 let grids: string[] = [];
 
 export default new AchievementData(
     'Scatter',
-    25,
+    GOAL,
     (iNatObsJSON: Observation) => {
         if ((iNatObsJSON?.taxon?.rank_level ?? 999) <= SPECIES_RANK
                 && iNatObsJSON.geojson && iNatObsJSON.geojson.coordinates) {

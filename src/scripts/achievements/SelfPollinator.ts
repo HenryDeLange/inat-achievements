@@ -1,9 +1,11 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
+const GOAL = 50;
+
 export default new AchievementData(
     'SelfPollinator',
-    50,
+    GOAL,
     (iNatObsJSON: Observation) => {
         for (let comment of iNatObsJSON?.comments ?? []) {
             if (comment?.user?.id === iNatObsJSON?.user?.id) {

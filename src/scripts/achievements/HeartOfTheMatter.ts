@@ -1,9 +1,11 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
+const GOAL = 13;
+
 export default new AchievementData(
     'HeartOfTheMatter',
-    13,
+    GOAL,
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON?.taxon?.threatened === true) {
             return 1;

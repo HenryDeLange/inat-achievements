@@ -1,11 +1,13 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
+const GOAL = 2000;
+
 let idCount = 0;
 
 export default new AchievementData(
     'NameGiver',
-    2000,
+    GOAL,
     (iNatObsJSON: Observation) => {
         if (idCount === 0) {
             idCount = iNatObsJSON?.user?.identifications_count ?? 0;

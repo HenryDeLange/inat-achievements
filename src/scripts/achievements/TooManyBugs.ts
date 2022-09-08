@@ -1,12 +1,15 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
+const GOAL = 99;
+const TAXA = 61267;
+
 export default new AchievementData(
     'TooManyBugs',
-    99,
+    GOAL,
     (iNatObsJSON: Observation) => {
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
-            if ([61267].includes(taxonID)) {
+            if (TAXA === taxonID) {
                 return 1;
             }
         }

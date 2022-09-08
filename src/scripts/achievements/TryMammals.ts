@@ -1,30 +1,32 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
+const GOAL = 9;
+const TAXA_DIG = [42478, 43253, 46927, 71384];
+const TAXA_SWIM = [152871, 46306, 526556];
+const TAXA_FLY = 40268;
+
 let mammalDig = 0;
 let mammalSwim = 0;
 let mammalFly = 0;
 
 export default new AchievementData(
     'TryMammals',
-    9,
+    GOAL,
     (iNatObsJSON: Observation) => {
         const oldMammalDig = mammalDig;
         const oldMammalSwim = mammalSwim;
         const oldMammalFly = mammalFly;
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
-            // digging
-            if ([42478, 43253, 46927, 71384].includes(taxonID)) {
+            if (TAXA_DIG.includes(taxonID)) {
                 mammalDig++;
                 break;
             }
-            // swimming
-            if ([152871, 46306, 526556].includes(taxonID)) {
+            if (TAXA_SWIM.includes(taxonID)) {
                 mammalSwim++;
                 break;
             }
-            // flying
-            if ([40268].includes(taxonID)) {
+            if (TAXA_FLY === taxonID) {
                 mammalFly++;
                 break;
             }

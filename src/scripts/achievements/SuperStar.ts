@@ -2,12 +2,15 @@ import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 import { SPECIES_RANK, SUB_SPECIES_RANK } from "./utils";
 
+const GOAL = 5;
+const TAXA = 481959;
+
 let species: number[] = [];
 let faves = 0;
 
 export default new AchievementData(
     'SuperStar',
-    5,
+    GOAL,
     (iNatObsJSON: Observation) => {
         const prevMin = Math.min(species.length, faves);
         // Faves
@@ -21,7 +24,7 @@ export default new AchievementData(
         // Taxon
         if ((iNatObsJSON?.taxon?.rank_level ?? 999) === SPECIES_RANK) {
             for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
-                if ([481959].includes(taxonID)) {
+                if (TAXA === taxonID) {
                     if (!species.includes(taxonID)) {
                         species.push(taxonID);
                     }
@@ -30,7 +33,7 @@ export default new AchievementData(
         }
         else if ((iNatObsJSON?.taxon?.rank_level ?? 999) === SUB_SPECIES_RANK) {
             for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
-                if ([481959].includes(taxonID)) {
+                if (TAXA === taxonID) {
                     const parentTaxonID = iNatObsJSON?.taxon?.parent_id ?? 0;
                     if (!species.includes(parentTaxonID)) {
                         species.push(parentTaxonID);

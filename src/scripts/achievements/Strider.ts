@@ -2,6 +2,8 @@ import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 import { distance } from "./utils";
 
+const GOAL = 500;
+
 declare type LatLon = {
     lat: number;
     lon: number;
@@ -12,7 +14,7 @@ let maxDistance = 0;
 
 export default new AchievementData(
     'Strider',
-    500,
+    GOAL,
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON.geojson && iNatObsJSON.geojson.coordinates) {
             const key = iNatObsJSON.created_at_details && iNatObsJSON.created_at_details.date ? iNatObsJSON.created_at_details.date : undefined;

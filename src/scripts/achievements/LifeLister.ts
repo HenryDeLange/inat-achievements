@@ -2,11 +2,13 @@ import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 import { SPECIES_RANK, SUB_SPECIES_RANK } from "./utils";
 
+const GOAL = 365;
+
 let allTimeSpeciesCount: number[] = [];
 
 export default new AchievementData(
     'LifeLister',
-    365,
+    GOAL,
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON?.taxon?.rank_level === SPECIES_RANK) {
             if (!allTimeSpeciesCount.includes(iNatObsJSON.taxon.id)) {
