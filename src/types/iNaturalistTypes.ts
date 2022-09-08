@@ -82,7 +82,7 @@ export declare type ObservationsResponse = {
 }
 
 export declare type Observation = {
-    id: number;
+    id?: number;
     cached_votes_total?: number;
     captive?: boolean;
     comments?: Comment[];
@@ -116,11 +116,11 @@ export declare type Observation = {
     place_guess?: number;
     place_ids?: number[];
     project_ids?: number[];
-    project_ids_with_curator_id: number[];
-    project_ids_without_curator_id: number[];
+    project_ids_with_curator_id?: number[];
+    project_ids_without_curator_id?: number[];
     quality_grade?: string;
     reviewed_by?: number[];
-    site_id: number;
+    site_id?: number;
     sounds?: Sound[];
     species_guess?: string;
     tags?: string[];
@@ -136,8 +136,8 @@ export declare type Observation = {
     faves?: Fave[]; // Not on API, added based on JSON response
     annotations?: Annotation[]; // Not on API, added based on JSON response
     ofvs?: ObservationField[]; // Not all fields are documented on the API, added based on JSON response
-    non_traditional_projects: NonTraditionalProject[]; // Not on API, added based on JSON response
-    project_observations: ProjectObservations[]; // Not on API, added based on JSON response
+    non_traditional_projects?: NonTraditionalProject[]; // Not on API, added based on JSON response
+    project_observations?: ProjectObservations[]; // Not on API, added based on JSON response
 }
 
 export declare type Comment = {
