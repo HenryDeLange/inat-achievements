@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="110mm"
+   height="110mm"
+   viewBox="0 0 110 110"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="EarlyBird.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.2201519"
+     inkscape:cx="194.6479"
+     inkscape:cy="221.28393"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:pagecheckerboard="false"
+     width="110mm"
+     showborder="true"
+     borderlayer="false"
+     inkscape:showpageshadow="true" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-3.2632255,-3.3278717)">
+    <path
+       id="path1781"
+       style="fill:#008000;stroke-width:0.259406;stroke-miterlimit:4;stroke-dasharray:none"
+       inkscape:transform-center-x="5.3005564"
+       inkscape:transform-center-y="-0.53352347"
+       d="m 68.01067,60.318325 c -6.362948,9.231039 -20.337213,5.824105 -20.194782,11.160289 0.0948,3.551733 -0.356166,10.048911 0.244327,13.384604 0.608113,3.378022 3.772782,1.233277 4.689479,3.196842 0.529659,1.13453 -2.641753,0.360115 -5.475131,0.44902 -2.943765,0.09237 -5.565274,1.013104 -5.61176,0.341295 -0.120124,-1.736038 2.937227,-1.327891 3.68319,-3.94793 0.859317,-3.01817 0.223141,-6.989958 -0.865009,-10.236953 -0.381422,-1.138149 -0.78333,-2.550346 -1.920242,-3.046384 -1.39452,-0.608433 -1.924201,-0.909344 -2.9548,-1.135876 -2.994037,-0.658108 -7.680185,-1.369996 -9.176676,-0.60405 C 14.186226,78.192828 9.7090957,92.862397 8.7516908,84.854518 7.1814677,71.720936 27.175132,48.901744 40.913664,34.471322 45.55483,29.59642 49.153104,26.23135 57.380234,22.783811 63.767796,20.107134 68.568236,12.368543 74.902855,11.66955 91.847787,9.799762 89.501577,23.4301 92.250482,36.910135 c 0.555405,2.723588 2.222611,8.071107 -1.065489,5.196761 -3.153434,-2.756625 -15.395485,-11.869361 -15.268598,-2.231547 0.08941,6.7909 -3.492401,14.04035 -7.905725,20.442976 z"
+       sodipodi:nodetypes="sssssssasassassssss"
+       inkscape:export-filename="C:\_Code\GitHub\inat-achievements\public\icon.png"
+       inkscape:export-xdpi="23.258366"
+       inkscape:export-ydpi="23.258366" />
+    <path
+       id="path1781-8"
+       style="fill:#008000;stroke-width:0.259406;stroke-miterlimit:4;stroke-dasharray:none"
+       inkscape:transform-center-x="4.9270309"
+       inkscape:transform-center-y="0.51427635"
+       d="m 53.055221,71.663557 c 0.328594,2.298241 1.49612,9.943299 2.699237,13.111883 1.218384,3.208795 5.316087,1.158806 5.276865,3.354212 -0.02237,1.251878 -2.610498,-0.234014 -5.379315,0.373922 -2.87668,0.631665 -4.796509,1.394909 -4.96563,0.743078 -0.437031,-1.684419 2.155364,-1.221496 2.407266,-3.933989 0.29018,-3.124672 -1.36925,-6.761725 -2.731057,-9.903783 -0.755133,-1.742297 -1.763445,-4.581207 -2.972138,-4.859924 -1.482567,-0.34187 -7.396831,0.770853 -6.289559,-1.634493 11.402781,-7.542469 12.613486,-5.592362 11.954331,2.749097 z"
+       sodipodi:nodetypes="csssssasccc"
+       inkscape:export-filename="C:\_Code\GitHub\inat-achievements\public\icon.png"
+       inkscape:export-xdpi="23.258366"
+       inkscape:export-ydpi="23.258366" />
+    <path
+       id="rect3742"
+       style="fill:#008000;stroke-width:0.254609"
+       d="m 68.108877,93.589547 c 6.662457,-11.998424 25.427038,-3.403791 36.655753,-18.748572 2.40145,-3.281737 9.68769,-4.328425 3.48057,3.562842 -6.20717,7.891295 -16.623317,10.891004 -30.905663,13.780846 -2.358032,0.477111 -11.855605,6.13222 -9.230624,1.40485 z"
+       sodipodi:nodetypes="sszss" />
+    <ellipse
+       style="fill:#ffffff;fill-opacity:1;stroke-width:0.254609"
+       id="path11270"
+       cx="85.273857"
+       cy="22.896202"
+       rx="2.0504112"
+       ry="2.2964604" />
+  </g>
+</svg>

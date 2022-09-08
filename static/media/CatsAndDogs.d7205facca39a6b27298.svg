@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="110mm"
+   height="110mm"
+   viewBox="0 0 110 110"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="CatsAndDogs.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.7255553"
+     inkscape:cx="182.83969"
+     inkscape:cy="206.88992"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:pagecheckerboard="false"
+     width="110mm"
+     showborder="true"
+     borderlayer="false"
+     inkscape:showpageshadow="true" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-3.2632255,-3.3278717)">
+    <g
+       id="g8360"
+       transform="matrix(1.1176991,0.0304728,-0.03064329,1.1114808,-12.963753,-16.833826)">
+      <path
+         id="path1781-1"
+         style="fill:#008000;stroke-width:0.159341;stroke-miterlimit:4;stroke-dasharray:none"
+         inkscape:transform-center-x="-3.2663288"
+         inkscape:transform-center-y="-0.32666896"
+         d="m 80.486207,91.523737 c 8.034494,-1.613627 0.902829,18.957043 8.746161,16.280563 7.843334,-2.67648 23.381292,-5.77244 22.626132,-11.74044 -1.19218,-9.421737 -3.581,-16.182861 -3.98304,-24.117549 -0.70536,-13.921039 -7.64475,-12.242959 -8.602333,-15.805252 -2.080129,-7.73826 -8.825617,-19.043456 -12.455834,-14.27476 -3.773232,4.956563 -0.224824,9.274265 -3.688338,15.718762 -1.151256,2.142122 -3.128922,2.290454 -6.102056,3.452488 C 69.33186,64.045115 76.92402,69.34702 60.956247,73.713706 45.880794,77.83637 51.496026,85.02868 56.032732,90.19804 c 2.144649,2.443725 20.907642,1.343694 24.453475,1.325697 z"
+         sodipodi:nodetypes="csssssssssc"
+         inkscape:export-filename="C:\_Code\GitHub\inat-achievements\public\icon.png"
+         inkscape:export-xdpi="23.258366"
+         inkscape:export-ydpi="23.258366" />
+      <circle
+         style="fill:#ffffff;stroke-width:0.302077"
+         id="path5120"
+         cx="79.852692"
+         cy="68.110756"
+         r="2.5299828" />
+    </g>
+    <g
+       id="g8356"
+       transform="matrix(1.1296509,-0.09410942,0.09410942,1.1296509,-5.8237029,2.9952339)">
+      <path
+         id="path1781"
+         style="fill:#008000;stroke-width:0.159341;stroke-miterlimit:4;stroke-dasharray:none"
+         inkscape:transform-center-x="3.2663286"
+         inkscape:transform-center-y="-0.32666896"
+         d="M 40.885229,52.671492 C 33.310732,52.897853 31.916934,73.858986 24.073602,71.182506 16.230272,68.506026 5.6911254,67.319587 6.4462894,61.351587 7.6384734,51.92985 14.630595,52.075067 14.875958,44.13399 c 0.245363,-7.94108 4.524518,-17.330643 10.288996,-21.325213 6.475517,-4.487294 4.692752,-9.586385 12.302502,-12.128108 5.058073,-1.6894406 2.732037,11.493319 8.410404,13.651287 7.695042,3.007567 5.173009,7.120095 11.777348,11.756164 4.542482,3.1887 1.270544,12.648939 -1.516445,14.951011 -5.053392,4.174137 -11.707701,2.417019 -15.253534,1.632361 z"
+         sodipodi:nodetypes="cssssscssc"
+         inkscape:export-filename="C:\_Code\GitHub\inat-achievements\public\icon.png"
+         inkscape:export-xdpi="23.258366"
+         inkscape:export-ydpi="23.258366" />
+      <circle
+         style="fill:#ffffff;stroke-width:0.238"
+         id="path5124"
+         cx="46.656261"
+         cy="31.694344"
+         r="2.1466517" />
+    </g>
+  </g>
+</svg>
