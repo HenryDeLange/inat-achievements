@@ -1,11 +1,18 @@
 import AllCorners from '../../src/scripts/achievements/AllCorners';
 
-test('count all corners', () => {
+test('reset', () => {
     AllCorners.evaluate({
         geojson: {
             coordinates: [ '1', '1' ]
         }
     });
+    expect(AllCorners.count).toEqual(1);
+    AllCorners.reset();
+    expect(AllCorners.count).toEqual(0);
+});
+
+test('evaluate count', () => {
+    AllCorners.reset();
     AllCorners.evaluate({
         geojson: {
             coordinates: [ '1', '1' ]
@@ -29,13 +36,25 @@ test('count all corners', () => {
     expect(AllCorners.count).toEqual(4);
 });
 
-test('reset the count', () => {
+test('evaluate duplicates', () => {
+    AllCorners.reset();
     AllCorners.evaluate({
         geojson: {
             coordinates: [ '1', '1' ]
         }
     });
-    expect(AllCorners.count).toEqual(4);
+    AllCorners.evaluate({
+        geojson: {
+            coordinates: [ '1', '1' ]
+        }
+    });
+    expect(AllCorners.count).toEqual(1);
+});
+
+test('evaluate missing', () => {
     AllCorners.reset();
+    AllCorners.evaluate({
+        geojson: undefined
+    });
     expect(AllCorners.count).toEqual(0);
 });

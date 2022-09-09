@@ -196,8 +196,8 @@ export declare type Sound = {
 }
 
 export declare type ObservationTaxon = {
-    id: number;
-    iconic_taxon_id: number;
+    id?: number;
+    iconic_taxon_id?: number;
     iconic_taxon_name?: string;
     is_active?: boolean;
     name?: string;

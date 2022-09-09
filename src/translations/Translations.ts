@@ -81,7 +81,7 @@ export const en = {
     achievementAlwaysOnTitle: 'Always On',
     achievementAlwaysOnDetails: 'Make {{goal}} observations over a 5 day period.',
     achievementCatchOfTheDayTitle: 'Catch Of The Day',
-    achievementCatchOfTheDayDetails: 'Observe {{goal}} Fish (or Shark) over a {{goal}} day period, with at least one observation on consecutive days.',
+    achievementCatchOfTheDayDetails: 'Observe {{goal}} Fish (or Shark) over a {{goal}} day period, with at least one observation on each consecutive day.',
     achievementEarlyBirdTitle: 'Early Bird',
     achievementEarlyBirdDetails: 'Observe both a Bird and a Segmented Worm before {{goal}}AM on {{goal}} different days.',
     achievementTentacleSuckersTitle: 'Tentacle Suckers',

@@ -13,8 +13,8 @@ export default new AchievementData(
     GOAL,
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON.geojson) {
-            let lon = parseFloat(iNatObsJSON.geojson.coordinates[0]);
-            let lat = parseFloat(iNatObsJSON.geojson.coordinates[1]);
+            const lon = parseFloat(iNatObsJSON.geojson.coordinates[0]);
+            const lat = parseFloat(iNatObsJSON.geojson.coordinates[1]);
             if (!northWest && lat > 0 && lon < 0) {
                 northWest = true;
                 return 1;
