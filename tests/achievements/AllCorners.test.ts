@@ -1,60 +1,76 @@
+import AchievementData from '../../src/scripts/AchievementData';
 import AllCorners from '../../src/scripts/achievements/AllCorners';
 
-test('reset', () => {
-    AllCorners.evaluate({
+const achievement: AchievementData = AllCorners;
+
+afterEach(() => achievement.reset());
+
+test('Reset', () => {
+    achievement.evaluate({
         geojson: {
             coordinates: [ '1', '1' ]
         }
     });
-    expect(AllCorners.count).toEqual(1);
-    AllCorners.reset();
-    expect(AllCorners.count).toEqual(0);
+    expect(achievement.count).toEqual(1);
+    achievement.reset();
+    expect(achievement.count).toEqual(0);
 });
 
-test('evaluate count', () => {
-    AllCorners.reset();
-    AllCorners.evaluate({
+test('Count', () => {
+    achievement.evaluate({
         geojson: {
             coordinates: [ '1', '1' ]
         }
     });
-    AllCorners.evaluate({
+    achievement.evaluate({
         geojson: {
             coordinates: [ '-1', '-1' ]
         }
     });
-    AllCorners.evaluate({
+    achievement.evaluate({
         geojson: {
             coordinates: [ '-1', '1' ]
         }
     });
-    AllCorners.evaluate({
+    achievement.evaluate({
         geojson: {
             coordinates: [ '1', '-1' ]
         }
     });
-    expect(AllCorners.count).toEqual(4);
+    expect(achievement.count).toEqual(4);
 });
 
-test('evaluate duplicates', () => {
-    AllCorners.reset();
-    AllCorners.evaluate({
+test('Don\'t Count', () => {
+    achievement.evaluate({
+        geojson: {
+            coordinates: [ '0', '0' ]
+        }
+    });
+    expect(achievement.count).toEqual(0);
+});
+
+test('Duplicates', () => {
+    achievement.evaluate({
         geojson: {
             coordinates: [ '1', '1' ]
         }
     });
-    AllCorners.evaluate({
+    achievement.evaluate({
         geojson: {
             coordinates: [ '1', '1' ]
         }
     });
-    expect(AllCorners.count).toEqual(1);
+    expect(achievement.count).toEqual(1);
 });
 
-test('evaluate missing', () => {
-    AllCorners.reset();
-    AllCorners.evaluate({
+test('Missing Data', () => {
+    achievement.evaluate({
+        geojson: {
+            coordinates: undefined
+        }
+    });
+    achievement.evaluate({
         geojson: undefined
     });
-    expect(AllCorners.count).toEqual(0);
+    expect(achievement.count).toEqual(0);
 });

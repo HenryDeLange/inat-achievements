@@ -1,7 +1,12 @@
+import AchievementData from '../../src/scripts/AchievementData';
 import CatsAndDogs from '../../src/scripts/achievements/CatsAndDogs';
 
-test('reset', () => {
-    CatsAndDogs.evaluate({
+const achievement: AchievementData = CatsAndDogs;
+
+afterEach(() => achievement.reset());
+
+test('Reset', () => {
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [ 1, 2, 3, 41944, 5, 6, 7 ]
         },
@@ -9,8 +14,8 @@ test('reset', () => {
             date: '2022-01-01'
         }
     });
-    expect(CatsAndDogs.count).toEqual(0);
-    CatsAndDogs.evaluate({
+    expect(achievement.count).toEqual(0);
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [ 1, 2, 3, 42043, 5, 6, 7 ]
         },
@@ -18,14 +23,13 @@ test('reset', () => {
             date: '2022-01-01'
         }
     });
-    expect(CatsAndDogs.count).toEqual(1);
-    CatsAndDogs.reset();
-    expect(CatsAndDogs.count).toEqual(0);
+    expect(achievement.count).toEqual(1);
+    achievement.reset();
+    expect(achievement.count).toEqual(0);
 });
 
-test('evaluate count', () => {
-    CatsAndDogs.reset();
-    CatsAndDogs.evaluate({
+test('Count', () => {
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [41944]
         },
@@ -33,7 +37,7 @@ test('evaluate count', () => {
             date: '2022-05-05'
         }
     });
-    CatsAndDogs.evaluate({
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [42043]
         },
@@ -41,7 +45,7 @@ test('evaluate count', () => {
             date: '2022-05-05'
         }
     });
-    CatsAndDogs.evaluate({
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [41944]
         },
@@ -49,7 +53,7 @@ test('evaluate count', () => {
             date: '2022-03-03'
         }
     });
-    CatsAndDogs.evaluate({
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [42043]
         },
@@ -57,49 +61,28 @@ test('evaluate count', () => {
             date: '2022-03-03'
         }
     });
-    expect(CatsAndDogs.count).toEqual(2);
+    expect(achievement.count).toEqual(2);
 });
 
-test('evaluate duplicates', () => {
-    CatsAndDogs.reset()
-    CatsAndDogs.evaluate({
+test('Don\'t Count', () => {
+    achievement.evaluate({
         taxon: {
-            ancestor_ids: [41944]
+            ancestor_ids: [1]
         },
         observed_on_details: {
-            date: '2022-01-01'
+            date: '2022-05-05'
         }
     });
-    CatsAndDogs.evaluate({
+    achievement.evaluate({
         taxon: {
-            ancestor_ids: [42043]
+            ancestor_ids: [2]
         },
         observed_on_details: {
-            date: '2022-01-01'
+            date: '2022-05-05'
         }
     });
-    CatsAndDogs.evaluate({
-        taxon: {
-            ancestor_ids: [41944]
-        },
-        observed_on_details: {
-            date: '2022-01-01'
-        }
-    });
-    CatsAndDogs.evaluate({
-        taxon: {
-            ancestor_ids: [42043]
-        },
-        observed_on_details: {
-            date: '2022-01-01'
-        }
-    });
-    expect(CatsAndDogs.count).toEqual(1);
-});
-
-test('evaluate gaps', () => {
-    CatsAndDogs.reset();
-    CatsAndDogs.evaluate({
+    expect(achievement.count).toEqual(0);
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [41944]
         },
@@ -107,7 +90,75 @@ test('evaluate gaps', () => {
             date: '2022-03-03'
         }
     });
-    CatsAndDogs.evaluate({
+    expect(achievement.count).toEqual(0);
+    achievement.reset();
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [42043]
+        },
+        observed_on_details: {
+            date: '2022-04-04'
+        }
+    });
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [1]
+        },
+        observed_on_details: {
+            date: '2022-04-04'
+        }
+    });
+    expect(achievement.count).toEqual(0);
+});
+
+test('Duplicates', () => {
+    
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [41944]
+        },
+        observed_on_details: {
+            date: '2022-01-01'
+        }
+    });
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [42043]
+        },
+        observed_on_details: {
+            date: '2022-01-01'
+        }
+    });
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [41944]
+        },
+        observed_on_details: {
+            date: '2022-01-01'
+        }
+    });
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [42043]
+        },
+        observed_on_details: {
+            date: '2022-01-01'
+        }
+    });
+    expect(achievement.count).toEqual(1);
+});
+
+test('Gaps', () => {
+    achievement.reset();
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [41944]
+        },
+        observed_on_details: {
+            date: '2022-03-03'
+        }
+    });
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [42043]
         },
@@ -115,12 +166,12 @@ test('evaluate gaps', () => {
             date: '2022-03-04'
         }
     });
-    expect(CatsAndDogs.count).toEqual(0);
+    expect(achievement.count).toEqual(0);
 });
 
-test('evaluate missing', () => {
-    CatsAndDogs.reset()
-    CatsAndDogs.evaluate({
+test('Missing Data', () => {
+    achievement.reset()
+    achievement.evaluate({
         taxon: {
             ancestor_ids: undefined
         },
@@ -128,13 +179,13 @@ test('evaluate missing', () => {
             date: '2022-01-01'
         }
     });
-    CatsAndDogs.evaluate({
+    achievement.evaluate({
         taxon: undefined,
         observed_on_details: {
             date: '2022-01-01'
         }
     });
-    CatsAndDogs.evaluate({
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [42043]
         },
@@ -142,11 +193,11 @@ test('evaluate missing', () => {
             date: undefined
         }
     });
-    CatsAndDogs.evaluate({
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [41944]
         },
         observed_on_details: undefined
     });
-    expect(CatsAndDogs.count).toEqual(0);
+    expect(achievement.count).toEqual(0);
 });

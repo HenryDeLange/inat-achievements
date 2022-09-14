@@ -10,7 +10,7 @@ export default new AchievementData(
     'ForeverSpring',
     GOAL,
     (iNatObsJSON: Observation) => {
-        let key = iNatObsJSON.created_at_details && iNatObsJSON.created_at_details.week ? iNatObsJSON.created_at_details.week : undefined;
+        let key = iNatObsJSON.observed_on_details && iNatObsJSON.observed_on_details.week ? iNatObsJSON.observed_on_details.week : undefined;
         if (key) {
             if (key > GOAL) {
                 // Not sure if this is needed, but group the last day(s) of the year into the last week of the year

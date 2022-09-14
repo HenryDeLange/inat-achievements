@@ -1,17 +1,27 @@
 import AchievementData from '../../src/scripts/AchievementData';
-import CatchOfTheDay from '../../src/scripts/achievements/CatchOfTheDay';
+import EarlyBird from '../../src/scripts/achievements/EarlyBird';
 
-const achievement: AchievementData = CatchOfTheDay;
+const achievement: AchievementData = EarlyBird;
 
 afterEach(() => achievement.reset());
 
 test('Reset', () => {
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [ 1, 2, 3, 47178, 5, 6, 7 ]
+            ancestor_ids: [11, 22, 33, 3, 55, 66, 77]
         },
         observed_on_details: {
-            date: '2022-02-02'
+            date: '2022-01-01',
+            hour: 7
+        }
+    });
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [11, 22, 33, 47491, 55, 66, 77]
+        },
+        observed_on_details: {
+            date: '2022-01-01',
+            hour: 7
         }
     });
     expect(achievement.count).toEqual(1);
@@ -22,62 +32,50 @@ test('Reset', () => {
 test('Count', () => {
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [85497]
+            ancestor_ids: [3]
         },
         observed_on_details: {
-            date: '2022-02-09'
+            date: '2022-01-02',
+            hour: 7
         }
     });
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [47178]
+            ancestor_ids: [47491]
         },
         observed_on_details: {
-            date: '2022-02-08'
+            date: '2022-01-02',
+            hour: 7
+        }
+    });
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [3]
+        },
+        observed_on_details: {
+            date: '2022-01-01',
+            hour: 7
+        }
+    });
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [47491]
+        },
+        observed_on_details: {
+            date: '2022-01-01',
+            hour: 7
+        }
+    });
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [1]
+        },
+        observed_on_details: {
+            date: '2022-01-01',
+            hour: 7
         }
     });
     expect(achievement.count).toEqual(2);
-    achievement.evaluate({
-        taxon: {
-            ancestor_ids: [85497]
-        },
-        observed_on_details: {
-            date: '2022-02-07'
-        }
-    });
-    achievement.evaluate({
-        taxon: {
-            ancestor_ids: [47178]
-        },
-        observed_on_details: {
-            date: '2022-02-06'
-        }
-    });
-    achievement.evaluate({
-        taxon: {
-            ancestor_ids: [85497]
-        },
-        observed_on_details: {
-            date: '2022-02-05'
-        }
-    });
-    achievement.evaluate({
-        taxon: {
-            ancestor_ids: [47178]
-        },
-        observed_on_details: {
-            date: '2022-02-04'
-        }
-    });
-    achievement.evaluate({
-        taxon: {
-            ancestor_ids: [47178]
-        },
-        observed_on_details: {
-            date: '2022-02-03'
-        }
-    });
-    expect(achievement.count).toEqual(7);
 });
 
 test('Don\'t Count', () => {
@@ -86,52 +84,95 @@ test('Don\'t Count', () => {
             ancestor_ids: [1]
         },
         observed_on_details: {
-            date: '2022-02-09'
+            date: '2022-05-02',
+            hour: 7
+        }
+    });
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [2]
+        },
+        observed_on_details: {
+            date: '2022-05-02',
+            hour: 7
         }
     });
     expect(achievement.count).toEqual(0);
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [85497]
+            ancestor_ids: [3]
         },
         observed_on_details: {
-            date: '2022-07-07'
+            date: '2022-04-01',
+            hour: 8
         }
     });
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [47178]
+            ancestor_ids: [47491]
         },
         observed_on_details: {
-            date: '2022-06-06'
+            date: '2022-04-01',
+            hour: 8
+        }
+    });
+    expect(achievement.count).toEqual(0);
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [3]
+        },
+        observed_on_details: {
+            date: '2022-03-02',
+            hour: 7
         }
     });
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [85497]
+            ancestor_ids: [47491]
         },
         observed_on_details: {
-            date: '2022-05-05'
+            date: '2022-03-01',
+            hour: 7
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.count).toEqual(0);
 });
 
 test('Duplicates', () => {
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [85497]
+            ancestor_ids: [3]
         },
         observed_on_details: {
-            date: '2022-01-01'
+            date: '2022-01-01',
+            hour: 7
         }
     });
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [47178]
+            ancestor_ids: [47491]
         },
         observed_on_details: {
-            date: '2022-01-01'
+            date: '2022-01-01',
+            hour: 7
+        }
+    });
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [3]
+        },
+        observed_on_details: {
+            date: '2022-01-01',
+            hour: 7
+        }
+    });
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [47491]
+        },
+        observed_on_details: {
+            date: '2022-01-01',
+            hour: 7
         }
     });
     expect(achievement.count).toEqual(1);
@@ -140,53 +181,23 @@ test('Duplicates', () => {
 test('Gaps', () => {
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [85497]
+            ancestor_ids: [3]
         },
         observed_on_details: {
-            date: '2022-08-01'
+            date: '2022-01-02',
+            hour: 5
         }
     });
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [47178]
+            ancestor_ids: [47491]
         },
         observed_on_details: {
-            date: '2022-05-13'
+            date: '2022-01-02',
+            hour: 2
         }
     });
-    achievement.evaluate({
-        taxon: {
-            ancestor_ids: [85497]
-        },
-        observed_on_details: {
-            date: '2022-05-12'
-        }
-    });
-    achievement.evaluate({
-        taxon: {
-            ancestor_ids: [47178]
-        },
-        observed_on_details: {
-            date: '2022-05-11'
-        }
-    });
-    achievement.evaluate({
-        taxon: {
-            ancestor_ids: [85497]
-        },
-        observed_on_details: {
-            date: '2022-04-22'
-        }
-    });
-    achievement.evaluate({
-        taxon: {
-            ancestor_ids: [47178]
-        },
-        observed_on_details: {
-            date: '2022-04-21'
-        }
-    });
-    expect(achievement.count).toEqual(3);
+    expect(achievement.count).toEqual(1);
 });
 
 test('Missing Data', () => {
@@ -195,27 +206,12 @@ test('Missing Data', () => {
             ancestor_ids: undefined
         },
         observed_on_details: {
-            date: '2022-04-21'
+            date: undefined,
+            hour: undefined
         }
     });
     achievement.evaluate({
         taxon: undefined,
-        observed_on_details: {
-            date: '2022-04-21'
-        }
-    });
-    achievement.evaluate({
-        taxon: {
-            ancestor_ids: [47178]
-        },
-        observed_on_details: {
-            date: undefined
-        }
-    });
-    achievement.evaluate({
-        taxon: {
-            ancestor_ids: [47178]
-        },
         observed_on_details: undefined
     });
     expect(achievement.count).toEqual(0);

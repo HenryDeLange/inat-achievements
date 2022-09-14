@@ -12,7 +12,7 @@ export default new AchievementData(
     'AllCorners',
     GOAL,
     (iNatObsJSON: Observation) => {
-        if (iNatObsJSON.geojson) {
+        if (iNatObsJSON.geojson && iNatObsJSON.geojson.coordinates) {
             const lon = parseFloat(iNatObsJSON.geojson.coordinates[0]);
             const lat = parseFloat(iNatObsJSON.geojson.coordinates[1]);
             if (!northWest && lat > 0 && lon < 0) {

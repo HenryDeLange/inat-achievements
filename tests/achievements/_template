@@ -1,14 +1,17 @@
 import AchievementData from '../../src/scripts/AchievementData';
-import DaisyTown from '../../src/scripts/achievements/DaisyTown';
+import TemplateAchievement from '../../src/scripts/achievements/TemplateAchievement';
 
-const achievement: AchievementData = DaisyTown;
+const achievement: AchievementData = TemplateAchievement;
 
 afterEach(() => achievement.reset());
 
 test('Reset', () => {
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [ 1, 2, 3, 47604, 5, 6, 7 ]
+            ancestor_ids: [1, 2, 3, 000, 5, 6, 7]
+        },
+        observed_on_details: {
+            date: '2022-01-01'
         }
     });
     expect(achievement.count).toEqual(1);
@@ -19,7 +22,10 @@ test('Reset', () => {
 test('Count', () => {
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [47604]
+            ancestor_ids: [000]
+        },
+        observed_on_details: {
+            date: '2022-01-01'
         }
     });
     expect(achievement.count).toEqual(1);
@@ -28,7 +34,10 @@ test('Count', () => {
 test('Don\'t Count', () => {
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [1]
+            ancestor_ids: [000]
+        },
+        observed_on_details: {
+            date: '2022-01-01'
         }
     });
     expect(achievement.count).toEqual(0);
@@ -37,25 +46,39 @@ test('Don\'t Count', () => {
 test('Duplicates', () => {
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [47604]
+            ancestor_ids: [000]
+        },
+        observed_on_details: {
+            date: '2022-01-01'
         }
     });
+    expect(achievement.count).toEqual(1);
+});
+
+test('Gaps', () => {
     achievement.evaluate({
         taxon: {
-            ancestor_ids: [47604]
+            ancestor_ids: [000]
+        },
+        observed_on_details: {
+            date: '2022-01-01'
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.count).toEqual(1);
 });
 
 test('Missing Data', () => {
     achievement.evaluate({
         taxon: {
             ancestor_ids: undefined
+        },
+        observed_on_details: {
+            date: undefined
         }
     });
     achievement.evaluate({
-        taxon: undefined
+        taxon: undefined,
+        observed_on_details: undefined
     });
     expect(achievement.count).toEqual(0);
 });

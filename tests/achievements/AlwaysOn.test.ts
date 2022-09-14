@@ -1,113 +1,123 @@
+import AchievementData from '../../src/scripts/AchievementData';
 import AlwaysOn from '../../src/scripts/achievements/AlwaysOn';
 
-test('reset', () => {
-    AlwaysOn.evaluate({
+const achievement: AchievementData = AlwaysOn;
+
+afterEach(() => achievement.reset());
+
+test('Reset', () => {
+    achievement.evaluate({
         observed_on_details: {
             date: '2022-02-02'
         }
     });
-    expect(AlwaysOn.count).toEqual(1);
-    AlwaysOn.reset();
-    expect(AlwaysOn.count).toEqual(0);
+    expect(achievement.count).toEqual(1);
+    achievement.reset();
+    expect(achievement.count).toEqual(0);
 });
 
-test('evaluate count', () => {
-    AlwaysOn.reset();
-    AlwaysOn.evaluate({
+test('Count', () => {
+    achievement.evaluate({
         observed_on_details: {
             date: '2022-01-05'
         }
     });
-    expect(AlwaysOn.count).toEqual(1);
-    AlwaysOn.evaluate({
+    expect(achievement.count).toEqual(1);
+    achievement.evaluate({
         observed_on_details: {
             date: '2022-01-04'
         }
     });
-    AlwaysOn.evaluate({
+    achievement.evaluate({
         observed_on_details: {
             date: '2022-01-02'
         }
     });
-    AlwaysOn.evaluate({
+    achievement.evaluate({
         observed_on_details: {
             date: '2022-01-01'
         }
     });
-    expect(AlwaysOn.count).toEqual(4);
+    expect(achievement.count).toEqual(4);
 });
 
-test('evaluate duplicates', () => {
-    AlwaysOn.reset();
-    AlwaysOn.evaluate({
-        observed_on_details: {
-            date: '2022-02-02'
-        }
-    });
-    AlwaysOn.evaluate({
-        observed_on_details: {
-            date: '2022-02-02'
-        }
-    });
-    expect(AlwaysOn.count).toEqual(1);
-});
-
-test('evaluate gaps', () => {
-    AlwaysOn.reset();
-    AlwaysOn.evaluate({
-        observed_on_details: {
-            date: '2022-08-04'
-        }
-    });
-    AlwaysOn.evaluate({
-        observed_on_details: {
-            date: '2022-08-01'
-        }
-    });
-    expect(AlwaysOn.count).toEqual(2);
-    AlwaysOn.evaluate({
-        observed_on_details: {
-            date: '2022-07-14'
-        }
-    });
-    AlwaysOn.evaluate({
-        observed_on_details: {
-            date: '2022-07-10' // 5 days period, inclusive (14, 13, 12, 11, 10)
-        }
-    });
-    AlwaysOn.evaluate({
-        observed_on_details: {
-            date: '2022-07-08'
-        }
-    });
-    AlwaysOn.evaluate({
-        observed_on_details: {
-            date: '2022-07-03'
-        }
-    });
-    expect(AlwaysOn.count).toEqual(3);
-    AlwaysOn.evaluate({
-        observed_on_details: {
-            date: '2022-06-04'
-        }
-    });
-    AlwaysOn.evaluate({
-        observed_on_details: {
-            date: '2022-06-01'
-        }
-    });
-    expect(AlwaysOn.count).toEqual(3);
-});
-
-test('evaluate missing', () => {
-    AlwaysOn.reset();
-    AlwaysOn.evaluate({
+test('Don\'t Count', () => {
+    achievement.evaluate({
         observed_on_details: {
             date: undefined
         }
     });
-    AlwaysOn.evaluate({
+    expect(achievement.count).toEqual(0);
+});
+
+test('Duplicates', () => {
+    achievement.evaluate({
+        observed_on_details: {
+            date: '2022-02-02'
+        }
+    });
+    achievement.evaluate({
+        observed_on_details: {
+            date: '2022-02-02'
+        }
+    });
+    expect(achievement.count).toEqual(1);
+});
+
+test('Gaps', () => {
+    achievement.evaluate({
+        observed_on_details: {
+            date: '2022-08-04'
+        }
+    });
+    achievement.evaluate({
+        observed_on_details: {
+            date: '2022-08-01'
+        }
+    });
+    expect(achievement.count).toEqual(2);
+    achievement.evaluate({
+        observed_on_details: {
+            date: '2022-07-14'
+        }
+    });
+    achievement.evaluate({
+        observed_on_details: {
+            date: '2022-07-10' // 5 days period, inclusive (14, 13, 12, 11, 10)
+        }
+    });
+    achievement.evaluate({
+        observed_on_details: {
+            date: '2022-07-08'
+        }
+    });
+    achievement.evaluate({
+        observed_on_details: {
+            date: '2022-07-03'
+        }
+    });
+    expect(achievement.count).toEqual(3);
+    achievement.evaluate({
+        observed_on_details: {
+            date: '2022-06-04'
+        }
+    });
+    achievement.evaluate({
+        observed_on_details: {
+            date: '2022-06-01'
+        }
+    });
+    expect(achievement.count).toEqual(3);
+});
+
+test('Missing Data', () => {
+    achievement.evaluate({
+        observed_on_details: {
+            date: undefined
+        }
+    });
+    achievement.evaluate({
         observed_on_details: undefined
     });
-    expect(AlwaysOn.count).toEqual(0);
+    expect(achievement.count).toEqual(0);
 });

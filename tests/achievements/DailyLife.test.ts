@@ -1,9 +1,14 @@
+import AchievementData from '../../src/scripts/AchievementData';
 import DailyLife from '../../src/scripts/achievements/DailyLife';
 import { SPECIES_RANK, SUB_SPECIES_RANK } from '../../src/scripts/achievements/utils';
 
-test('reset', () => {
+const achievement: AchievementData = DailyLife;
+
+afterEach(() => achievement.reset());
+
+test('Reset', () => {
     for (let i = 1; i <= 24; i++) {
-        DailyLife.evaluate({
+        achievement.evaluate({
             taxon: {
                 rank_level: SPECIES_RANK,
                 id: i
@@ -13,15 +18,14 @@ test('reset', () => {
             }
         });
     }
-    expect(DailyLife.count).toEqual(1);
-    DailyLife.reset();
-    expect(DailyLife.count).toEqual(0);
+    expect(achievement.count).toEqual(1);
+    achievement.reset();
+    expect(achievement.count).toEqual(0);
 });
 
-test('evaluate count', () => {
-    DailyLife.reset();
+test('Count', () => {
     for (let i = 1; i <= 24 * 3.5; i++) {
-        DailyLife.evaluate({
+        achievement.evaluate({
             taxon: {
                 rank_level: SPECIES_RANK,
                 id: i
@@ -31,9 +35,9 @@ test('evaluate count', () => {
             }
         });
     }
-    expect(DailyLife.count).toEqual(1);
+    expect(achievement.count).toEqual(1);
     for (let i = 1; i <= 24; i++) {
-        DailyLife.evaluate({
+        achievement.evaluate({
             taxon: {
                 rank_level: SUB_SPECIES_RANK,
                 parent_id: i
@@ -43,13 +47,39 @@ test('evaluate count', () => {
             }
         });
     }
-    expect(DailyLife.count).toEqual(2);
+    expect(achievement.count).toEqual(2);
 });
 
-test('evaluate duplicates', () => {
-    DailyLife.reset();
+test('Don\'t Count', () => {
+    for (let i = 1; i <= 24 * 3.5; i++) {
+        achievement.evaluate({
+            taxon: {
+                rank_level: 15,
+                id: i
+            },
+            observed_on_details: {
+                date: '2022-01-15'
+            }
+        });
+    }
+    expect(achievement.count).toEqual(0);
+    for (let i = 1; i <= 24; i++) {
+        achievement.evaluate({
+            taxon: {
+                rank_level: SPECIES_RANK,
+                parent_id: i
+            },
+            observed_on_details: {
+                date: `2022-01-${i <= 9 ? `0${i}` : i}`
+            }
+        });
+    }
+    expect(achievement.count).toEqual(0);
+});
+
+test('Duplicates', () => {
     for (let i = 1; i <= 24 * 2.5; i++) {
-        DailyLife.evaluate({
+        achievement.evaluate({
             taxon: {
                 rank_level: SPECIES_RANK,
                 id: Math.floor(i / 2)
@@ -58,7 +88,7 @@ test('evaluate duplicates', () => {
                 date: '2022-01-01'
             }
         });
-        DailyLife.evaluate({
+        achievement.evaluate({
             taxon: {
                 rank_level: SUB_SPECIES_RANK,
                 parent_id: Math.floor(i / 2)
@@ -68,13 +98,12 @@ test('evaluate duplicates', () => {
             }
         });
     }
-    expect(DailyLife.count).toEqual(1);
+    expect(achievement.count).toEqual(1);
 });
 
-test('evaluate gaps', () => {
-    DailyLife.reset();
+test('Gaps', () => {
     for (let i = 1; i <= 25; i++) {
-        DailyLife.evaluate({
+        achievement.evaluate({
             taxon: {
                 rank_level: SPECIES_RANK,
                 id: i
@@ -84,19 +113,18 @@ test('evaluate gaps', () => {
             }
         });
     }
-    expect(DailyLife.count).toEqual(0);
+    expect(achievement.count).toEqual(0);
 });
 
-test('evaluate missing', () => {
-    DailyLife.reset()
+test('Missing Data', () => {
     for (let i = 1; i <= 24; i++) {
-        DailyLife.evaluate({
+        achievement.evaluate({
             taxon: undefined,
             observed_on_details: {
                 date: '2022-01-01'
             }
         });
-        DailyLife.evaluate({
+        achievement.evaluate({
             taxon: {
                 rank_level: SUB_SPECIES_RANK,
                 parent_id: undefined
@@ -105,7 +133,7 @@ test('evaluate missing', () => {
                 date: '2022-01-01'
             }
         });
-        DailyLife.evaluate({
+        achievement.evaluate({
             taxon: {
                 rank_level: SPECIES_RANK,
                 id: undefined
@@ -114,7 +142,7 @@ test('evaluate missing', () => {
                 date: '2022-01-01'
             }
         });
-        DailyLife.evaluate({
+        achievement.evaluate({
             taxon: {
                 rank_level: undefined,
                 parent_id: 1
@@ -123,7 +151,7 @@ test('evaluate missing', () => {
                 date: '2022-01-01'
             }
         });
-        DailyLife.evaluate({
+        achievement.evaluate({
             taxon: {
                 rank_level: undefined,
                 id: 1
@@ -132,7 +160,7 @@ test('evaluate missing', () => {
                 date: '2022-01-01'
             }
         });
-        DailyLife.evaluate({
+        achievement.evaluate({
             taxon: {
                 rank_level: SPECIES_RANK,
                 id: 1
@@ -141,7 +169,7 @@ test('evaluate missing', () => {
                 date: undefined
             }
         });
-        DailyLife.evaluate({
+        achievement.evaluate({
             taxon: {
                 rank_level: SPECIES_RANK,
                 id: 1

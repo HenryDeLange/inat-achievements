@@ -17,7 +17,7 @@ export default new AchievementData(
     GOAL,
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON.geojson && iNatObsJSON.geojson.coordinates) {
-            const key = iNatObsJSON.created_at_details && iNatObsJSON.created_at_details.date ? iNatObsJSON.created_at_details.date : undefined;
+            const key = iNatObsJSON.observed_on_details && iNatObsJSON.observed_on_details.date ? iNatObsJSON.observed_on_details.date : undefined;
             if (key) {
                 let dayObs = obsPerDay.get(key);
                 if (!dayObs) {

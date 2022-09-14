@@ -1,76 +1,82 @@
+import AchievementData from '../../src/scripts/AchievementData';
 import CraneyStorker from '../../src/scripts/achievements/CraneyStorker';
 
-test('reset', () => {
-    CraneyStorker.evaluate({
+const achievement: AchievementData = CraneyStorker;
+
+afterEach(() => achievement.reset());
+
+test('Reset', () => {
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [ 1, 2, 3, 3726, 5, 6, 7 ]
         }
     });
-    expect(CraneyStorker.count).toEqual(1);
-    CraneyStorker.evaluate({
+    expect(achievement.count).toEqual(1);
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [ 1, 2, 3, 23, 5, 6, 7 ]
         }
     });
-    expect(CraneyStorker.count).toEqual(2);
-    CraneyStorker.reset();
-    expect(CraneyStorker.count).toEqual(0);
+    expect(achievement.count).toEqual(2);
+    achievement.reset();
+    expect(achievement.count).toEqual(0);
 });
 
-test('evaluate count', () => {
-    CraneyStorker.reset();
-    CraneyStorker.evaluate({
+test('Count', () => {
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [3726]
         }
     });
-    CraneyStorker.evaluate({
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [23]
         }
     });
-    CraneyStorker.evaluate({
+    expect(achievement.count).toEqual(2);
+});
+
+test('Don\'t Count', () => {
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [1]
         }
     });
-    expect(CraneyStorker.count).toEqual(2);
+    expect(achievement.count).toEqual(0);
 });
 
-test('evaluate duplicates', () => {
-    CraneyStorker.reset()
-    CraneyStorker.evaluate({
+test('Duplicates', () => {
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [3726]
         }
     });
-    CraneyStorker.evaluate({
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [3726]
         }
     });
-    CraneyStorker.evaluate({
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [23]
         }
     });
-    CraneyStorker.evaluate({
+    achievement.evaluate({
         taxon: {
             ancestor_ids: [23]
         }
     });
-    expect(CraneyStorker.count).toEqual(4);
+    expect(achievement.count).toEqual(4);
 });
 
-test('evaluate missing', () => {
-    CraneyStorker.reset()
-    CraneyStorker.evaluate({
+test('Missing Data', () => {
+    achievement.evaluate({
         taxon: {
             ancestor_ids: undefined
         }
     });
-    CraneyStorker.evaluate({
+    achievement.evaluate({
         taxon: undefined
     });
-    expect(CraneyStorker.count).toEqual(0);
+    expect(achievement.count).toEqual(0);
 });

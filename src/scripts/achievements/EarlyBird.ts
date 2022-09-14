@@ -28,5 +28,10 @@ export default new AchievementData(
             }
         }
         return 0;
+    },
+    () => {
+        days = [];
+        birdDate = null;
+        wormDate = null;
     }
 );

@@ -12,7 +12,7 @@ export default new AchievementData(
     'EmployeeOfTheMonth',
     GOAL,
     (iNatObsJSON: Observation) => {
-        let obsMonthID = `${iNatObsJSON.created_at_details?.year ?? -1}|${iNatObsJSON.created_at_details?.month ?? -1}`;
+        const obsMonthID = `${iNatObsJSON.observed_on_details?.year ?? -1}|${iNatObsJSON.observed_on_details?.month ?? -1}`;
         if (monthID !== obsMonthID) {
             monthID = obsMonthID;
             monthCount = 0;
