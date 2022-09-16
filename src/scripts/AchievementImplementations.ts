@@ -11,7 +11,7 @@ import EarlyBird from './achievements/EarlyBird';
 import EmployeeOfTheMonth from './achievements/EmployeeOfTheMonth';
 import FlowerChild from './achievements/FlowerChild';
 import ForeverSpring from './achievements/ForeverSpring';
-import GroupTherapy from './achievements/GroupTherapy';
+import AirLovers from './achievements/AirLovers';
 import HeartOfTheMatter from './achievements/HeartOfTheMatter';
 import HomelyHermit from './achievements/HomelyHermit';
 import KingFisher from './achievements/KingFisher';
@@ -65,7 +65,7 @@ export function initAchievements() {
         DaisyTown,
         HeartOfTheMatter,
         SocialButterfly,
-        GroupTherapy,
+        AirLovers,
         NameGiver,
         RatKing,
         CraneyStorker,

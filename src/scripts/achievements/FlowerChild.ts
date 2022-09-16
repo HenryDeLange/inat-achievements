@@ -1,8 +1,10 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
+import { ORDER_RANK } from "./utils";
 
-const GOAL = 30;
+const GOAL = 18;
 const TAXA = 47125;
+const ORDER_INDEX = 5;
 
 let flowerOrderCount: number[] = [];
 
@@ -11,12 +13,14 @@ export default new AchievementData(
     'FlowerChild',
     GOAL,
     (iNatObsJSON: Observation) => {
-        for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
-            if ((iNatObsJSON?.taxon?.rank_level ?? 100 <= 40) && TAXA === taxonID) {
-                let orderID = iNatObsJSON?.taxon?.ancestor_ids?.[5] ?? -1;
-                if (!flowerOrderCount.includes(orderID)) {
-                    flowerOrderCount.push(orderID);
-                    return 1;
+        if ((iNatObsJSON?.taxon?.rank_level ?? 999) <= ORDER_RANK) {
+            for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
+                if (TAXA === taxonID) {
+                    const orderID = (iNatObsJSON?.taxon?.ancestor_ids?.[ORDER_INDEX] ?? -1); // Is it OK to assume the index will always be 5?
+                    if (!flowerOrderCount.includes(orderID)) {
+                        flowerOrderCount.push(orderID);
+                        return 1;
+                    }
                 }
             }
         }

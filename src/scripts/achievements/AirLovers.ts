@@ -5,7 +5,7 @@ const GOAL = 30;
 const TAXA = [6544, 11853, 559244, 5362, 5425, 5391, 5400];
 
 export default new AchievementData(
-    'GroupTherapy',
+    'AirLovers',
     GOAL,
     (iNatObsJSON: Observation) => {
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {

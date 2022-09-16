@@ -260,7 +260,7 @@ export declare type Fave = {
 
 // Note: This is not the complete list of fields on the JSON object
 export declare type Annotation = {
-    uuid: number;
+    uuid?: number;
     controlled_attribute_id: number;
     controlled_value_id: number;
     vote_score?: number;
