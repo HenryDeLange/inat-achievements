@@ -10,8 +10,8 @@ export default new AchievementData(
     GOAL,
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON.geojson && iNatObsJSON.geojson.coordinates) {
-            let lon = Math.round((Math.trunc(parseFloat(iNatObsJSON.geojson?.coordinates[0]) * 10) / 10) * 2) / 2;
-            let lat = Math.round((Math.trunc(parseFloat(iNatObsJSON.geojson?.coordinates[1]) * 10) / 10) * 2) / 2;
+            let lon = Math.round((Math.trunc(parseFloat(iNatObsJSON.geojson.coordinates[0]) * 10) / 10) * 2) / 2;
+            let lat = Math.round((Math.trunc(parseFloat(iNatObsJSON.geojson.coordinates[1]) * 10) / 10) * 2) / 2;
             const grid = `${lat}|${lon}`;
             if (!grids.includes(grid)) {
                 grids.push(grid);
