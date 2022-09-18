@@ -1,7 +1,7 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
-const GOAL = 40;
+const GOAL = 31;
 const TAXA = [311249, 54743];
 
 export default new AchievementData(
