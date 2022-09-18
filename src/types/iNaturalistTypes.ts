@@ -443,23 +443,23 @@ export declare type UserAutocompleteResponse = {
 }
 
 export declare type ShowUser = {
-    id: number;
+    id?: number;
     login?: string;
-    spam: false,
-    suspended: false,
+    spam?: false,
+    suspended?: false,
     created_at?: string;
     login_autocomplete?: string;
     login_exact?: string;
     name?: string;
     name_autocomplete?: string;
-    orcid: number;
+    orcid?: number;
     observations_count?: number;
     identifications_count?: number;
     journal_posts_count?: number;
     activity_count?: number;
     universal_search_rank?: number;
     roles?: string[], // Some values include: "curator"
-    site_id: number;
+    site_id?: number;
     icon?: string; // Defaults to medium (larger than icon that defaults to thumb)
     icon_url?: string;
     description?: string;  // Not on API, added based on JSON response from the old API
