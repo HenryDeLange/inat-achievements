@@ -10,15 +10,15 @@ export default class AchievementData implements AchievementType {
     count: number;
     iconColor: AchievementStatusType;
     textColor: string;
-    evalFunc: Function;
-    resetFunc?: Function;
+    evalFunc: (iNatObsJSON: Observation) => number | Promise<number>;
+    resetFunc?: () => void;
 
-    constructor(key: string, goal: number, evalFunc: Function, resetFunc?: Function, count?: number) {
+    constructor(key: string, goal: number, evalFunc: (iNatObsJSON: Observation) => number | Promise<number>, resetFunc?: () => void) {
         this.icon = key;
         this.title = `achievement${key}Title`;
         this.details = `achievement${key}Details`;
         this.goal = goal;
-        this.count = count ?? 0;
+        this.count = 0;
         this.evalFunc = evalFunc;
         this.resetFunc = resetFunc;
         this.status = this.calcStatus(this.count, this.goal);
@@ -28,13 +28,30 @@ export default class AchievementData implements AchievementType {
 
     public evaluate(iNatObsJSON: Observation) {
         // Evaluate the Observation
-        this.count = this.count + this.evalFunc(iNatObsJSON);
+        let result = this.evalFunc(iNatObsJSON);
+        if (result instanceof Promise<number>) {
+            console.log('get value from promise');
+            const evalPromise = (result as Promise<number>);
+            evalPromise
+                .then(increment => {
+                    console.log('increment by', increment);
+                    this.updateCount(increment);
+                });
+        }
+        else {
+            this.updateCount(result);
+        }
+    }
+
+    private updateCount(increment: number) {
+        this.count = this.count + increment;
         // Update the status
         this.status = this.calcStatus(this.count, this.goal);
         this.iconColor = this.calcIconColor(this.status);
         this.textColor = this.calcTextColor(this.status);
     }
 
+    // TODO: Add a mechanism to make sure once reset is called any in progress promises won't resolve and wont update the count
     public reset() {
         this.count = 0;
         if (this.resetFunc) {

@@ -141,7 +141,7 @@ export declare type Observation = {
 }
 
 export declare type Comment = {
-    id: number;
+    id?: number;
     created_at?: string;
     created_at_details?: DateDetails;
     user?: ShowUser;
@@ -253,7 +253,7 @@ export declare type Identification = {
 }
 
 export declare type Fave = {
-    id: number;
+    id?: number;
     created_at?: string;
     user?: ShowUser;
 }

@@ -35,8 +35,8 @@ export default function Header() {
             .then((response) => response.json())
             .then((userAutocompleteResponse: UserAutocompleteResponse) => {
                 const newOptions = userAutocompleteResponse.results.map((user) => ({
-                    id: user.id,
-                    login: user.login ?? user.id.toString(),
+                    id: user.id ?? 0,
+                    login: user.login ?? (user.id ?? 'unknown').toString(),
                     avatar_url: user.icon_url ?? require('../images/inat_empty.png')
                 }));
                 setOptions(newOptions);

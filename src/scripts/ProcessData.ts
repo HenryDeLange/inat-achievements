@@ -55,7 +55,7 @@ export async function calculateAchievements(
                 calculateAchievements(dispatch, username, callback, readLimit, page + 1, totalResults, resultCount);
                 printLog && console.log('calculateAchievements: promise completed', username, '| page=', page);
             })
-            .catch((e: any) => console.log('Failed observations search:', e));
+            .catch((e: any) => console.error('Failed observations search:', e));
     }
     else {
         printLog && console.log('calculateAchievements: don\'t fetch any more data (processed', Math.min(page * RESULT_PER_PAGE_LIMIT, readLimit), 'results)');

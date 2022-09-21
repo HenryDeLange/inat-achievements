@@ -1,4 +1,5 @@
 import { Option } from 'react-bootstrap-typeahead/types/types';
+import { Observation } from './iNaturalistTypes';
 
 export declare type AchievementType = {
     icon: string;
@@ -9,8 +10,8 @@ export declare type AchievementType = {
     count: number;
     iconColor: AchievementStatusType;
     textColor: string;
-    evalFunc?: Function;
-    resetFunc?: Function;
+    evalFunc?: (iNatObsJSON: Observation) => number | Promise<number>;
+    resetFunc?: () => void;
 }
 
 export declare type AchievementStatusType =

@@ -1,6 +1,7 @@
 export const SPECIES_RANK = 10;
 export const SUB_SPECIES_RANK = 5;
 export const ORDER_RANK = 40;
+export const CLASS_RANK = 50;
 export const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
 
 export function distance(lat1: number, lon1: number, lat2: number, lon2: number): number {
