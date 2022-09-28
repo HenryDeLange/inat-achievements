@@ -11,23 +11,23 @@ export default new AchievementData(
     'TentacleSuckers',
     GOAL,
     (iNatObsJSON: Observation) => {
-        if ((iNatObsJSON?.taxon?.rank_level ?? 999) === SPECIES_RANK) {
-            for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
-                if (TAXA.includes(taxonID)) {
-                    if (!species.includes(taxonID)) {
-                        species.push(taxonID);
-                        return 1;
-                    }
-                }
-            }
-        }
-        else if ((iNatObsJSON?.taxon?.rank_level ?? 999) === SUB_SPECIES_RANK) {
-            for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
-                if (TAXA.includes(taxonID)) {
-                    const parentTaxonID = iNatObsJSON?.taxon?.parent_id ?? 0;
-                    if (!species.includes(parentTaxonID)) {
-                        species.push(parentTaxonID);
-                        return 1;
+        if (iNatObsJSON?.taxon?.rank_level) {
+            if (iNatObsJSON.taxon.rank_level <= SPECIES_RANK) {
+                for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
+                    if (TAXA.includes(taxonID)) {
+                        let speciesID;
+                        if (iNatObsJSON?.taxon?.id && iNatObsJSON.taxon.rank_level === SPECIES_RANK) {
+                            speciesID = iNatObsJSON.taxon.id;
+                        }
+                        else if (iNatObsJSON?.taxon?.parent_id 
+                                && (iNatObsJSON.taxon.rank_level === SUB_SPECIES_RANK
+                                    || iNatObsJSON.taxon.rank_level < SPECIES_RANK)) {
+                            speciesID = iNatObsJSON.taxon.parent_id;
+                        }
+                        if (speciesID && !species.includes(speciesID)) {
+                            species.push(speciesID);
+                            return 1;
+                        }
                     }
                 }
             }

@@ -14,9 +14,7 @@ export default new AchievementData(
     'TryMammals',
     GOAL,
     (iNatObsJSON: Observation) => {
-        const oldMammalDig = mammalDig;
-        const oldMammalSwim = mammalSwim;
-        const oldMammalFly = mammalFly;
+        const prevCount = Math.min(mammalDig,mammalSwim, mammalFly);
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
             if (TAXA_DIG.includes(taxonID)) {
                 mammalDig++;
@@ -31,9 +29,11 @@ export default new AchievementData(
                 break;
             }
         }
-        return (mammalDig <= 3 ? mammalDig - oldMammalDig : 0)
-            + (mammalSwim <= 3 ? mammalSwim - oldMammalSwim : 0)
-            + (mammalFly <= 3 ? mammalFly - oldMammalFly : 0);
+        const newCount = Math.min(mammalDig,mammalSwim, mammalFly);
+        if (prevCount < newCount) {
+            return 1;
+        }
+        return 0;
     },
     () => {
         mammalDig = 0;

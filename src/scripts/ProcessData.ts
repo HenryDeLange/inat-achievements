@@ -4,8 +4,13 @@ import inatjs from 'inaturalistjs';
 import { setProgressAlert, setProgressLoading, setProgressMessage, setProgressValue } from '../redux/slices/ProgressSlice';
 import { Observation, ObservationsResponse } from '../types/iNaturalistTypes';
 
-const RESULT_PER_PAGE_LIMIT = 200; // 200 seems to be the maximum iNat wants
-const REQUEST_PER_MINUTE_LIMIT = 90; // 100 seems to be the maximum iNat wants (the time taken for iNat to respond results in this being effectively less than the specified value)
+// 200 seems to be the maximum iNat wants
+const RESULT_PER_PAGE_LIMIT = 200;
+
+// 100 seems to be the maximum iNat wants (the time taken for iNat to respond results in this being effectively less than the specified value)
+// The TaxonCache also floods iNat (initially) so it's best to keep this number low
+const REQUEST_PER_MINUTE_LIMIT = 60;
+
 const THROTTLE_SLEEP_TIME = 60 * 1000 / REQUEST_PER_MINUTE_LIMIT;
 const TOTAL_RESULTS_LIMIT = REQUEST_PER_MINUTE_LIMIT * RESULT_PER_PAGE_LIMIT; // Default to one minute of loading data (the top 500 observers seems to have 15000+ observations)
 const FIRST_PAGE = 1; // 1 is the first page (not 0)

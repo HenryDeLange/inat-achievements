@@ -11,24 +11,28 @@ export default new AchievementData(
     'WorldClass',
     GOAL,
     (iNatObsJSON: Observation) => {
-        return new Promise<number>(async (resolve) => {
-            for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
-                const rank = await getTaxonRank(taxonID).then(taxonRank => taxonRank);
-                console.log(taxonID, `Using rank = ${rank}`);
-                if (rank) {
-                    if (rank === CLASS_RANK) {
-                        if (!classCount.includes(taxonID)) {
-                            classCount.push(taxonID);
-                            resolve(1);
-                            return;
+        if ((iNatObsJSON?.taxon?.rank_level ?? 999) <= CLASS_RANK) {
+            if (iNatObsJSON?.taxon?.ancestor_ids && iNatObsJSON.taxon.ancestor_ids.length > 2) {
+                const relevantAncestors = iNatObsJSON.taxon.ancestor_ids.slice(2, Math.min(6, iNatObsJSON.taxon.ancestor_ids.length));
+                for (let taxonID of relevantAncestors) {
+                    const rank = getTaxonRank(taxonID);
+                    if (rank) {
+                        if (rank === CLASS_RANK) {
+                            if (!classCount.includes(taxonID)) {
+                                classCount.push(taxonID);
+                                return 1;
+                            }
                         }
+                        if (rank <= CLASS_RANK)
+                            break;
                     }
-                    if (rank <= CLASS_RANK)
-                        break;
+                    else {
+                        console.log(`Taxon Rank not found for ${iNatObsJSON.id}`);
+                    }
                 }
             }
-            resolve(0);
-        });
+        }
+        return 0;
     },
     () => {
         classCount = [];
