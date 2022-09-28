@@ -1,7 +1,7 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 import { CLASS_RANK } from "./utils";
-import getTaxonRank from "./utils/TaxonCache";
+import { getTaxonRank } from "./utils/TaxonCache";
 
 const GOAL = 16;
 

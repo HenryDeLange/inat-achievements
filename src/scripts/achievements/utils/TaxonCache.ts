@@ -2,11 +2,19 @@ import { TaxaShowResponse } from '../../../types/iNaturalistTypes';
 
 const taxa = new Map<number, number | undefined>();
 
-// TODO: Move this caching out of the evaluate call and instead to it before the evaluations start via proper await/async calls (promises)
-export default function getTaxonRank(taxonID: number): number | undefined {
+export function populateTaxonRank(taxonID: number, rank?: number) {
+    rank && taxa.set(taxonID, rank);
+}
+
+export function isTaxonCached(taxonID: number): boolean {
+    return taxa.get(taxonID) ? true : false;
+}
+
+export function getTaxonRank(taxonID: number): number | undefined {
     let rank = taxa.get(taxonID);
     if (!rank) {
-        // TODO: Find a way to limit the number of requests to iNat
+        // This should never happen because the caching is done before had. This code is here to log and handle cache misses.
+        console.warn(`Rank not cached for taxon ${taxonID}. Will try to get it from iNaturalist...`);
         const xmlHttpRequest = new XMLHttpRequest();
         xmlHttpRequest.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -21,7 +29,6 @@ export default function getTaxonRank(taxonID: number): number | undefined {
         }
         xmlHttpRequest.open('GET', `https://api.inaturalist.org/v1/taxa/${taxonID}`, false); // Use "false" to force it to be synchronous
         xmlHttpRequest.send();
-        console.log(taxonID, 'GET taxon rank', rank)
         taxa.set(taxonID, rank);
     }
     return rank;

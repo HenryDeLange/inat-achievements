@@ -3,20 +3,26 @@ import I18n from 'i18n-js';
 import inatjs from 'inaturalistjs';
 import { updateAchievement } from '../redux/slices/AchievementsSlice';
 import { setProgressAlert, setProgressLoading, setProgressMessage, setProgressValue } from '../redux/slices/ProgressSlice';
-import { Observation, ObservationsResponse } from '../types/iNaturalistTypes';
+import { ObservationsResponse, TaxaShowResponse } from '../types/iNaturalistTypes';
 import { getAchievements } from './AchievementImplementations';
-import getTaxonRank from './achievements/utils/TaxonCache';
+import { FLOWER_CHILD_TAXA } from './achievements/FlowerChild';
+import { CLASS_RANK, ORDER_RANK } from './achievements/utils';
+import { getTaxonRank, isTaxonCached, populateTaxonRank } from './achievements/utils/TaxonCache';
 
 // 200 seems to be the maximum iNat wants
 const RESULT_PER_PAGE_LIMIT = 200;
 
 // 100 seems to be the maximum iNat wants (the time taken for iNat to respond results in this being effectively less than the specified value)
 // The TaxonCache also floods iNat (initially) so it's best to keep this number low
-const REQUEST_PER_MINUTE_LIMIT = 60;
+const REQUEST_PER_MINUTE_LIMIT = 80;
 
 const THROTTLE_SLEEP_TIME = 60 * 1000 / REQUEST_PER_MINUTE_LIMIT;
-const TOTAL_RESULTS_LIMIT = REQUEST_PER_MINUTE_LIMIT * RESULT_PER_PAGE_LIMIT; // Default to one minute of loading data (the top 500 observers seems to have 15000+ observations)
-const FIRST_PAGE = 1; // 1 is the first page (not 0)
+
+// Default to one minute of loading data (the top 500 observers seems to have 15000+ observations), not counting the taxa rank caching
+const TOTAL_RESULTS_LIMIT = REQUEST_PER_MINUTE_LIMIT * RESULT_PER_PAGE_LIMIT;
+
+// 1 is the first page (not 0)
+const FIRST_PAGE = 1;
 
 const printLog = true;
 
@@ -28,11 +34,9 @@ export async function calculateAchievements(
     totalResults = -1,
     resultCount = 0
 ) {
-    printLog && console.log('calculateAchievements: BEGIN', username, '| page=', page, '| total=', totalResults, '| limit=', readLimit);
+    printLog && console.log(`calculateAchievements: BEGIN ${username} | page=${page} | total=${totalResults} | limit=${readLimit}`);
     // Sleep for a bit before starting (to comply with the iNat requests per minute limit)
-    printLog && console.log('calculateAchievements: rest for', THROTTLE_SLEEP_TIME, 'ms');
-    dispatch(setProgressMessage(I18n.t('progressSleep')));
-    await new Promise(resolve => setTimeout(resolve, THROTTLE_SLEEP_TIME));
+    await sleep(dispatch);
     // Request data from iNat
     const params = {
         user_id: username,
@@ -50,12 +54,41 @@ export async function calculateAchievements(
         printLog && console.log('calculateAchievements: search for', username, 'page', page);
         dispatch(setProgressMessage(I18n.t('progressFetching', { per_page: params.per_page, count: resultCount, total: totalResults < 0 ? '?' : Math.min(totalResults, readLimit) })));
         inatjs.observations.search(params)
-            .then((observationsResponse: ObservationsResponse) => {
+            .then(async (observationsResponse: ObservationsResponse) => {
+                // Prepare
                 printLog && console.log('calculateAchievements: found ', observationsResponse.results.length ?? 0, ' results to prepare');
-                dispatch(setProgressMessage(I18n.t('progressCalculating', { per_page: observationsResponse.results.length ?? 0 })));
+                dispatch(setProgressMessage(I18n.t('progressPreparing', { per_page: observationsResponse.results.length ?? 0 })));
                 for (let observation of observationsResponse.results) {
-                    prepare(observation);
+                    if (observation?.taxon?.ancestor_ids && observation.taxon.ancestor_ids.length > 2) {
+                        // TODO: Find a more generic way to handle this and still limit how many ranks are loaded
+                        let isForFlowerChild = false;
+                        for (let taxonID of observation.taxon.ancestor_ids) {
+                            if (taxonID === FLOWER_CHILD_TAXA)
+                             isForFlowerChild = true;
+                             break;
+                        }
+                        const relevantAncestors = observation.taxon.ancestor_ids.slice(2, Math.min(7, observation.taxon.ancestor_ids.length));
+                        for (let taxonID of relevantAncestors) {
+                            if (!isTaxonCached(taxonID)) {
+                                await sleep(dispatch);
+                                await inatjs.taxa.fetch([ taxonID ], {})
+                                    .then((taxon: TaxaShowResponse) => {
+                                        printLog && console.log(`calculateAchievements: fetch the rank of taxon ${taxonID}`);
+                                        if (taxon.total_results === 1)
+                                            populateTaxonRank(taxonID, taxon.results[0].rank_level);
+                                        else
+                                            console.error(`Could not cache rank for taxon ${taxonID}`);
+                                    });
+                                const rank = getTaxonRank(taxonID) ?? -1;
+                                if (!isForFlowerChild && rank <= CLASS_RANK)
+                                    break;
+                                else if (rank <= ORDER_RANK)
+                                    break;
+                            }
+                        }
+                    }
                 }
+                // Evaluate
                 printLog && console.log('calculateAchievements: found ', observationsResponse.results.length ?? 0, ' results to evaluate');
                 totalResults = observationsResponse.total_results!;
                 dispatch(setProgressMessage(I18n.t('progressCalculating', { per_page: observationsResponse.results.length ?? 0 })));
@@ -68,6 +101,7 @@ export async function calculateAchievements(
                     resultCount++;
                     dispatch(setProgressValue(resultCount / Math.min(totalResults, readLimit) * 100));
                 }
+                // Next
                 calculateAchievements(dispatch, username, readLimit, page + 1, totalResults, resultCount);
                 printLog && console.log('calculateAchievements: promise completed', username, '| page=', page);
             })
@@ -80,14 +114,11 @@ export async function calculateAchievements(
         dispatch(setProgressLoading(false));
         dispatch(setProgressAlert(true));
     }
-    printLog && console.log('calculateAchievements: END', username, '| page=', page, '| total=', totalResults, '| limit=', readLimit);
+    printLog && console.log(`calculateAchievements: END ${username} | page=${page} | total=${totalResults}| limit=${readLimit}`);
 }
 
-function prepare(observation: Observation) {
-    if (observation?.taxon?.ancestor_ids && observation.taxon.ancestor_ids.length > 2) {
-        const relevantAncestors = observation.taxon.ancestor_ids.slice(2, Math.min(7, observation.taxon.ancestor_ids.length));
-        for (let taxonID of relevantAncestors) {
-            getTaxonRank(taxonID);
-        }
-    }
+async function sleep(dispatch: Dispatch<any>) {
+    printLog && console.log(`calculateAchievements: rest for ${THROTTLE_SLEEP_TIME}ms`);
+    // dispatch(setProgressMessage(I18n.t('progressSleep')));
+    await new Promise(resolve => setTimeout(resolve, THROTTLE_SLEEP_TIME));
 }
