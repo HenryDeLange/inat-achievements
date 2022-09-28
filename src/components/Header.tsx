@@ -1,13 +1,13 @@
 import I18n from 'i18n-js';
-import React, { Fragment, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { Button, Container, Image, InputGroup, Row } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { useDispatch, useSelector } from 'react-redux';
 import icon from '../images/icon.png';
 import { RootState } from '../redux/ReduxStore';
-import { setAllAchievements, updateAchievement } from '../redux/slices/AchievementsSlice';
+import { setAllAchievements } from '../redux/slices/AchievementsSlice';
 import { setProgressAlert, setProgressLoading, setProgressValue } from '../redux/slices/ProgressSlice';
-import { getAchievements, getAchievementsAsType, initAchievements, resetAchievements } from '../scripts/AchievementImplementations';
+import { getAchievementsAsType, initAchievements, resetAchievements } from '../scripts/AchievementImplementations';
 import { calculateAchievements } from '../scripts/ProcessData';
 import { TypeaheadOptionType } from '../types/AchievementsTypes';
 import { UserAutocompleteResponse } from '../types/iNaturalistTypes';
@@ -53,12 +53,7 @@ export default function Header() {
         dispatch(setProgressAlert(true));
         resetAchievements();
         dispatch(setAllAchievements(getAchievementsAsType()));
-        calculateAchievements(dispatch, username, (observation) => {
-            for (let achievementData of getAchievements()) {
-                achievementData.evaluate(observation);
-                dispatch(updateAchievement({ ...achievementData, evalFunc: undefined, resetFunc: undefined }));
-            }
-        }, urlLimit > 0 ? urlLimit : undefined);
+        calculateAchievements(dispatch, username, urlLimit > 0 ? urlLimit : undefined);
     }
     if (firstLoad && urlUser) {
         firstLoad = false;
