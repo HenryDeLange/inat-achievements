@@ -1,81 +1,103 @@
-// import AchievementData from '../../src/scripts/AchievementData';
-// import WorldClass from '../../src/scripts/achievements/WorldClass';
+import AchievementData from '../../src/scripts/AchievementData';
+import { CLASS_RANK } from '../../src/scripts/achievements/utils';
+import { populateTaxonRank } from '../../src/scripts/achievements/utils/TaxonCache';
+import WorldClass from '../../src/scripts/achievements/WorldClass';
 
-// const achievement: AchievementData = WorldClass;
+const achievement: AchievementData = WorldClass;
 
-// afterEach(() => achievement.reset());
+beforeAll(() => {
+    populateTaxonRank(1, 100);
+    populateTaxonRank(2, 90);
+    populateTaxonRank(3, 80);
+    populateTaxonRank(4, 70);
+    populateTaxonRank(5, 60);
+    populateTaxonRank(61, CLASS_RANK);
+    populateTaxonRank(62, CLASS_RANK);
+});
 
-// test('Reset', () => {
-//     achievement.evaluate({
-//         taxon: {
-//             ancestor_ids: [48460, 1, 47120, 372739, 47158]
-//         }
-//     });
-//     expect(achievement.count).toEqual(1);
-//     achievement.reset();
-//     expect(achievement.count).toEqual(0);
-// });
+afterEach(() => achievement.reset());
 
-// // test('Count', () => {
-// //     achievement.evaluate({
-// //         taxon: {
-// //             ancestor_ids: [000]
-// //         },
-// //         observed_on_details: {
-// //             date: '2022-01-01'
-// //         }
-// //     });
-// //     expect(achievement.count).toEqual(1);
-// // });
+test('Reset', () => {
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [1, 2, 3, 4, 5, 61],
+            rank_level: CLASS_RANK
+        }
+    });
+    expect(achievement.count).toEqual(1);
+    achievement.reset();
+    expect(achievement.count).toEqual(0);
+});
 
-// // test('Don\'t Count', () => {
-// //     achievement.evaluate({
-// //         taxon: {
-// //             ancestor_ids: [000]
-// //         },
-// //         observed_on_details: {
-// //             date: '2022-01-01'
-// //         }
-// //     });
-// //     expect(achievement.count).toEqual(0);
-// // });
+test('Count', () => {
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [1, 2, 3, 4, 5, 61],
+            rank_level: CLASS_RANK
+        }
+    });
+    expect(achievement.count).toEqual(1);
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [1, 2, 62, 7, 8, 9],
+            rank_level: CLASS_RANK
+        }
+    });
+    expect(achievement.count).toEqual(2);
+});
 
-// // test('Duplicates', () => {
-// //     achievement.evaluate({
-// //         taxon: {
-// //             ancestor_ids: [000]
-// //         },
-// //         observed_on_details: {
-// //             date: '2022-01-01'
-// //         }
-// //     });
-// //     expect(achievement.count).toEqual(1);
-// // });
+test('Don\'t Count', () => {
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [1, 2, 3, 4, 5],
+            rank_level: CLASS_RANK
+        }
+    });
+    expect(achievement.count).toEqual(0);
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [1, 2, 3, 4, 5, 61],
+            rank_level: CLASS_RANK + 1
+        }
+    });
+    expect(achievement.count).toEqual(0);
+});
 
-// // test('Gaps', () => {
-// //     achievement.evaluate({
-// //         taxon: {
-// //             ancestor_ids: [000]
-// //         },
-// //         observed_on_details: {
-// //             date: '2022-01-01'
-// //         }
-// //     });
-// //     expect(achievement.count).toEqual(1);
-// // });
+test('Duplicates', () => {
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [1, 2, 3, 4, 5, 61],
+            rank_level: CLASS_RANK
+        }
+    });
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [1, 2, 3, 4, 5, 61],
+            rank_level: CLASS_RANK
+        }
+    });
+    expect(achievement.count).toEqual(1);
+});
 
-// // test('Missing Data', () => {
-// //     achievement.evaluate({
-// //         taxon: {
-// //             ancestor_ids: undefined
-// //         },
-// //         observed_on_details: {
-// //             date: undefined
-// //         }
-// //     });
-// //     achievement.evaluate({
-// //         taxon: undefined,
-// //         observed_on_details: undefined
-// //     });
-// //     expect(achievement.count).toEqual(0);
-// // });
+test('Gaps', () => {
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [1, 2, 5, 61, 7, 8],
+            rank_level: CLASS_RANK
+        }
+    });
+    expect(achievement.count).toEqual(1);
+});
+
+test('Missing Data', () => {
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: undefined,
+            rank_level: undefined
+        }
+    });
+    achievement.evaluate({
+        taxon: undefined
+    });
+    expect(achievement.count).toEqual(0);
+});

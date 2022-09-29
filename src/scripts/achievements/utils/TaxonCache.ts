@@ -1,5 +1,7 @@
 import { TaxaShowResponse } from '../../../types/iNaturalistTypes';
 
+// TODO: How to cache this as a cookie?
+
 const taxa = new Map<number, number | undefined>();
 
 export function populateTaxonRank(taxonID: number, rank?: number) {

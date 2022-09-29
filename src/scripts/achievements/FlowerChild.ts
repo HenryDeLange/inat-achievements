@@ -17,9 +17,10 @@ export default new AchievementData(
             if (iNatObsJSON?.taxon?.ancestor_ids && iNatObsJSON.taxon.ancestor_ids.length > 3) {
                 let found = false;
                 for (let taxonID of iNatObsJSON.taxon.ancestor_ids) {
-                    if (taxonID === FLOWER_CHILD_TAXA)
+                    if (taxonID === FLOWER_CHILD_TAXA) {
                         found = true;
                         break;
+                    }
                 }
                 if (found) {
                     const relevantAncestors = iNatObsJSON.taxon.ancestor_ids.slice(3, Math.min(7, iNatObsJSON.taxon.ancestor_ids.length));
