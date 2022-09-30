@@ -51,7 +51,6 @@ export default class AchievementData implements AchievementType {
         this.textColor = this.calcTextColor(this.status);
     }
 
-    // TODO: Add a mechanism to make sure once reset is called any in progress promises won't resolve and wont update the count
     public reset() {
         this.count = 0;
         if (this.resetFunc) {

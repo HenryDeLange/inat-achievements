@@ -39,7 +39,7 @@ export async function calculateAchievements(
 ) {
     printLog && console.log(`calculateAchievements: BEGIN ${username} | page=${page} | total=${totalResults} | limit=${readLimit}`);
     // Sleep for a bit before starting (to comply with the iNat requests per minute limit)
-    await sleep(dispatch);
+    await sleep();
     // Request data from iNat
     const params = {
         user_id: username,
@@ -55,7 +55,7 @@ export async function calculateAchievements(
     }
     if (page === 1 || (params.per_page > 0 && ((page - 1) * RESULT_PER_PAGE_LIMIT + params.per_page) <= Math.min(totalResults, readLimit))) {
         printLog && console.log('calculateAchievements: search for', username, 'page', page);
-        dispatch(setProgressMessage(I18n.t('progressFetching', { per_page: params.per_page, count: resultCount, total: totalResults < 0 ? '?' : Math.min(totalResults, readLimit) })));
+        dispatch(setProgressMessage(I18n.t('progressFetching', { per_page: params.per_page, count: resultCount, total: totalResults < 0 ? I18n.t('progressUnknown') : Math.min(totalResults, readLimit) })));
         inatjs.observations.search(params)
             .then(async (observationsResponse: ObservationsResponse) => {
                 // Prepare
@@ -78,7 +78,7 @@ export async function calculateAchievements(
                                     populateTaxonRank(taxonID, taxonRanks[localStorageIndex].rank);
                                 }
                                 else {
-                                    await sleep(dispatch);
+                                    await sleep();
                                     await inatjs.taxa.fetch([ taxonID ], {})
                                         .then((taxon: TaxaShowResponse) => {
                                             printLog && console.log(`calculateAchievements: fetch the rank of taxon ${taxonID}`);
@@ -131,8 +131,7 @@ export async function calculateAchievements(
     printLog && console.log(`calculateAchievements: END ${username} | page=${page} | total=${totalResults}| limit=${readLimit}`);
 }
 
-async function sleep(dispatch: Dispatch<any>) {
+async function sleep() {
     printLog && console.log(`calculateAchievements: rest for ${THROTTLE_SLEEP_TIME}ms`);
-    // dispatch(setProgressMessage(I18n.t('progressSleep')));
     await new Promise(resolve => setTimeout(resolve, THROTTLE_SLEEP_TIME));
 }

@@ -1,6 +1,6 @@
 import I18n from 'i18n-js';
 import { Fragment, useState } from 'react';
-import { Button, Container, Image, InputGroup, Row } from 'react-bootstrap';
+import { Button, Container, Image, InputGroup, Row, Spinner, Stack } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { useDispatch, useSelector } from 'react-redux';
 import icon from '../images/icon.png';
@@ -128,7 +128,14 @@ export default function Header() {
                             disabled={progressLoading || !username}
                             onClick={!progressLoading ? handleClick : undefined}
                         >
-                            {!progressLoading ? I18n.t('headerCalculate') : I18n.t('headerLoading')}
+                            <Stack direction="horizontal" gap={1}>
+                                {progressLoading &&
+                                    <Spinner animation='border' role='status' size='sm' className='m-1'>
+                                        <span className='visually-hidden'>Loading...</span>
+                                    </Spinner>
+                                }
+                                {!progressLoading ? I18n.t('headerCalculate') : I18n.t('headerLoading')}
+                            </Stack>
                         </Button>
                     </InputGroup>
                 </Row>
