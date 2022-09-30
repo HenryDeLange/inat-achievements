@@ -2,6 +2,7 @@ import I18n from 'i18n-js';
 import React, { memo } from 'react';
 import { Card, Col, Image, OverlayTrigger, Popover, ProgressBar } from 'react-bootstrap';
 import { AchievementType } from '../types/AchievementsTypes';
+import HyperLink from './HyperLink';
 
 export default memo(function AchievementCard(data: AchievementType) {
     const percentage = Math.floor(data.count / data.goal * 100);
@@ -14,6 +15,11 @@ export default memo(function AchievementCard(data: AchievementType) {
                 {I18n.t(data.details, { goal: data.goal })}
                 <hr />
                 {I18n.t('cardCompletedPercentage', { percentage })}
+                <hr />
+                {data.observations.length > 0
+                    ? <HyperLink linkContent={I18n.t('cardViewObservations')} linkURL={`https://www.inaturalist.org/observations?id=${data.observations.join(',')}`} />
+                    : <span>{I18n.t('cardNoObservations')}</span>
+                }
             </Popover.Body>
         </Popover>
     );
