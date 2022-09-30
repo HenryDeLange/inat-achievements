@@ -82,7 +82,7 @@ export declare type ObservationsResponse = {
 }
 
 export declare type Observation = {
-    id: number;
+    id?: number;
     cached_votes_total?: number;
     captive?: boolean;
     comments?: Comment[];
@@ -116,11 +116,11 @@ export declare type Observation = {
     place_guess?: number;
     place_ids?: number[];
     project_ids?: number[];
-    project_ids_with_curator_id: number[];
-    project_ids_without_curator_id: number[];
+    project_ids_with_curator_id?: number[];
+    project_ids_without_curator_id?: number[];
     quality_grade?: string;
     reviewed_by?: number[];
-    site_id: number;
+    site_id?: number;
     sounds?: Sound[];
     species_guess?: string;
     tags?: string[];
@@ -136,12 +136,12 @@ export declare type Observation = {
     faves?: Fave[]; // Not on API, added based on JSON response
     annotations?: Annotation[]; // Not on API, added based on JSON response
     ofvs?: ObservationField[]; // Not all fields are documented on the API, added based on JSON response
-    non_traditional_projects: NonTraditionalProject[]; // Not on API, added based on JSON response
-    project_observations: ProjectObservations[]; // Not on API, added based on JSON response
+    non_traditional_projects?: NonTraditionalProject[]; // Not on API, added based on JSON response
+    project_observations?: ProjectObservations[]; // Not on API, added based on JSON response
 }
 
 export declare type Comment = {
-    id: number;
+    id?: number;
     created_at?: string;
     created_at_details?: DateDetails;
     user?: ShowUser;
@@ -160,7 +160,7 @@ export declare type DateDetails = {
 
 export declare type PointGeoJson = {
     type?: string;
-    coordinates: string[]; // An array of [long, lat]
+    coordinates?: string[]; // An array of [long, lat]
 }
 
 export declare type NonOwnerIdentification = {
@@ -196,8 +196,8 @@ export declare type Sound = {
 }
 
 export declare type ObservationTaxon = {
-    id: number;
-    iconic_taxon_id: number;
+    id?: number;
+    iconic_taxon_id?: number;
     iconic_taxon_name?: string;
     is_active?: boolean;
     name?: string;
@@ -253,14 +253,14 @@ export declare type Identification = {
 }
 
 export declare type Fave = {
-    id: number;
+    id?: number;
     created_at?: string;
     user?: ShowUser;
 }
 
 // Note: This is not the complete list of fields on the JSON object
 export declare type Annotation = {
-    uuid: number;
+    uuid?: number;
     controlled_attribute_id: number;
     controlled_value_id: number;
     vote_score?: number;
@@ -443,23 +443,23 @@ export declare type UserAutocompleteResponse = {
 }
 
 export declare type ShowUser = {
-    id: number;
+    id?: number;
     login?: string;
-    spam: false,
-    suspended: false,
+    spam?: false,
+    suspended?: false,
     created_at?: string;
     login_autocomplete?: string;
     login_exact?: string;
     name?: string;
     name_autocomplete?: string;
-    orcid: number;
+    orcid?: number;
     observations_count?: number;
     identifications_count?: number;
     journal_posts_count?: number;
     activity_count?: number;
     universal_search_rank?: number;
     roles?: string[], // Some values include: "curator"
-    site_id: number;
+    site_id?: number;
     icon?: string; // Defaults to medium (larger than icon that defaults to thumb)
     icon_url?: string;
     description?: string;  // Not on API, added based on JSON response from the old API

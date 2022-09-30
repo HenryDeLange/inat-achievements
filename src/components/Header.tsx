@@ -1,13 +1,13 @@
 import I18n from 'i18n-js';
-import React, { Fragment, useState } from 'react';
-import { Button, Container, Image, InputGroup, Row } from 'react-bootstrap';
+import { Fragment, useState } from 'react';
+import { Button, Container, Image, InputGroup, Row, Spinner, Stack } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { useDispatch, useSelector } from 'react-redux';
 import icon from '../images/icon.png';
 import { RootState } from '../redux/ReduxStore';
-import { setAllAchievements, updateAchievement } from '../redux/slices/AchievementsSlice';
+import { setAllAchievements } from '../redux/slices/AchievementsSlice';
 import { setProgressAlert, setProgressLoading, setProgressValue } from '../redux/slices/ProgressSlice';
-import { getAchievements, getAchievementsAsType, initAchievements, resetAchievements } from '../scripts/AchievementImplementations';
+import { getAchievementsAsType, initAchievements, resetAchievements } from '../scripts/AchievementImplementations';
 import { calculateAchievements } from '../scripts/ProcessData';
 import { TypeaheadOptionType } from '../types/AchievementsTypes';
 import { UserAutocompleteResponse } from '../types/iNaturalistTypes';
@@ -22,6 +22,9 @@ export default function Header() {
     // Loading
     const dispatch = useDispatch();
     const progressLoading = useSelector((state: RootState) => state.progress.loading);
+    let taxonRanks = useSelector((state: RootState) => state.app.ranks);
+    if (!taxonRanks)
+        taxonRanks = [];
 
     // Username Input
     const urlUser = queryParams.get('user') ?? '';
@@ -35,8 +38,8 @@ export default function Header() {
             .then((response) => response.json())
             .then((userAutocompleteResponse: UserAutocompleteResponse) => {
                 const newOptions = userAutocompleteResponse.results.map((user) => ({
-                    id: user.id,
-                    login: user.login ?? user.id.toString(),
+                    id: user.id ?? 0,
+                    login: user.login ?? (user.id ?? 'unknown').toString(),
                     avatar_url: user.icon_url ?? require('../images/inat_empty.png')
                 }));
                 setOptions(newOptions);
@@ -53,12 +56,7 @@ export default function Header() {
         dispatch(setProgressAlert(true));
         resetAchievements();
         dispatch(setAllAchievements(getAchievementsAsType()));
-        calculateAchievements(dispatch, username, (observation) => {
-            for (let achievementData of getAchievements()) {
-                achievementData.evaluate(observation);
-                dispatch(updateAchievement({ ...achievementData, evalFunc: undefined, resetFunc: undefined }));
-            }
-        }, urlLimit > 0 ? urlLimit : undefined);
+        calculateAchievements(dispatch, taxonRanks, username, urlLimit > 0 ? urlLimit : undefined);
     }
     if (firstLoad && urlUser) {
         firstLoad = false;
@@ -130,7 +128,14 @@ export default function Header() {
                             disabled={progressLoading || !username}
                             onClick={!progressLoading ? handleClick : undefined}
                         >
-                            {!progressLoading ? I18n.t('headerCalculate') : I18n.t('headerLoading')}
+                            <Stack direction="horizontal" gap={1}>
+                                {progressLoading &&
+                                    <Spinner animation='border' role='status' size='sm' className='m-1'>
+                                        <span className='visually-hidden'>Loading...</span>
+                                    </Spinner>
+                                }
+                                {!progressLoading ? I18n.t('headerCalculate') : I18n.t('headerLoading')}
+                            </Stack>
                         </Button>
                     </InputGroup>
                 </Row>

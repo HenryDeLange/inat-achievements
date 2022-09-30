@@ -13,10 +13,10 @@ export default new AchievementData(
     'AlwaysOn',
     GOAL,
     (iNatObsJSON: Observation) => {
-        let obsDate = iNatObsJSON?.observed_on_details?.date ?? alwaysOnDate;
-        var date1 = new Date(Number(alwaysOnDate.substring(0, 5)), Number(alwaysOnDate.substring(5, 8)), Number(alwaysOnDate.substring(8, 10)));
-        var date2 = new Date(Number(obsDate.substring(0, 5)), Number(obsDate.substring(5, 8)), Number(obsDate.substring(8, 10)));
-        if (Math.ceil(Math.abs(date1.getTime() - date2.getTime()) / MILLISECONDS_PER_DAY) > DAYS) {
+        const obsDate = iNatObsJSON?.observed_on_details?.date ?? alwaysOnDate;
+        const prevDate = new Date(Number(alwaysOnDate.substring(0, 4)), Number(alwaysOnDate.substring(5, 7)), Number(alwaysOnDate.substring(8, 10)));
+        const curDate = new Date(Number(obsDate.substring(0, 4)), Number(obsDate.substring(5, 7)), Number(obsDate.substring(8, 10)));
+        if (Math.ceil(Math.abs(prevDate.getTime() - curDate.getTime()) / MILLISECONDS_PER_DAY) >= DAYS) {
             alwaysOnCount = 0;
         }
         if (alwaysOnDate !== obsDate) {

@@ -29,6 +29,9 @@ jobs:
       # Install all dependencies
       - name: Install Dependencies
         run: npm install
+      # Test the application
+      - name: Test Application
+        run: npm run test
       # Build the application
       - name: Build Application
         run: npm run build

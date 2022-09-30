@@ -1,4 +1,3 @@
-import React from 'react';
 import { Alert, Col, Container, ProgressBar, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/ReduxStore';

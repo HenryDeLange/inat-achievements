@@ -12,22 +12,24 @@ export default new AchievementData(
     'CatsAndDogs',
     GOAL,
     (iNatObsJSON: Observation) => {
-        for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
-            if (TAXA_FELINE === taxonID) {
-                const date = getDate(iNatObsJSON);
-                if (!catDays.includes(date)) {
-                    catDays.push(date);
-                    if (dogDays.includes(date)) {
-                        return 1;
+        if (iNatObsJSON.observed_on_details?.date) {
+            for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
+                if (TAXA_FELINE === taxonID) {
+                    const date = getDate(iNatObsJSON);
+                    if (!catDays.includes(date)) {
+                        catDays.push(date);
+                        if (dogDays.includes(date)) {
+                            return 1;
+                        }
                     }
                 }
-            }
-            else if (TAXA_CANINE === taxonID) {
-                const date = getDate(iNatObsJSON);
-                if (!dogDays.includes(date)) {
-                    dogDays.push(date);
-                    if (catDays.includes(date)) {
-                        return 1;
+                else if (TAXA_CANINE === taxonID) {
+                    const date = getDate(iNatObsJSON);
+                    if (!dogDays.includes(date)) {
+                        dogDays.push(date);
+                        if (catDays.includes(date)) {
+                            return 1;
+                        }
                     }
                 }
             }

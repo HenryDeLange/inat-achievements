@@ -5,9 +5,10 @@ import 'react-bootstrap-typeahead/css/Typeahead.bs5.css';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import './index.css';
-import ReduxStore from './redux/ReduxStore';
+import { persistor, store } from './redux/ReduxStore';
 import { af, en } from './translations/Translations';
 
 // Setup the translations
@@ -19,8 +20,10 @@ I18n.defaultLocale = 'en';
 const root = createRoot(document.getElementById('root')!);
 root.render(
     <React.StrictMode>
-        <Provider store={ReduxStore}>
-            <App />
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <App />
+            </PersistGate>
         </Provider>
     </React.StrictMode>
 );

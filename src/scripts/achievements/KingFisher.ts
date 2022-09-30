@@ -1,10 +1,10 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
-const GOAL = 20;
+const GOAL = 33;
 const TAXA = 47178;
 
-// TODO: Instead I want to count all fish species observed during a week period
+// TODO: Instead count all fish species observed during a set period? Or combine with the King-Fisher bird?
 export default new AchievementData(
     'KingFisher',
     GOAL,

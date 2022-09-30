@@ -1,5 +1,5 @@
 import I18n from 'i18n-js';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ButtonGroup, Col, Container, Image, Nav, Navbar, Popover, Row, ToggleButton } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import inat_dark from '../images/inat_dark.png';
@@ -16,8 +16,8 @@ export default function Menu() {
     const theme = useSelector((state: RootState) => state.app.mode);
     const [radioValue, setRadioValue] = useState<ThemeType>(theme);
     const radios: ThemeToggleType[] = [
-        { name: 'Light Mode', value: 'Light' },
-        { name: 'Dark Mode', value: 'Dark' }
+        { name: I18n.t('menuButtonLightTheme'), value: 'Light' },
+        { name: I18n.t('menuButtonDarkTheme'), value: 'Dark' }
     ];
 
     const popoverURL = (

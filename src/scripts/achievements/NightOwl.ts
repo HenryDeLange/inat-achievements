@@ -10,8 +10,8 @@ export default new AchievementData(
     (iNatObsJSON: Observation) => {
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
             if (TAXA.includes(taxonID)
-                    && (iNatObsJSON?.observed_on_details?.hour ?? 9) <= 6
-                    && (iNatObsJSON?.observed_on_details?.hour ?? 0) >= 18) {
+                    && ((iNatObsJSON?.observed_on_details?.hour ?? 99) <= 6
+                        || (iNatObsJSON?.observed_on_details?.hour ?? -99) >= 18)) {
                 return 1;
             }
         }
