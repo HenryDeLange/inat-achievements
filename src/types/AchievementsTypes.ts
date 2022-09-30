@@ -47,3 +47,12 @@ export type ThemeToggleType = {
 export type ActionThemeType = {
     payload: ThemeType;
 }
+
+export type TaxonRankCacheType = {
+    taxonID: number;
+    rank: number;
+}
+
+export type ActionTaxonRankCacheType = {
+    payload: TaxonRankCacheType;
+}

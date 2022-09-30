@@ -2,7 +2,9 @@ import { Dispatch } from '@reduxjs/toolkit';
 import I18n from 'i18n-js';
 import inatjs from 'inaturalistjs';
 import { updateAchievement } from '../redux/slices/AchievementsSlice';
+import { populateTaxonRankCache } from '../redux/slices/AppSlice';
 import { setProgressAlert, setProgressLoading, setProgressMessage, setProgressValue } from '../redux/slices/ProgressSlice';
+import { TaxonRankCacheType } from '../types/AchievementsTypes';
 import { ObservationsResponse, TaxaShowResponse } from '../types/iNaturalistTypes';
 import { getAchievements } from './AchievementImplementations';
 import { FLOWER_CHILD_TAXA } from './achievements/FlowerChild';
@@ -28,6 +30,7 @@ const printLog = true;
 
 export async function calculateAchievements(
     dispatch: Dispatch<any>,
+    taxonRanks: TaxonRankCacheType[],
     username: string,
     readLimit = TOTAL_RESULTS_LIMIT,
     page = FIRST_PAGE,
@@ -70,20 +73,31 @@ export async function calculateAchievements(
                         const relevantAncestors = observation.taxon.ancestor_ids.slice(2, Math.min(7, observation.taxon.ancestor_ids.length));
                         for (let taxonID of relevantAncestors) {
                             if (!isTaxonCached(taxonID)) {
-                                await sleep(dispatch);
-                                await inatjs.taxa.fetch([ taxonID ], {})
-                                    .then((taxon: TaxaShowResponse) => {
-                                        printLog && console.log(`calculateAchievements: fetch the rank of taxon ${taxonID}`);
-                                        if (taxon.total_results === 1)
-                                            populateTaxonRank(taxonID, taxon.results[0].rank_level);
-                                        else
-                                            console.error(`Could not cache rank for taxon ${taxonID}`);
-                                    });
-                                const rank = getTaxonRank(taxonID) ?? -1;
-                                if (!isForFlowerChild && rank <= CLASS_RANK)
-                                    break;
-                                else if (rank <= ORDER_RANK)
-                                    break;
+                                const localStorageIndex = taxonRanks.findIndex(cache => cache.taxonID === taxonID);
+                                if (localStorageIndex >= 0) {
+                                    populateTaxonRank(taxonID, taxonRanks[localStorageIndex].rank);
+                                }
+                                else {
+                                    await sleep(dispatch);
+                                    await inatjs.taxa.fetch([ taxonID ], {})
+                                        .then((taxon: TaxaShowResponse) => {
+                                            printLog && console.log(`calculateAchievements: fetch the rank of taxon ${taxonID}`);
+                                            if (taxon.total_results === 1) {
+                                                const rank = taxon.results[0].rank_level;
+                                                if (rank) {
+                                                    populateTaxonRank(taxonID, rank);
+                                                    dispatch(populateTaxonRankCache({ taxonID, rank }));
+                                                }
+                                            }
+                                            else
+                                                console.error(`Could not cache rank for taxon ${taxonID}`);
+                                        });
+                                    const rank = getTaxonRank(taxonID) ?? -1;
+                                    if (!isForFlowerChild && rank <= CLASS_RANK)
+                                        break;
+                                    else if (rank <= ORDER_RANK)
+                                        break;
+                                }
                             }
                         }
                     }
@@ -102,7 +116,7 @@ export async function calculateAchievements(
                     dispatch(setProgressValue(resultCount / Math.min(totalResults, readLimit) * 100));
                 }
                 // Next
-                calculateAchievements(dispatch, username, readLimit, page + 1, totalResults, resultCount);
+                calculateAchievements(dispatch, taxonRanks, username, readLimit, page + 1, totalResults, resultCount);
                 printLog && console.log('calculateAchievements: promise completed', username, '| page=', page);
             })
             .catch((e: any) => console.error('Failed observations search:', e));

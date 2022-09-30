@@ -1,4 +1,4 @@
-import { addDays, differenceInDays, formatISO9075 } from "date-fns";
+import { addDays, formatISO9075 } from "date-fns";
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 

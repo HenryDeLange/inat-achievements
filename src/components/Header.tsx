@@ -22,6 +22,9 @@ export default function Header() {
     // Loading
     const dispatch = useDispatch();
     const progressLoading = useSelector((state: RootState) => state.progress.loading);
+    let taxonRanks = useSelector((state: RootState) => state.app.ranks);
+    if (!taxonRanks)
+        taxonRanks = [];
 
     // Username Input
     const urlUser = queryParams.get('user') ?? '';
@@ -53,7 +56,7 @@ export default function Header() {
         dispatch(setProgressAlert(true));
         resetAchievements();
         dispatch(setAllAchievements(getAchievementsAsType()));
-        calculateAchievements(dispatch, username, urlLimit > 0 ? urlLimit : undefined);
+        calculateAchievements(dispatch, taxonRanks, username, urlLimit > 0 ? urlLimit : undefined);
     }
     if (firstLoad && urlUser) {
         firstLoad = false;
