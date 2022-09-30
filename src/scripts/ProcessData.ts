@@ -26,7 +26,7 @@ const TOTAL_RESULTS_LIMIT = REQUEST_PER_MINUTE_LIMIT * RESULT_PER_PAGE_LIMIT;
 // 1 is the first page (not 0)
 const FIRST_PAGE = 1;
 
-const printLog = true;
+const printLog = false;
 
 export async function calculateAchievements(
     dispatch: Dispatch<any>,

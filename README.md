@@ -31,9 +31,13 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 Runs the **Electron** desktop client.\
 Depends on the main application to be running on _http://localhost:3000_ (via the `npm start` command).
 
+### Test
+ `npm run test`\
+All tests are contained in the `./tests` folder.
+
 ### Build
  `npm run build`\
-Builds the app for production to the `build` folder.\
+Builds the app for production to the `build` folder.
 
 ### Web App Hosting
 Hosts this project using GitHub Pages.
