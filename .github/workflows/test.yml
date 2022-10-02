@@ -1,4 +1,4 @@
-name: Build Project
+name: Test Project
 
 # Controls when the workflow will run
 on:
@@ -12,23 +12,16 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  test:
     runs-on: ubuntu-latest
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Clone Repository
         uses: actions/checkout@v3
-      # Get NodeJS
       - name: Setup Node.js
         uses: actions/setup-node@v3.1.0
         with:
           node-version: 17.x
-      # Install all dependencies
       - name: Install Dependencies
         run: npm install
-      # Test the application
       - name: Test Application
-        run: npm run test
+        run: npm run test:coverage

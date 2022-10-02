@@ -31,8 +31,8 @@ export default class AchievementData implements AchievementType {
     public evaluate(iNatObsJSON: Observation) {
         // Evaluate the Observation
         let result = this.evalFunc(iNatObsJSON);
-        if (result > 0 && iNatObsJSON.id) {
-            this.updateCount(iNatObsJSON.id, result);
+        if (result > 0) {
+            this.updateCount(iNatObsJSON.id ?? 0, result);
         }
     }
 
