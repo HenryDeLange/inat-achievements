@@ -30,9 +30,6 @@ jobs:
       - name: Install Dependencies
         # run: npm install
         run: npm ci
-      # Test the application
-      - name: Test Application
-        run: npm run test
       # Build the application
       - name: Build Application
         run: npm run build

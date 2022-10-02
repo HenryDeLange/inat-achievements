@@ -16,7 +16,7 @@ This project calculates fun personal achievements based on observations recorded
 
 ## Development
 
-![GitHub language count](https://img.shields.io/github/languages/count/HenryDeLange/inat-achievements) ![GitHub top language](https://img.shields.io/github/languages/top/HenryDeLange/inat-achievements) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/HenryDeLange/inat-achievements/Build%20Project) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/HenryDeLange/inat-achievements/Test%20Project?label=tests)
+![GitHub language count](https://img.shields.io/github/languages/count/HenryDeLange/inat-achievements) ![GitHub top language](https://img.shields.io/github/languages/top/HenryDeLange/inat-achievements) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/HenryDeLange/inat-achievements/Test%20Project?label=tests) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/HenryDeLange/inat-achievements/Build%20Project)
 
 ### Setup
 `npm install`\

@@ -94,7 +94,7 @@ export async function calculateAchievements(
                                                 console.error(`Could not cache rank for taxon ${taxonID}`);
                                         });
                                     const rank = getTaxonRank(taxonID) ?? -1;
-                                    if (!isForFlowerChild && rank <= CLASS_RANK || rank <= ORDER_RANK)
+                                    if ((!isForFlowerChild && rank <= CLASS_RANK) || (rank <= ORDER_RANK))
                                         break;
                                 }
                             }
