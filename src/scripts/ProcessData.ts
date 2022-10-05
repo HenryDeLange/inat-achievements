@@ -66,9 +66,10 @@ export async function calculateAchievements(
                         // TODO: Find a more generic way to handle this and still limit how many ranks are loaded
                         let isForFlowerChild = false;
                         for (let taxonID of observation.taxon.ancestor_ids) {
-                            if (taxonID === FLOWER_CHILD_TAXA)
-                             isForFlowerChild = true;
-                             break;
+                            if (taxonID === FLOWER_CHILD_TAXA) {
+                                isForFlowerChild = true;
+                                break;
+                            }
                         }
                         const relevantAncestors = observation.taxon.ancestor_ids.slice(2, Math.min(7, observation.taxon.ancestor_ids.length));
                         for (let taxonID of relevantAncestors) {
@@ -93,9 +94,7 @@ export async function calculateAchievements(
                                                 console.error(`Could not cache rank for taxon ${taxonID}`);
                                         });
                                     const rank = getTaxonRank(taxonID) ?? -1;
-                                    if (!isForFlowerChild && rank <= CLASS_RANK)
-                                        break;
-                                    else if (rank <= ORDER_RANK)
+                                    if ((!isForFlowerChild && rank <= CLASS_RANK) || (rank <= ORDER_RANK))
                                         break;
                                 }
                             }

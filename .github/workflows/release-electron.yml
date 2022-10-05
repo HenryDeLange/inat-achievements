@@ -16,7 +16,8 @@ jobs:
         with:
           node-version: 17.x
       - name: Install Dependencies
-        run: npm install
+        # run: npm install
+        run: npm ci
       - name: Run Electron-Builder
         run: npm run electron:package:release:win
         env:

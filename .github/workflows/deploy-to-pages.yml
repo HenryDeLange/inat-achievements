@@ -26,7 +26,8 @@ jobs:
           node-version: 17.x
       # Install all dependencies
       - name: Install Dependencies
-        run: npm install
+        # run: npm install
+        run: npm ci
       # Build the application
       - name: Build Application
         run: npm run build

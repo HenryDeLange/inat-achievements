@@ -10,10 +10,11 @@ export default class AchievementData implements AchievementType {
     count: number;
     iconColor: AchievementStatusType;
     textColor: string;
-    evalFunc: (iNatObsJSON: Observation) => number | Promise<number>;
+    evalFunc: (iNatObsJSON: Observation) => number;
     resetFunc?: () => void;
+    observations: number[] = [];
 
-    constructor(key: string, goal: number, evalFunc: (iNatObsJSON: Observation) => number | Promise<number>, resetFunc?: () => void) {
+    constructor(key: string, goal: number, evalFunc: (iNatObsJSON: Observation) => number, resetFunc?: () => void) {
         this.icon = key;
         this.title = `achievement${key}Title`;
         this.details = `achievement${key}Details`;
@@ -24,35 +25,30 @@ export default class AchievementData implements AchievementType {
         this.status = this.calcStatus(this.count, this.goal);
         this.iconColor = this.calcIconColor(this.status);
         this.textColor = this.calcTextColor(this.status);
+        this.observations = [];
     }
 
     public evaluate(iNatObsJSON: Observation) {
         // Evaluate the Observation
         let result = this.evalFunc(iNatObsJSON);
-        if (result instanceof Promise<number>) {
-            console.log('get value from promise');
-            const evalPromise = (result as Promise<number>);
-            evalPromise
-                .then(increment => {
-                    console.log('increment by', increment);
-                    this.updateCount(increment);
-                });
-        }
-        else {
-            this.updateCount(result);
+        if (result > 0) {
+            this.updateCount(iNatObsJSON.id ?? 0, result);
         }
     }
 
-    private updateCount(increment: number) {
+    private updateCount(observationID: number, increment: number) {
         this.count = this.count + increment;
         // Update the status
         this.status = this.calcStatus(this.count, this.goal);
         this.iconColor = this.calcIconColor(this.status);
         this.textColor = this.calcTextColor(this.status);
+        // Keep track of observations that increased the achievement
+        this.observations = [ ...this.observations, observationID];
     }
 
     public reset() {
         this.count = 0;
+        this.observations = [];
         if (this.resetFunc) {
             this.resetFunc();
         }

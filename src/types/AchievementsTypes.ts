@@ -10,8 +10,9 @@ export declare type AchievementType = {
     count: number;
     iconColor: AchievementStatusType;
     textColor: string;
-    evalFunc?: (iNatObsJSON: Observation) => number | Promise<number>;
+    evalFunc?: (iNatObsJSON: Observation) => number;
     resetFunc?: () => void;
+    observations: number[];
 }
 
 export declare type AchievementStatusType =
