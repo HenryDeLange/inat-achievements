@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "./static/css/main.dab3bb69.css",
-    "main.js": "./static/js/main.67632582.js",
+    "main.css": "./static/css/main.4b3e1d92.css",
+    "main.js": "./static/js/main.708b4513.js",
     "static/media/TooManyBugs.svg": "./static/media/TooManyBugs.c1f8281def4707fa7278.svg",
     "static/media/mywild.png": "./static/media/mywild.4ce09f219a47f35ad9c7.png",
     "static/media/ForeverSpring.svg": "./static/media/ForeverSpring.28de484947b88ef7d6a1.svg",
@@ -42,11 +42,11 @@
     "static/media/CraneyStorker.svg": "./static/media/CraneyStorker.9ffbcac1fb326831da49.svg",
     "static/media/HeartOfTheMatter.svg": "./static/media/HeartOfTheMatter.b33b1c47b453fc290dfc.svg",
     "index.html": "./index.html",
-    "main.dab3bb69.css.map": "./static/css/main.dab3bb69.css.map",
-    "main.67632582.js.map": "./static/js/main.67632582.js.map"
+    "main.4b3e1d92.css.map": "./static/css/main.4b3e1d92.css.map",
+    "main.708b4513.js.map": "./static/js/main.708b4513.js.map"
   },
   "entrypoints": [
-    "static/css/main.dab3bb69.css",
-    "static/js/main.67632582.js"
+    "static/css/main.4b3e1d92.css",
+    "static/js/main.708b4513.js"
   ]
 }
