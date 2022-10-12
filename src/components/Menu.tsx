@@ -81,7 +81,6 @@ export default function Menu() {
                         <MenuButton buttonContent={I18n.t('menuButtonParams')} popupComponent={popoverURL} />
                         <MenuButton buttonContent={I18n.t('menuButtonGitHub')} linkURL='https://github.com/HenryDeLange/inat-achievements' />
                         <MenuButton buttonContent={I18n.t('menuButtonDesktopApp')} linkURL='https://github.com/HenryDeLange/inat-achievements/releases' />
-                        <MenuButton buttonContent={I18n.t('menuButtonMobileApp')} linkURL='https://github.com/HenryDeLange/inat-achievements/releases' />
                         <ButtonGroup className='m-1'>
                             {radios.map((radio, idx) => (
                                 <ToggleButton
