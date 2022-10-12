@@ -58,13 +58,13 @@ function ViewObservations({ observations }: ViewObservationsType): ReactElement 
     return (<>
                 {
                     chunks.map((obs, index) =>
-                        <>
+                        <div key={index}>
                             <HyperLink
                                 linkContent={I18n.t('cardViewObservations')}
                                 linkURL={`https://www.inaturalist.org/observations?id=${obs.join(',')}`}
                             />
                             <br />
-                        </>
+                        </div>
                     )
                 }
             </>
