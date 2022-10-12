@@ -96,6 +96,7 @@ export default function Header() {
                     <InputGroup size='lg'>
                         <AsyncTypeahead
                             id='username-search'
+                            disabled={progressLoading}
                             filterBy={filterBy}
                             isLoading={isUsernameLoading}
                             isValid={username && username.trim().length > 0 ? true : false}
