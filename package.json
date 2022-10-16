@@ -20,6 +20,7 @@
         "inaturalistjs": "github:inaturalist/inaturalistjs",
         "react": "^18.2.0",
         "react-bootstrap": "^2.5.0",
+        "react-bootstrap-icons": "^1.9.1",
         "react-bootstrap-typeahead": "^6.0.0",
         "react-dom": "^18.2.0",
         "react-redux": "^8.0.4",

@@ -40,11 +40,6 @@ export declare type ThemeType =
     'Light' |
     'Dark';
 
-export type ThemeToggleType = {
-    name: string;
-    value: ThemeType;
-}
-
 export type ActionThemeType = {
     payload: ThemeType;
 }

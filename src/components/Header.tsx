@@ -81,13 +81,13 @@ export default function Header() {
                         </h1>
                     </Row>
                     <Row className='p-1'>
-                        <h5>{I18n.t('headerIntro')}</h5>
+                        <h5>{I18n.t('headerIntro1')}</h5>
+                        <h5>{I18n.t('headerIntro2')}</h5>
                         <h5>
                             {I18n.t('headerIntroINatStart')}
                             <HyperLink linkContent={I18n.t('iNaturalistWeb')} linkURL='https://www.inaturalist.org' />
                             {I18n.t('headerIntroINatEnd')}
                         </h5>
-                        <h6>{I18n.t('headerIntroRules')}</h6>
                     </Row>
                 </Container>
             </Row>

@@ -96,6 +96,11 @@ a:hover {
     pointer-events: none;
 }
 
+.MyWild-Small-Logo {
+    max-width: 30px;
+    margin-right: 10px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
     .Image-MyWild {
         animation: App-logo-spin infinite 40s linear;
