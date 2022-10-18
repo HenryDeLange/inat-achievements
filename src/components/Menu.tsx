@@ -1,7 +1,8 @@
 import I18n from 'i18n-js';
-import { useState } from 'react';
-import { ButtonGroup, Col, Container, Image, Nav, Navbar, OverlayTrigger, Popover, Row, ToggleButton } from 'react-bootstrap';
+import { ReactNode, useState } from 'react';
+import { ButtonGroup, Col, Container, Image, Nav, Navbar, Offcanvas, OverlayTrigger, Popover, Row, ToggleButton } from 'react-bootstrap';
 import { CodeSlash, Github, InfoCircle, Laptop, Moon, QuestionCircle, Sun } from 'react-bootstrap-icons';
+import { OverlayChildren } from 'react-bootstrap/esm/Overlay';
 import { useDispatch, useSelector } from 'react-redux';
 import inat_dark from '../images/inat_dark.png';
 import inat_light from '../images/inat_light.png';
@@ -68,7 +69,7 @@ const popoverRules = (
             {I18n.t('menuButtonRules')}
         </Popover.Header>
         <Popover.Body>
-            {I18n.t('headerIntroRules')}
+            {I18n.t('menuPopupRules')}
         </Popover.Body>
     </Popover>
 );
@@ -79,98 +80,66 @@ export default function Menu() {
     const [radioValue, setRadioValue] = useState<ThemeType>(theme);
     return (
         <Navbar className='p-0 pb-3 m-0' expand='lg'>
-            <Container>
-                <Navbar.Toggle aria-controls='navbar-toggle' className='bg-success' />
-                <Navbar.Collapse id='navbar-toggle'>
-                    <Nav className='me-auto'>
-                        <OverlayTrigger trigger='click' placement='bottom' overlay={popoverAbout} rootClose>
-                            <div role='button'>
-                                <InfoCircle size={30} className='m-1' title={I18n.t('menuButtonAbout')} />
-                                {I18n.t('menuButtonAbout')}
-                            </div>
-                        </OverlayTrigger>
-                        <OverlayTrigger trigger='click' placement='bottom' overlay={popoverRules} rootClose>
-                            <div role='button'>
-                                <QuestionCircle size={30} className='m-1' title={I18n.t('menuButtonRules')} />
-                                {I18n.t('menuButtonRules')}
-                            </div>
-                        </OverlayTrigger>
-                        <OverlayTrigger trigger='click' placement='bottom' overlay={popoverURL} rootClose>
-                            <div role='button'>
-                                <CodeSlash size={30} className='m-1' title={I18n.t('menuButtonParams')} />
-                                {I18n.t('menuButtonParams')}
-                            </div>
-                        </OverlayTrigger>
-                        <OverlayTrigger trigger='click' placement='bottom' overlay={popoverURL} rootClose>
-                            <a
-                                role='button'
-                                href='https://github.com/HenryDeLange/inat-achievements'
-                                target={(window as any).openLink ? '_self' : '_blank'}
-                                onClick={() => {
-                                    if ((window as any).openLink) {
-                                        (window as any).openLink('https://github.com/HenryDeLange/inat-achievements');
-                                    }
-                                }
-                                }
-                            >
-                                <Github size={30} className='m-1' title={I18n.t('menuButtonGitHub')} />
-                                {I18n.t('menuButtonGitHub')}
-                            </a>
-                        </OverlayTrigger>
-                        <OverlayTrigger trigger='click' placement='bottom' overlay={popoverURL} rootClose>
-                            <a
-                                role='button'
-                                href='https://github.com/HenryDeLange/inat-achievements/releases'
-                                target={(window as any).openLink ? '_self' : '_blank'}
-                                onClick={() => {
-                                    if ((window as any).openLink) {
-                                        (window as any).openLink('https://github.com/HenryDeLange/inat-achievements/releases');
-                                    }
-                                }
-                                }
-                            >
-                                <Laptop size={30} className='m-1' title={I18n.t('menuButtonDesktopApp')} />
-                                {I18n.t('menuButtonDesktopApp')}
-                            </a>
-                        </OverlayTrigger>
-
-                        <ButtonGroup className='m-1'>
-                            <ToggleButton
-                                key='light'
-                                id='light'
-                                type='radio'
-                                variant='light'
-                                name='radio'
-                                value='Light'
-                                checked={radioValue === 'Light'}
-                                onChange={(event) => {
-                                    const theme = event.currentTarget.value as ThemeType;
-                                    setRadioValue(theme);
-                                    dispatch(toggleTheme(theme));
-                                }}
-                            >
-                                <Sun size={24} title={I18n.t('menuButtonLightTheme')}  />
-                            </ToggleButton>
-                            <ToggleButton
-                                key='dark'
-                                id='dark'
-                                type='radio'
-                                variant='dark'
-                                name='radio'
-                                value='Dark'
-                                checked={radioValue === 'Dark'}
-                                onChange={(event) => {
-                                    const theme = event.currentTarget.value as ThemeType;
-                                    setRadioValue(theme);
-                                    dispatch(toggleTheme(theme));
-                                }}
-                            >
-                                <Moon size={24} title={I18n.t('menuButtonDarkTheme')} />
-                            </ToggleButton>
-                        </ButtonGroup>
-
-                    </Nav>
-                </Navbar.Collapse>
+            <Container fluid>
+                <Navbar.Toggle className='bg-success' />
+                <Navbar.Offcanvas placement='start' className='bg-success'>
+                    <Offcanvas.Header closeButton>
+                        <Offcanvas.Title>{I18n.t('headerTitle')}</Offcanvas.Title>
+                    </Offcanvas.Header>
+                    <Offcanvas.Body>
+                        <Nav className="justify-content-start flex-grow-1 pe-3">
+                        <ButtonGroup className='px-3'>
+                                <ToggleButton
+                                    key='light'
+                                    id='light'
+                                    type='radio'
+                                    variant='light'
+                                    name='radio'
+                                    value='Light'
+                                    checked={radioValue === 'Light'}
+                                    onChange={(event) => {
+                                        const theme = event.currentTarget.value as ThemeType;
+                                        setRadioValue(theme);
+                                        dispatch(toggleTheme(theme));
+                                    }}
+                                >
+                                    <Sun size={24} title={I18n.t('menuButtonLightTheme')} />
+                                </ToggleButton>
+                                <ToggleButton
+                                    key='dark'
+                                    id='dark'
+                                    type='radio'
+                                    variant='dark'
+                                    name='radio'
+                                    value='Dark'
+                                    checked={radioValue === 'Dark'}
+                                    onChange={(event) => {
+                                        const theme = event.currentTarget.value as ThemeType;
+                                        setRadioValue(theme);
+                                        dispatch(toggleTheme(theme));
+                                    }}
+                                >
+                                    <Moon size={24} title={I18n.t('menuButtonDarkTheme')} />
+                                </ToggleButton>
+                            </ButtonGroup>
+                            <NavPopup title={I18n.t('menuButtonAbout')} popup={popoverAbout}>
+                                <InfoCircle size={30} className='m-1' />
+                            </NavPopup>
+                            <NavPopup title={I18n.t('menuButtonRules')} popup={popoverRules}>
+                                <QuestionCircle size={30} className='m-1' />
+                            </NavPopup>
+                            <NavPopup title={I18n.t('menuButtonParams')} popup={popoverURL}>
+                                <CodeSlash size={30} className='m-1' />
+                            </NavPopup>
+                            <NavLink title={I18n.t('menuButtonGitHub')} url='https://github.com/HenryDeLange/inat-achievements'>
+                                <Github size={30} className='m-1' />
+                            </NavLink>
+                            <NavLink title={I18n.t('menuButtonDesktopApp')} url='https://github.com/HenryDeLange/inat-achievements/releases'>
+                                <Laptop size={30} className='m-1' />
+                            </NavLink>
+                        </Nav>
+                    </Offcanvas.Body>
+                </Navbar.Offcanvas>
                 <Navbar.Brand>
                     <HyperLink
                         linkContent={<Image src={theme === 'Light' ? inat_light : inat_dark} alt='iNaturalist' height={30} />}
@@ -179,5 +148,54 @@ export default function Menu() {
                 </Navbar.Brand>
             </Container>
         </Navbar>
+    );
+}
+
+
+type NavPopupType = {
+    title: string;
+    popup: OverlayChildren;
+    children: ReactNode;
+}
+function NavPopup({ title, popup, children }: NavPopupType) {
+    return (
+        <OverlayTrigger
+            trigger='click'
+            placement='bottom'
+            overlay={popup}
+            rootClose
+        >
+            <div
+                className='px-3'
+                role='button'
+                >
+                {children}
+                {title}
+            </div>
+        </OverlayTrigger>
+    );
+}
+
+type NavLinkType = {
+    title: string;
+    url: string;
+    children: ReactNode;
+}
+function NavLink({ title, url, children }: NavLinkType) {
+    return (
+        <a
+            className='px-3'
+            role='button'
+            href={url}
+            target={(window as any).openLink ? '_self' : '_blank'}
+            onClick={() => {
+                if ((window as any).openLink) {
+                    (window as any).openLink({ url });
+                }
+            }}
+        >
+            {children}
+            {title}
+        </a>
     );
 }
