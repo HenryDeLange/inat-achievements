@@ -12,8 +12,8 @@ export default function App() {
     const theme = useSelector((state: RootState) => state.app.mode);
     return (
         <Container className={`d-flex flex-column p-3 App ${theme}`} fluid>
+            <Menu />
             <Container className='pt-3 p-4 bg-success bg-opacity-25 rounded-3'>
-                <Menu />
                 <Header />
                 <Progress />
                 <Achievements />

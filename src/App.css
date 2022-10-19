@@ -4,7 +4,7 @@
 }
 
 .Light {
-    background-color: #e7ebe3;
+    background-color: #c3c7c0;
     color: rgb(39, 39, 39);
 }
 
@@ -38,6 +38,20 @@ a:hover {
 @media (min-width: 550px) {
     .Popover {
         max-width: 500px;
+    }
+}
+
+.NavBar {
+    font-size: calc(10px + 0.5vmax);
+}
+
+.MenuDrawer {
+    background-color: #bdc7b6;
+}
+
+@media (max-width: 991px) {
+    .MenuDrawerItem {
+        padding-top: 1em;
     }
 }
 
@@ -94,6 +108,11 @@ a:hover {
 .Image-MyWild {
     max-width: 80px;
     pointer-events: none;
+}
+
+.MyWild-Small-Logo {
+    max-width: 30px;
+    margin-right: 10px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
