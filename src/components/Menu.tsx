@@ -12,6 +12,8 @@ import { toggleTheme } from '../redux/slices/AppSlice';
 import { ThemeType } from '../types/AchievementsTypes';
 import HyperLink from './HyperLink';
 
+const iconSize = 18;
+
 const popoverAbout = (
     <Popover className='Popover'>
         <Popover.Header>
@@ -66,7 +68,7 @@ const popoverURL = (
 const popoverRules = (
     <Popover className='Popover'>
         <Popover.Header>
-            {I18n.t('menuButtonRules')}
+            {I18n.t('menuPopupRulesTitle')}
         </Popover.Header>
         <Popover.Body>
             {I18n.t('menuPopupRules')}
@@ -79,16 +81,16 @@ export default function Menu() {
     const theme = useSelector((state: RootState) => state.app.mode);
     const [radioValue, setRadioValue] = useState<ThemeType>(theme);
     return (
-        <Navbar className='p-0 pb-3 m-0' expand='lg'>
+        <Navbar className='p-0 pb-3 m-0 NavBar' expand='lg'>
             <Container fluid>
                 <Navbar.Toggle className='bg-success' />
-                <Navbar.Offcanvas placement='start' className='bg-success'>
+                <Navbar.Offcanvas placement='start' className='MenuDrawer'>
                     <Offcanvas.Header closeButton>
                         <Offcanvas.Title>{I18n.t('headerTitle')}</Offcanvas.Title>
                     </Offcanvas.Header>
                     <Offcanvas.Body>
-                        <Nav className="justify-content-start flex-grow-1 pe-3">
-                        <ButtonGroup className='px-3'>
+                        <Nav className="justify-content-start flex-grow-1 pe-">
+                            <ButtonGroup size='sm'>
                                 <ToggleButton
                                     key='light'
                                     id='light'
@@ -103,7 +105,7 @@ export default function Menu() {
                                         dispatch(toggleTheme(theme));
                                     }}
                                 >
-                                    <Sun size={24} title={I18n.t('menuButtonLightTheme')} />
+                                    <Sun size={iconSize} title={I18n.t('menuButtonLightTheme')} />
                                 </ToggleButton>
                                 <ToggleButton
                                     key='dark'
@@ -119,23 +121,23 @@ export default function Menu() {
                                         dispatch(toggleTheme(theme));
                                     }}
                                 >
-                                    <Moon size={24} title={I18n.t('menuButtonDarkTheme')} />
+                                    <Moon size={iconSize} title={I18n.t('menuButtonDarkTheme')} style={{ marginTop: -2 }} />
                                 </ToggleButton>
                             </ButtonGroup>
                             <NavPopup title={I18n.t('menuButtonAbout')} popup={popoverAbout}>
-                                <InfoCircle size={30} className='m-1' />
+                                <InfoCircle size={iconSize} className='m-1' />
                             </NavPopup>
                             <NavPopup title={I18n.t('menuButtonRules')} popup={popoverRules}>
-                                <QuestionCircle size={30} className='m-1' />
+                                <QuestionCircle size={iconSize} className='m-1' />
                             </NavPopup>
                             <NavPopup title={I18n.t('menuButtonParams')} popup={popoverURL}>
-                                <CodeSlash size={30} className='m-1' />
+                                <CodeSlash size={iconSize} className='m-1' />
                             </NavPopup>
                             <NavLink title={I18n.t('menuButtonGitHub')} url='https://github.com/HenryDeLange/inat-achievements'>
-                                <Github size={30} className='m-1' />
+                                <Github size={iconSize} className='m-1' />
                             </NavLink>
                             <NavLink title={I18n.t('menuButtonDesktopApp')} url='https://github.com/HenryDeLange/inat-achievements/releases'>
-                                <Laptop size={30} className='m-1' />
+                                <Laptop size={iconSize} className='m-1' />
                             </NavLink>
                         </Nav>
                     </Offcanvas.Body>
@@ -166,7 +168,7 @@ function NavPopup({ title, popup, children }: NavPopupType) {
             rootClose
         >
             <div
-                className='px-3'
+                className='px-3 MenuDrawerItem'
                 role='button'
                 >
                 {children}
@@ -184,13 +186,13 @@ type NavLinkType = {
 function NavLink({ title, url, children }: NavLinkType) {
     return (
         <a
-            className='px-3'
+            className='px-3 MenuDrawerItem'
             role='button'
             href={url}
             target={(window as any).openLink ? '_self' : '_blank'}
             onClick={() => {
                 if ((window as any).openLink) {
-                    (window as any).openLink({ url });
+                    (window as any).openLink(url);
                 }
             }}
         >

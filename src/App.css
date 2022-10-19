@@ -41,6 +41,20 @@ a:hover {
     }
 }
 
+.NavBar {
+    font-size: calc(10px + 0.5vmax);
+}
+
+.MenuDrawer {
+    background-color: #bdc7b6;
+}
+
+@media (max-width: 991px) {
+    .MenuDrawerItem {
+        padding-top: 1em;
+    }
+}
+
 .Alert {
     font-size: calc(10px + 1vmin);
 }
