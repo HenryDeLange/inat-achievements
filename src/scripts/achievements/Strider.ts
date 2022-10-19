@@ -15,6 +15,7 @@ let maxDistance = 0;
 export default new AchievementData(
     'Strider',
     GOAL,
+    () => [],
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON.geojson && iNatObsJSON.geojson.coordinates 
                 && iNatObsJSON.geojson.coordinates.length === 2 && iNatObsJSON?.observed_on_details?.date) {

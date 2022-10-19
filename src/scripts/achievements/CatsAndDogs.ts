@@ -11,6 +11,7 @@ let dogDays: string[] = [];
 export default new AchievementData(
     'CatsAndDogs',
     GOAL,
+    () => [TAXA_FELINE, TAXA_CANINE],
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON.observed_on_details?.date) {
             for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {

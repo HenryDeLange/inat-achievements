@@ -12,6 +12,7 @@ let alwaysOnCountMax = 0;
 export default new AchievementData(
     'AlwaysOn',
     GOAL,
+    () => [],
     (iNatObsJSON: Observation) => {
         const obsDate = iNatObsJSON?.observed_on_details?.date ?? alwaysOnDate;
         const prevDate = new Date(Number(alwaysOnDate.substring(0, 4)), Number(alwaysOnDate.substring(5, 7)), Number(alwaysOnDate.substring(8, 10)));

@@ -7,6 +7,7 @@ const TAXA = 47604;
 export default new AchievementData(
     'DaisyTown',
     GOAL,
+    () => [TAXA],
     (iNatObsJSON: Observation) => {
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
             if (TAXA === taxonID) {

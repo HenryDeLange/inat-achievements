@@ -6,6 +6,7 @@ const GOAL = 50;
 export default new AchievementData(
     'SelfPollinator',
     GOAL,
+    () => [],
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON?.comments && iNatObsJSON?.user?.id) {
             for (let comment of iNatObsJSON?.comments ?? []) {

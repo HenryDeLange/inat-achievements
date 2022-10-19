@@ -8,6 +8,7 @@ let idCount = 0;
 export default new AchievementData(
     'NameGiver',
     GOAL,
+    () => [],
     (iNatObsJSON: Observation) => {
         if (idCount === 0) {
             idCount = iNatObsJSON?.user?.identifications_count ?? 0;

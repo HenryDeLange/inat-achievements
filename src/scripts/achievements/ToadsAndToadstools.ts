@@ -8,6 +8,7 @@ const TAXA = [20979, 47169];
 export default new AchievementData(
     'ToadsAndToadstools',
     GOAL,
+    () => TAXA,
     (iNatObsJSON: Observation) => {
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
             if (TAXA.includes(taxonID)) {

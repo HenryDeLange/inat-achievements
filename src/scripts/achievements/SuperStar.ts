@@ -11,6 +11,7 @@ let faves = 0;
 export default new AchievementData(
     'SuperStar',
     GOAL,
+    () => [TAXA],
     (iNatObsJSON: Observation) => {
         const prevMin = Math.min(species.length, faves);
         // Faves

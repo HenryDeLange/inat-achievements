@@ -11,6 +11,7 @@ let southEast = false;
 export default new AchievementData(
     'AllCorners',
     GOAL,
+    () => [],
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON.geojson && iNatObsJSON.geojson.coordinates) {
             const lon = parseFloat(iNatObsJSON.geojson.coordinates[0]);

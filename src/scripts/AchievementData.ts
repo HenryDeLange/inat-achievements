@@ -10,16 +10,18 @@ export default class AchievementData implements AchievementType {
     count: number;
     iconColor: AchievementStatusType;
     textColor: string;
+    getTaxa: () => number[];
     evalFunc: (iNatObsJSON: Observation) => number;
     resetFunc?: () => void;
     observations: number[] = [];
 
-    constructor(key: string, goal: number, evalFunc: (iNatObsJSON: Observation) => number, resetFunc?: () => void) {
+    constructor(key: string, goal: number, getTaxa: () => number[], evalFunc: (iNatObsJSON: Observation) => number, resetFunc?: () => void) {
         this.icon = key;
         this.title = `achievement${key}Title`;
         this.details = `achievement${key}Details`;
         this.goal = goal;
         this.count = 0;
+        this.getTaxa = getTaxa;
         this.evalFunc = evalFunc;
         this.resetFunc = resetFunc;
         this.status = this.calcStatus(this.count, this.goal);

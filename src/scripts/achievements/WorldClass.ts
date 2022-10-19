@@ -10,6 +10,7 @@ let classCount: number[] = [];
 export default new AchievementData(
     'WorldClass',
     GOAL,
+    () => [],
     (iNatObsJSON: Observation) => {
         if ((iNatObsJSON?.taxon?.rank_level ?? 999) <= CLASS_RANK) {
             if (iNatObsJSON?.taxon?.ancestor_ids && iNatObsJSON.taxon.ancestor_ids.length > 2) {

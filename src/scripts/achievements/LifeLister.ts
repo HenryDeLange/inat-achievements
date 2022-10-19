@@ -11,6 +11,7 @@ let maxCount = 0;
 export default new AchievementData(
     'LifeLister',
     GOAL,
+    () => [],
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON.observed_on_details?.year
                 && ((iNatObsJSON.taxon?.id && iNatObsJSON?.taxon?.rank_level === SPECIES_RANK)

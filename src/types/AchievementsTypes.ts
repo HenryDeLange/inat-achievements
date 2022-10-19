@@ -10,6 +10,7 @@ export declare type AchievementType = {
     count: number;
     iconColor: AchievementStatusType;
     textColor: string;
+    getTaxa?: () => number[];
     evalFunc?: (iNatObsJSON: Observation) => number;
     resetFunc?: () => void;
     observations: number[];
