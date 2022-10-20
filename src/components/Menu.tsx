@@ -14,72 +14,73 @@ import HyperLink from './HyperLink';
 
 const iconSize = 18;
 
-const popoverAbout = (
-    <Popover className='Popover'>
-        <Popover.Header>
-            {I18n.t('menuPopupAboutTitle')}
-        </Popover.Header>
-        <Popover.Body>
-            <Container>
-                <Row>
-                    <Col sm='auto'>
-                        <Image src={mywild} alt='MyWild' className='Image-MyWild' fluid />
-                    </Col>
-                    <Col>
-                        <h5>{I18n.t('myWild')}</h5>
-                        <h6>{I18n.t('menuPopupAboutMyWildHeading')}</h6>
-                        <p>
-                            {I18n.t('menuPopupAboutMyWildTextStart')}
-                            <HyperLink linkContent={'henry@mywild.co.za'} linkURL='mailto:henry@mywild.co.za' />
-                            {I18n.t('menuPopupAboutMyWildTextEnd')}
-                        </p>
-                        <p><i>{I18n.t('menuPopupAboutMyWildDisclaimer')}</i></p>
-                    </Col>
-                </Row>
-            </Container>
-            <hr />
-            <Container>
-                <Image src={inat_light} alt='iNaturalist' className='Image-iNat' />
-                <h6 style={{ marginTop: 15 }}>
-                    {I18n.t('menuPopupAboutINaturalistTextStart')}
-                    <HyperLink linkContent={I18n.t('iNaturalistAPI')} linkURL='https://api.inaturalist.org/v1/docs' />
-                    {I18n.t('menuPopupAboutINaturalistTextEnd')}
-                </h6>
-            </Container>
-        </Popover.Body>
-    </Popover>
-);
-
-const popoverURL = (
-    <Popover className='Popover'>
-        <Popover.Header>
-            {I18n.t('menuPopupParamsTitle')}
-        </Popover.Header>
-        <Popover.Body>
-            <b>user</b><br />{I18n.t('menuPopupParamsUser')}
-            <hr />
-            <b>limit</b><br />{I18n.t('menuPopupParamsLimit')}
-            <hr />
-            {I18n.t('menuPopupParamsExample') + ' https://wild-achievements.mywild.co.za?user=henrydelange&limit=100'}
-        </Popover.Body>
-    </Popover>
-);
-
-const popoverRules = (
-    <Popover className='Popover'>
-        <Popover.Header>
-            {I18n.t('menuPopupRulesTitle')}
-        </Popover.Header>
-        <Popover.Body>
-            {I18n.t('menuPopupRules')}
-        </Popover.Body>
-    </Popover>
-);
-
 export default function Menu() {
     const dispatch = useDispatch();
     const theme = useSelector((state: RootState) => state.app.mode);
     const [radioValue, setRadioValue] = useState<ThemeType>(theme);
+
+    const popoverAbout = (
+        <Popover className='Popover'>
+            <Popover.Header>
+                {I18n.t('menuPopupAboutTitle')}
+            </Popover.Header>
+            <Popover.Body>
+                <Container>
+                    <Row>
+                        <Col sm='auto'>
+                            <Image src={mywild} alt='MyWild' className='Image-MyWild' fluid />
+                        </Col>
+                        <Col>
+                            <h5>{I18n.t('myWild')}</h5>
+                            <h6>{I18n.t('menuPopupAboutMyWildHeading')}</h6>
+                            <p>
+                                {I18n.t('menuPopupAboutMyWildTextStart')}
+                                <HyperLink linkContent={'henry@mywild.co.za'} linkURL='mailto:henry@mywild.co.za' />
+                                {I18n.t('menuPopupAboutMyWildTextEnd')}
+                            </p>
+                            <p><i>{I18n.t('menuPopupAboutMyWildDisclaimer')}</i></p>
+                        </Col>
+                    </Row>
+                </Container>
+                <hr />
+                <Container>
+                    <Image src={inat_light} alt='iNaturalist' className='Image-iNat' />
+                    <h6 style={{ marginTop: 15 }}>
+                        {I18n.t('menuPopupAboutINaturalistTextStart')}
+                        <HyperLink linkContent={I18n.t('iNaturalistAPI')} linkURL='https://api.inaturalist.org/v1/docs' />
+                        {I18n.t('menuPopupAboutINaturalistTextEnd')}
+                    </h6>
+                </Container>
+            </Popover.Body>
+        </Popover>
+    );
+    
+    const popoverURL = (
+        <Popover className='Popover'>
+            <Popover.Header>
+                {I18n.t('menuPopupParamsTitle')}
+            </Popover.Header>
+            <Popover.Body>
+                <b>user</b><br />{I18n.t('menuPopupParamsUser')}
+                <hr />
+                <b>limit</b><br />{I18n.t('menuPopupParamsLimit')}
+                <hr />
+                {I18n.t('menuPopupParamsExample') + ' https://wild-achievements.mywild.co.za?user=henrydelange&limit=100'}
+            </Popover.Body>
+        </Popover>
+    );
+    
+    const popoverRules = (
+        <Popover className='Popover'>
+            <Popover.Header>
+                {I18n.t('menuPopupRulesTitle')}
+            </Popover.Header>
+            <Popover.Body>
+                {I18n.t('menuPopupRules')}
+            </Popover.Body>
+        </Popover>
+    );
+
     return (
         <Navbar className='p-0 pb-3 m-0 NavBar' expand='lg'>
             <Container fluid>
