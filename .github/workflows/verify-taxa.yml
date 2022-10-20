@@ -1,0 +1,22 @@
+name: Verify Taxa
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+  schedule: [ cron: '22 8 * * 1' ]
+
+jobs:
+  verify-taxa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3.1.0
+        with:
+          node-version: 17.x
+      - name: Install Dependencies
+        run: npm install
+      - name: Verify Taxon IDs
+        run: npm run test:verify:taxa

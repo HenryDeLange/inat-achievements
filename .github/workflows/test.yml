@@ -28,5 +28,3 @@ jobs:
         run: npm install
       - name: Test Application (with coverage)
         run: npm run test:coverage
-      - name: Verify Taxon IDs
-        run: npm run test:verify:taxa
