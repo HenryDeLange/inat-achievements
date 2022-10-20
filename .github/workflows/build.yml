@@ -9,6 +9,8 @@ on:
     branches: [ master ]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  # Run weekly on Mondays at 8:22 UTC (Note: '*' is a special character in YAML so you have to quote this string)
+  schedule: [ cron: '22 8 * * 1' ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
