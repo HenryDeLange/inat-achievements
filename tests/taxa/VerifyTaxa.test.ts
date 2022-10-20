@@ -2,12 +2,12 @@ import inatjs from 'inaturalistjs';
 import { initAchievements, getAchievements } from '../../src/scripts/AchievementImplementations';
 import { TaxaShowResponse } from '../../src/types/iNaturalistTypes';
 
-const SLEEP_TIME = 200;
+const SLEEP_TIME = 60 * 1000 / 80; // 80 per minute
 
 initAchievements();
 const achievements = getAchievements();
 
-jest.setTimeout(SLEEP_TIME * 10 * achievements.length * 5);
+jest.setTimeout(SLEEP_TIME * achievements.length * 5 + 150);
 
 function testConditionally(shouldTest: boolean, name: string, func: jest.ProvidesCallback | undefined) {
     shouldTest ? test(name, func) : test.skip(name, func);
@@ -22,7 +22,7 @@ testConditionally(runVerifyTaxa, 'Validate Taxa IDs', async () => {
             await new Promise(resolve => setTimeout(resolve, SLEEP_TIME));
             const rank = await inatjs.taxa.fetch([taxonID], {})
                 .then((response: TaxaShowResponse) => {
-                    console.log(`Fetched TaxonID ${taxonID}`);
+                    console.log(`Fetched TaxonID ${taxonID} (${new Date().toISOString()})`);
                     if (response.total_results === 1) {
                         const taxon = response.results[0];
                         if (taxon.is_active) {
