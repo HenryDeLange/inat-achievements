@@ -2,7 +2,7 @@ import inatjs from 'inaturalistjs';
 import { initAchievements, getAchievements } from '../../src/scripts/AchievementImplementations';
 import { TaxaShowResponse } from '../../src/types/iNaturalistTypes';
 
-const SLEEP_TIME = 100;
+const SLEEP_TIME = 200;
 
 initAchievements();
 const achievements = getAchievements();
