@@ -12,6 +12,7 @@ let wormDate: string | null = null;
 export default new AchievementData(
     'EarlyBird',
     GOAL,
+    () => [TAXA_BIRD, TAXA_WORM],
     (iNatObsJSON: Observation) => {
         if ((iNatObsJSON?.observed_on_details?.hour ?? 99) <= GOAL) { // before 7AM
             for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {

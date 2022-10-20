@@ -8,6 +8,7 @@ const TAXA = 47224;
 export default new AchievementData(
     'SocialButterfly',
     GOAL,
+    () => [TAXA],
     (iNatObsJSON: Observation) => {
         if ((iNatObsJSON?.comments_count ?? 0) > 0) {
             for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {

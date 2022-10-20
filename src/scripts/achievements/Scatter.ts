@@ -11,6 +11,7 @@ let grids: string[] = [];
 export default new AchievementData(
     'Scatter',
     GOAL,
+    () => [],
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON.annotations
                 && (iNatObsJSON?.taxon?.rank_level ?? 999) <= SPECIES_RANK

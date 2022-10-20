@@ -8,6 +8,7 @@ const ANNOTATION_VALUE = 24;
 export default new AchievementData(
     'NotSeeingIsBelieving',
     GOAL,
+    () => [],
     (iNatObsJSON: Observation) => {
         for (const annotation of iNatObsJSON.annotations ?? []) {
             if (annotation.controlled_attribute_id === ANNOTATION_ATTRIBUTE

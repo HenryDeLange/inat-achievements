@@ -11,6 +11,7 @@ let dailyLifeDatePrev: string | null = null;
 export default new AchievementData(
     'DailyLife',
     GOAL,
+    () => [],
     (iNatObsJSON: Observation) => {
         const obsDate = iNatObsJSON?.observed_on_details?.date ?? dailyLifeDate;
         if (dailyLifeDate !== obsDate) {

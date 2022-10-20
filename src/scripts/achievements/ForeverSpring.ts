@@ -11,6 +11,7 @@ let weeksWithFlowers: number[] = [];
 export default new AchievementData(
     'ForeverSpring',
     GOAL,
+    () => [TAXA],
     (iNatObsJSON: Observation) => {
         let key = iNatObsJSON.observed_on_details?.week;
         if (key) {

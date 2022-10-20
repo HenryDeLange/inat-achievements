@@ -11,6 +11,7 @@ let maxMonthCount = 0;
 export default new AchievementData(
     'EmployeeOfTheMonth',
     GOAL,
+    () => TAXA,
     (iNatObsJSON: Observation) => {
         const obsMonthID = `${iNatObsJSON.observed_on_details?.year ?? -1}|${iNatObsJSON.observed_on_details?.month ?? -1}`;
         if (monthID !== obsMonthID) {

@@ -12,6 +12,7 @@ let maxCount = 0;
 export default new AchievementData(
     'HomelyHermit',
     GOAL,
+    () => TAXA,
     (iNatObsJSON: Observation) => {
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
             if (TAXA.includes(taxonID)) {

@@ -10,6 +10,7 @@ let species: number[] = [];
 export default new AchievementData(
     'TentacleSuckers',
     GOAL,
+    () => TAXA,
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON?.taxon?.rank_level) {
             if (iNatObsJSON.taxon.rank_level <= SPECIES_RANK) {

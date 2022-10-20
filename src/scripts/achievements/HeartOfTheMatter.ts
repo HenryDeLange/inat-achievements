@@ -6,6 +6,7 @@ const GOAL = 13;
 export default new AchievementData(
     'HeartOfTheMatter',
     GOAL,
+    () => [],
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON?.taxon?.threatened === true) {
             return 1;

@@ -189,6 +189,7 @@ function NavLink({ title, url, children }: NavLinkType) {
             className='px-3 MenuDrawerItem'
             role='button'
             href={url}
+            rel='noreferrer'
             target={(window as any).openLink ? '_self' : '_blank'}
             onClick={() => {
                 if ((window as any).openLink) {

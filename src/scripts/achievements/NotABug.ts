@@ -8,6 +8,7 @@ const TAXA_EXCLUDE = 61267;
 export default new AchievementData(
     'NotABug',
     GOAL,
+    () => [...TAXA_INCLUDE, TAXA_EXCLUDE],
     (iNatObsJSON: Observation) => {
         let include = false;
         let exclude = false;

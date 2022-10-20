@@ -7,6 +7,7 @@ const TAXA = [3726, 23];
 export default new AchievementData(
     'CraneyStorker',
     GOAL,
+    () => TAXA,
     (iNatObsJSON: Observation) => {
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
             if (TAXA.includes(taxonID)) {

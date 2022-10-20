@@ -11,6 +11,7 @@ let fishDays: string[] = [];
 export default new AchievementData(
     'CatchOfTheDay',
     GOAL,
+    () => TAXA,
     (iNatObsJSON: Observation) => {
         if (iNatObsJSON?.observed_on_details?.date) {
             for (const taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {

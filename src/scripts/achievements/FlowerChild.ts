@@ -12,6 +12,7 @@ let flowerOrderCount: number[] = [];
 export default new AchievementData(
     'FlowerChild',
     GOAL,
+    () => [FLOWER_CHILD_TAXA],
     (iNatObsJSON: Observation) => {
         if ((iNatObsJSON?.taxon?.rank_level ?? 999) <= ORDER_RANK) {
             if (iNatObsJSON?.taxon?.ancestor_ids && iNatObsJSON.taxon.ancestor_ids.length > 3) {

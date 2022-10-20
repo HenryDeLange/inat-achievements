@@ -7,6 +7,7 @@ const TAXA = [6544, 11853, 559244, 5362, 5425, 5391, 5400];
 export default new AchievementData(
     'AirLovers',
     GOAL,
+    () => TAXA,
     (iNatObsJSON: Observation) => {
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
             if (TAXA.includes(taxonID)) {

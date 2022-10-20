@@ -13,6 +13,7 @@ let mammalFly = 0;
 export default new AchievementData(
     'TryMammals',
     GOAL,
+    () => [...TAXA_DIG, TAXA_FLY, ...TAXA_SWIM],
     (iNatObsJSON: Observation) => {
         const prevCount = Math.min(mammalDig,mammalSwim, mammalFly);
         for (let taxonID of iNatObsJSON?.taxon?.ancestor_ids ?? []) {
