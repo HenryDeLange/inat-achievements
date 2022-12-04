@@ -1,8 +1,10 @@
 import I18n from 'i18n-js';
+import Lottie from 'lottie-react';
 import { memo, ReactElement } from 'react';
 import { Card, Col, Image, OverlayTrigger, Popover, ProgressBar } from 'react-bootstrap';
 import { AchievementType } from '../types/AchievementsTypes';
 import HyperLink from './HyperLink';
+import lottieAnimation from "../badges/animations/AirLovers.json";
 
 export default memo(function AchievementCard(data: AchievementType) {
     const percentage = Math.floor(data.count / data.goal * 100);
@@ -34,6 +36,10 @@ export default memo(function AchievementCard(data: AchievementType) {
                         {getTitleRank(percentage)}
                     </Card.Text>
                     <Image src={require(`../badges/${data.icon}.svg`)} className={`Card-Icon-${data.iconColor}`} />
+                    {/* <Lottie
+                        animationData={lottieAnimation}
+                        loop={true}
+                    /> */}
                     <Card.Title className='Card-Title' style={{ color: data.textColor, marginTop: 'auto' }}>
                         {I18n.t(data.title)}
                     </Card.Title>
