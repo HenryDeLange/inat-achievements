@@ -68,15 +68,15 @@ a:hover {
 }
 
 .Card-Icon-Almost {
-    filter: invert(0%) sepia(0%) saturate(50%) hue-rotate(0deg) brightness(90%) contrast(70%);
+    filter: invert(0%) sepia(0%) saturate(50%) hue-rotate(0deg) brightness(90%) contrast(80%);
 }
 
 .Card-Icon-Half {
-    filter: invert(0%) sepia(0%) saturate(40%) hue-rotate(0deg) brightness(120%) contrast(50%);
+    filter: invert(0%) sepia(0%) saturate(40%) hue-rotate(0deg) brightness(150%) contrast(40%);
 }
 
 .Card-Icon-Threshold {
-    filter: invert(0%) sepia(0%) saturate(15%) hue-rotate(0deg) brightness(200%) contrast(30%);
+    filter: invert(0%) sepia(0%) saturate(15%) hue-rotate(0deg) brightness(300%) contrast(50%);
 }
 
 .Card-Icon-Silhouette {
