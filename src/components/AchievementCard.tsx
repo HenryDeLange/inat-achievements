@@ -6,15 +6,18 @@ import { AchievementType } from '../types/AchievementsTypes';
 import HyperLink from './HyperLink';
 import lottieAnimation from "../badges/animations/AirLovers.json";
 
+const TITLE_THRESHOLD = 15;
+const DETAILS_THRESHOLD = 30;
+
 export default memo(function AchievementCard(data: AchievementType) {
     const percentage = Math.floor(data.count / data.goal * 100);
     const popoverDetails = (
         <Popover>
             <Popover.Header className='Card-Popup-Title'>
-                {I18n.t(data.title)}
+                {percentage >= TITLE_THRESHOLD ? I18n.t(data.title) : <i>{I18n.t('cardMysteryTitle')}</i>}
             </Popover.Header>
             <Popover.Body className='Card-Popup-Text'>
-                {I18n.t(data.details, { goal: data.goal })}
+                {percentage >= DETAILS_THRESHOLD ? I18n.t(data.details, { goal: data.goal }) : <i>{I18n.t('cardMysteryDetails')}</i>}
                 <hr />
                 {I18n.t('cardCompletedPercentage', { percentage })}
                 <hr />
@@ -35,14 +38,14 @@ export default memo(function AchievementCard(data: AchievementType) {
                     >
                         {getTitleRank(percentage)}
                     </Card.Text>
+                    <Card.Title className='Card-Title' style={{ color: data.textColor, marginTop: 'auto' }}>
+                        {percentage >= TITLE_THRESHOLD ? I18n.t(data.title) : ''}
+                    </Card.Title>
                     <Image src={require(`../badges/${data.icon}.svg`)} className={`Card-Icon-${data.iconColor}`} />
                     {/* <Lottie
                         animationData={lottieAnimation}
                         loop={true}
                     /> */}
-                    <Card.Title className='Card-Title' style={{ color: data.textColor, marginTop: 'auto' }}>
-                        {I18n.t(data.title)}
-                    </Card.Title>
                     <Card.Text className='Card-Text' style={{ color: data.textColor, marginTop: 'auto' }}>
                         {I18n.t('cardCountOfGoal', { count: data.count, goal: data.goal })}
                     </Card.Text>
@@ -62,19 +65,18 @@ function ViewObservations({ observations }: ViewObservationsType): ReactElement 
     }
     const chunks = getChunks(observations);
     return (<>
-                {
-                    chunks.map((obs, index) =>
-                        <div key={index}>
-                            <HyperLink
-                                linkContent={I18n.t('cardViewObservations')}
-                                linkURL={`https://www.inaturalist.org/observations?id=${obs.join(',')}`}
-                            />
-                            <br />
-                        </div>
-                    )
-                }
-            </>
-        );
+        {
+            chunks.map((obs, index) =>
+                <div key={index}>
+                    <HyperLink
+                        linkContent={I18n.t('cardViewObservations')}
+                        linkURL={`https://www.inaturalist.org/observations?id=${obs.join(',')}`}
+                    />
+                    <br />
+                </div>
+            )
+        }
+    </>);
 }
 
 function getChunks<T>(items: T[]): T[][] {
@@ -86,23 +88,29 @@ function getChunks<T>(items: T[]): T[][] {
 }
 
 function getTitleRank(percentage: number) {
-    if (percentage < 20 && percentage > 0) {
-        return I18n.t('cardCasual')
+    if (percentage <= 0) {
+        return I18n.t('cardStarted');
     }
-    else if (percentage < 50) {
-        return I18n.t('cardNovice')
+    else if (percentage < TITLE_THRESHOLD) {
+        return I18n.t('cardCasual');
+    }
+    else if (percentage < DETAILS_THRESHOLD) {
+        return I18n.t('cardNovice');
+    }
+    else if (percentage < 60) {
+        return I18n.t('cardCompetent');
     }
     else if (percentage < 100) {
-        return I18n.t('cardAdvanced')
+        return I18n.t('cardProficient');
     }
-    else if (percentage < 200) {
-        return I18n.t('cardExpert')
+    else if (percentage < 250) {
+        return I18n.t('cardExpert');
     }
-    else if (percentage < 400) {
-        return I18n.t('cardMaster')
+    else if (percentage < 500) {
+        return I18n.t('cardMaster');
     }
-    else if (percentage >= 400) {
-        return I18n.t('cardLegend')
+    else if (percentage >= 500) {
+        return I18n.t('cardLegend');
     }
     return '';
 }
