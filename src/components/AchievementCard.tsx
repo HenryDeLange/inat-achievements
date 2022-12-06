@@ -1,10 +1,10 @@
 import I18n from 'i18n-js';
-import Lottie from 'lottie-react';
+// import Lottie from 'lottie-react';
 import { memo, ReactElement } from 'react';
 import { Card, Col, Image, OverlayTrigger, Popover, ProgressBar } from 'react-bootstrap';
 import { AchievementType } from '../types/AchievementsTypes';
 import HyperLink from './HyperLink';
-import lottieAnimation from "../badges/animations/AirLovers.json";
+// import lottieAnimation from "../badges/animations/AirLovers.json";
 
 const CASUAL = 15;
 const NOVICE = 30;
