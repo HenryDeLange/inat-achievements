@@ -6,18 +6,24 @@ import { AchievementType } from '../types/AchievementsTypes';
 import HyperLink from './HyperLink';
 import lottieAnimation from "../badges/animations/AirLovers.json";
 
-const TITLE_THRESHOLD = 15;
-const DETAILS_THRESHOLD = 30;
+const CASUAL = 15;
+const NOVICE = 30;
+const COMPETENT = 60;
+const PROFICIENT = 100;
+const EXPERT = 250;
+const MASTER = 500;
 
 export default memo(function AchievementCard(data: AchievementType) {
     const percentage = Math.floor(data.count / data.goal * 100);
+    const textColor = calcTextColor(percentage);
+    const iconColor = calcIconColor(percentage);
     const popoverDetails = (
         <Popover>
             <Popover.Header className='Card-Popup-Title'>
-                {percentage >= TITLE_THRESHOLD ? I18n.t(data.title) : <i>{I18n.t('cardMysteryTitle')}</i>}
+                {percentage >= CASUAL ? I18n.t(data.title) : <i>{I18n.t('cardMysteryTitle')}</i>}
             </Popover.Header>
             <Popover.Body className='Card-Popup-Text'>
-                {percentage >= DETAILS_THRESHOLD ? I18n.t(data.details, { goal: data.goal }) : <i>{I18n.t('cardMysteryDetails')}</i>}
+                {percentage >= NOVICE ? I18n.t(data.details, { goal: data.goal }) : <i>{I18n.t('cardMysteryDetails')}</i>}
                 <hr />
                 {I18n.t('cardCompletedPercentage', { percentage })}
                 <hr />
@@ -28,25 +34,25 @@ export default memo(function AchievementCard(data: AchievementType) {
     return (
         <Col className='col-6 col-sm-4 col-md-3 col-lg-2 pb-4 d-flex align-items-stretch'>
             <OverlayTrigger trigger='click' placement='top' overlay={popoverDetails} rootClose>
-                <Card className={'border-0 p-2 Card' + ((percentage >= 100) ? ' Card-AnimateBG' : '')}>
+                <Card className={'border-0 p-2 Card' + ((percentage >= PROFICIENT) ? ((percentage >= EXPERT) ? ' Card-AnimateExpertBG' : ' Card-AnimateBG') : '')}>
                     <Card.Text
-                        className={'Card-Text' + ((percentage >= 250) ? ' Shine' : '')}
+                        className={'Card-Text' + ((percentage >= EXPERT) ? ' Shine' : '')}
                         style={{
-                            color: data.textColor,
-                            fontWeight: (percentage >= 150) ? 'bold' : undefined
+                            color: textColor,
+                            fontWeight: (percentage >= EXPERT) ? 'bold' : undefined
                         }}
                     >
                         {getTitleRank(percentage)}
                     </Card.Text>
-                    <Card.Title className='Card-Title' style={{ color: data.textColor, marginTop: 'auto' }}>
-                        {percentage >= TITLE_THRESHOLD ? I18n.t(data.title) : ''}
+                    <Card.Title className='Card-Title' style={{ color: textColor, marginTop: 'auto' }}>
+                        {percentage >= CASUAL ? I18n.t(data.title) : ''}
                     </Card.Title>
-                    <Image src={require(`../badges/${data.icon}.svg`)} className={`Card-Icon-${data.iconColor}`} />
+                    <Image src={require(`../badges/${data.icon}.svg`)} className={iconColor} />
                     {/* <Lottie
                         animationData={lottieAnimation}
                         loop={true}
                     /> */}
-                    <Card.Text className='Card-Text' style={{ color: data.textColor, marginTop: 'auto' }}>
+                    <Card.Text className='Card-Text' style={{ color: textColor, marginTop: 'auto' }}>
                         {I18n.t('cardCountOfGoal', { count: data.count, goal: data.goal })}
                     </Card.Text>
                     <ProgressBar variant='success' now={percentage} style={{ height: 5 }} />
@@ -91,26 +97,67 @@ function getTitleRank(percentage: number) {
     if (percentage <= 0) {
         return I18n.t('cardStarted');
     }
-    else if (percentage < TITLE_THRESHOLD) {
+    else if (percentage < CASUAL) {
         return I18n.t('cardCasual');
     }
-    else if (percentage < DETAILS_THRESHOLD) {
+    else if (percentage < NOVICE) {
         return I18n.t('cardNovice');
     }
-    else if (percentage < 60) {
+    else if (percentage < COMPETENT) {
         return I18n.t('cardCompetent');
     }
-    else if (percentage < 100) {
+    else if (percentage < PROFICIENT) {
         return I18n.t('cardProficient');
     }
-    else if (percentage < 250) {
+    else if (percentage < EXPERT) {
         return I18n.t('cardExpert');
     }
-    else if (percentage < 500) {
+    else if (percentage < MASTER) {
         return I18n.t('cardMaster');
     }
-    else if (percentage >= 500) {
+    else if (percentage >= MASTER) {
         return I18n.t('cardLegend');
     }
     return '';
+}
+
+function calcTextColor(percentage: number) {
+    if (percentage <= 0) {
+        return 'grey';
+    }
+    else if (percentage < CASUAL) {
+        return 'Grey';
+    }
+    else if (percentage < NOVICE) {
+        return 'DarkOliveGreen';
+    }
+    else if (percentage < COMPETENT) {
+        return 'Green';
+    }
+    else if (percentage < PROFICIENT) {
+        return 'Green';
+    }
+    else if (percentage >= PROFICIENT) {
+        return 'Green';
+    }
+    return 'Red';
+}
+
+function calcIconColor(percentage: number) {
+    if (percentage < CASUAL) {
+        return 'Card-Icon-Silhouette';
+    }
+    else if (percentage < NOVICE) {
+        return 'Card-Icon-Threshold';
+    }
+    else if (percentage < COMPETENT) {
+        return 'Card-Icon-Half';
+    }
+    else if (percentage < PROFICIENT) {
+        return 'Card-Icon-Almost';
+    }
+    else if (percentage >= PROFICIENT) {
+        return 'Card-Icon-Full';
+    }
+    return 'Card-Icon-Fail';
 }
