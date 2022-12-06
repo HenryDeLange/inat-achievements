@@ -5,23 +5,13 @@ export declare type AchievementType = {
     icon: string;
     title: string;
     details: string;
-    status: AchievementStatusType;
     goal: number;
     count: number;
-    iconColor: AchievementStatusType;
-    textColor: string;
     getTaxa?: () => number[];
     evalFunc?: (iNatObsJSON: Observation) => number;
     resetFunc?: () => void;
     observations: number[];
 }
-
-export declare type AchievementStatusType =
-    'Success' |
-    'Partial' |
-    'Inactive' |
-    'Started' |
-    'Fail';
 
 export type ActionAchievementDataType = {
     payload: AchievementType;

@@ -45,7 +45,7 @@ export function getAchievements(): AchievementData[] {
 export function getAchievementsAsType(): AchievementType[] {
     const list = [];
     for (let achievementData of lstAchievementCardWrappers) {
-        const temp = { ...achievementData, evalFunc: undefined, resetFunc: undefined };
+        const temp = { ...achievementData, getTaxa: undefined, evalFunc: undefined, resetFunc: undefined };
         list.push(temp);
     }
     return list;

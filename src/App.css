@@ -63,19 +63,23 @@ a:hover {
     cursor: pointer;
 }
 
-.Card-Icon-Success {
+.Card-Icon-Full {
     filter: invert(0%) sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%) contrast(100%);
 }
 
-.Card-Icon-Partial {
-    filter: invert(0%) sepia(0%) saturate(70%) hue-rotate(0deg) brightness(300%) contrast(30%);
+.Card-Icon-Almost {
+    filter: invert(0%) sepia(0%) saturate(50%) hue-rotate(0deg) brightness(90%) contrast(80%);
 }
 
-.Card-Icon-Started {
-    filter: invert(0%) sepia(0%) saturate(50%) hue-rotate(0deg) brightness(380%) contrast(30%);
+.Card-Icon-Half {
+    filter: invert(0%) sepia(0%) saturate(40%) hue-rotate(0deg) brightness(150%) contrast(40%);
 }
 
-.Card-Icon-Inactive {
+.Card-Icon-Threshold {
+    filter: invert(0%) sepia(0%) saturate(15%) hue-rotate(0deg) brightness(300%) contrast(50%);
+}
+
+.Card-Icon-Silhouette {
     filter: invert(0%) sepia(0%) saturate(5%) hue-rotate(0deg) brightness(300%) contrast(70%);
 }
 
@@ -141,15 +145,18 @@ a:hover {
     background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: shine 3s linear infinite;
+    font-size: calc(10x + 1vmin);
 }
 
 @keyframes shine {
     0% {
         background-position: 0% 50%
     }
+
     50% {
         background-position: 100% 50%
     }
+
     100% {
         background-position: 0% 50%
     }
@@ -159,9 +166,9 @@ a:hover {
     background-size: 300% 300%;
     background-image: linear-gradient(-45deg,
             rgb(255, 255, 255) 0%,
-            rgb(225, 255, 233) 35%,
-            rgb(225, 255, 230) 50%,
-            rgb(225, 255, 233) 65%,
+            rgb(230, 255, 238) 35%,
+            rgb(233, 255, 235) 50%,
+            rgb(230, 255, 238) 65%,
             rgb(255, 255, 255) 100%);
     animation: AnimateCardBG 10s ease infinite;
 }
@@ -170,10 +177,37 @@ a:hover {
     0% {
         background-position: 0% 50%
     }
+
     50% {
         background-position: 100% 50%
     }
+
     100% {
         background-position: 0% 50%
+    }
+}
+
+.Card-AnimateExpertBG {
+    background-size: 300% 300%;
+    background-image: linear-gradient(-15deg,
+            rgb(250, 255, 250) 0%,
+            rgb(232, 255, 230) 35%,
+            rgb(225, 255, 235) 50%,
+            rgb(219, 255, 209) 65%,
+            rgb(250, 255, 250) 100%);
+    animation: AnimateExpertCardBG 7s ease infinite;
+}
+
+@keyframes AnimateExpertCardBG {
+    0% {
+        background-position: 0% 60%
+    }
+
+    50% {
+        background-position: 100% 40%
+    }
+
+    100% {
+        background-position: 0% 60%
     }
 }

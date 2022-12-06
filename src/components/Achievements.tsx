@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/ReduxStore';
@@ -18,7 +18,7 @@ export default memo(function Achievements() {
     return (
         <Container>
             <Row>
-                {list.map((listValue) => <AchievementCard {...listValue} key={'key' + listValue.title} />)}
+                {list.map((listValue) => listValue.count > 0 ? <AchievementCard {...listValue} key={'key' + listValue.title} /> : undefined)}
             </Row>
         </Container>
     );

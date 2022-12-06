@@ -109,7 +109,7 @@ export async function calculateAchievements(
                 for (let observation of observationsResponse.results) {
                     for (let achievementData of achievements) {
                         achievementData.evaluate(observation);
-                        dispatch(updateAchievement({ ...achievementData, evalFunc: undefined, resetFunc: undefined }));
+                        dispatch(updateAchievement({ ...achievementData, getTaxa: undefined, evalFunc: undefined, resetFunc: undefined }));
                     }
                     resultCount++;
                     dispatch(setProgressValue(resultCount / Math.min(totalResults, readLimit) * 100));
