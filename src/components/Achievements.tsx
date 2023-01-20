@@ -24,7 +24,7 @@ export default memo(function Achievements() {
         return percentageCompletedA > percentageCompletedB ? -1 : 1;
     });
     const achievedTotal = list.reduce((c, achievement) => (achievement.count >= achievement.goal) ? c + 1 : c, 0);
-    const percentageOfAllAchieved = achievedTotal / achievementData.length;
+    const percentageOfAllAchieved = achievedTotal / achievementData.length * 100;
     return (
         <Container>
             {achievedTotal >= 1 && <>
