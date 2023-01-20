@@ -7,7 +7,7 @@ This project calculates fun personal achievements based on observations recorded
 ---
 
 ## Live Site
-![Website](https://img.shields.io/website?down_message=offline&up_message=online&url=https%3A%2F%2Fwild-achievements.mywild.co.za) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/HenryDeLange/inat-achievements/Deploy%20to%20GitHub%20Pages?label=deploy)
+![Website](https://img.shields.io/website?down_message=offline&up_message=online&url=https%3A%2F%2Fwild-achievements.mywild.co.za) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/HenryDeLange/inat-achievements/deploy-to-pages.yml)
 
 [https://wild-achievements.mywild.co.za](https://wild-achievements.mywild.co.za)\
 (or [https://henrydelange.github.io/inat-achievements](https://henrydelange.github.io/inat-achievements))
@@ -16,7 +16,7 @@ This project calculates fun personal achievements based on observations recorded
 
 ## Development
 
-![GitHub language count](https://img.shields.io/github/languages/count/HenryDeLange/inat-achievements) ![GitHub top language](https://img.shields.io/github/languages/top/HenryDeLange/inat-achievements) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/HenryDeLange/inat-achievements/Build%20Project) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/HenryDeLange/inat-achievements/Test%20Project?label=test) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/HenryDeLange/inat-achievements/Verify%20Taxa?label=verify%20taxa)
+![GitHub language count](https://img.shields.io/github/languages/count/HenryDeLange/inat-achievements) ![GitHub top language](https://img.shields.io/github/languages/top/HenryDeLange/inat-achievements) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/HenryDeLange/inat-achievements/build.yml) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/HenryDeLange/inat-achievements/test.yml?label=test) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/HenryDeLange/inat-achievements/verify-taxa.yml?label=verify%20taxa)
 
 ### Setup
 `npm install`\
