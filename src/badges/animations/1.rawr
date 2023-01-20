@@ -1,0 +1,636 @@
+{
+    "animation": {
+        "__type__": "MainComposition",
+        "animation": {
+            "__type__": "AnimationContainer",
+            "first_frame": 0,
+            "last_frame": 180
+        },
+        "fps": 60,
+        "group_color": "#00000000",
+        "height": 320,
+        "locked": false,
+        "name": "Animation",
+        "shapes": [
+            {
+                "__type__": "Group",
+                "group_color": "#00000000",
+                "locked": false,
+                "name": "Rectangle 1",
+                "opacity": {
+                    "value": 1
+                },
+                "shapes": [
+                    {
+                        "__type__": "Fill",
+                        "color": {
+                            "value": "#dbe9db"
+                        },
+                        "fill_rule": "NonZero",
+                        "group_color": "#00000000",
+                        "locked": false,
+                        "name": "Fill",
+                        "opacity": {
+                            "value": 1
+                        },
+                        "use": null,
+                        "uuid": "f9399fbd-9dfe-4153-9ba5-073baed12567",
+                        "visible": true
+                    },
+                    {
+                        "__type__": "Stroke",
+                        "cap": "ButtCap",
+                        "color": {
+                            "value": "#000000"
+                        },
+                        "group_color": "#00000000",
+                        "join": "MiterJoin",
+                        "locked": false,
+                        "miter_limit": 0,
+                        "name": "Stroke",
+                        "opacity": {
+                            "value": 1
+                        },
+                        "use": null,
+                        "uuid": "31496bfb-80d0-4bd5-bb3a-a6f59973aaa0",
+                        "visible": true,
+                        "width": {
+                            "value": 5
+                        }
+                    },
+                    {
+                        "__type__": "Rect",
+                        "group_color": "#00000000",
+                        "locked": false,
+                        "name": "Rectangle 1",
+                        "position": {
+                            "value": {
+                                "x": 161.48384754990963,
+                                "y": 162.10235934664257
+                            }
+                        },
+                        "reversed": false,
+                        "rounded": {
+                            "value": 21.604354858398438
+                        },
+                        "size": {
+                            "value": {
+                                "height": 265.52450090744105,
+                                "width": 304.55172413793116
+                            }
+                        },
+                        "uuid": "30ece9fc-1bb1-41a7-9381-bcfee86abb93",
+                        "visible": true
+                    }
+                ],
+                "transform": {
+                    "__type__": "Transform",
+                    "anchor_point": {
+                        "value": {
+                            "x": 161.13539019963724,
+                            "y": 170.11687840290384
+                        }
+                    },
+                    "position": {
+                        "value": {
+                            "x": 159.7415607985483,
+                            "y": 169.41996370235938
+                        }
+                    },
+                    "rotation": {
+                        "value": 0
+                    },
+                    "scale": {
+                        "value": {
+                            "x": 1.0225645303726196,
+                            "y": 1.1708563566207886
+                        }
+                    }
+                },
+                "uuid": "35ac5908-fa5a-4eb3-9c04-7c46b717d555",
+                "visible": true
+            },
+            {
+                "__type__": "Group",
+                "group_color": "#00000000",
+                "locked": false,
+                "name": "1 1",
+                "opacity": {
+                    "value": 1
+                },
+                "shapes": [
+                    {
+                        "__type__": "Fill",
+                        "color": {
+                            "value": "#008000"
+                        },
+                        "fill_rule": "NonZero",
+                        "group_color": "#00000000",
+                        "locked": false,
+                        "name": "Fill",
+                        "opacity": {
+                            "value": 1
+                        },
+                        "use": null,
+                        "uuid": "b599ba5d-efc9-4c17-92ca-0ac4ab5e262c",
+                        "visible": true
+                    },
+                    {
+                        "__type__": "Stroke",
+                        "cap": "ButtCap",
+                        "color": {
+                            "value": "#000000"
+                        },
+                        "group_color": "#00000000",
+                        "join": "MiterJoin",
+                        "locked": false,
+                        "miter_limit": 0,
+                        "name": "Stroke",
+                        "opacity": {
+                            "value": 1
+                        },
+                        "use": null,
+                        "uuid": "d5206c7e-af98-4e38-ad20-e2295db67e07",
+                        "visible": true,
+                        "width": {
+                            "value": 2
+                        }
+                    },
+                    {
+                        "__type__": "TextShape",
+                        "font": {
+                            "__type__": "Font",
+                            "family": "Arial",
+                            "line_height": 1,
+                            "size": 240,
+                            "style": "Regular"
+                        },
+                        "group_color": "#00000000",
+                        "locked": false,
+                        "name": "1 1",
+                        "path": null,
+                        "path_offset": {
+                            "value": 0
+                        },
+                        "position": {
+                            "keyframes": [
+                                {
+                                    "after": {
+                                        "x": 1,
+                                        "y": 1
+                                    },
+                                    "before": {
+                                        "x": 0.3333333333333333,
+                                        "y": 0
+                                    },
+                                    "time": 0,
+                                    "value": {
+                                        "x": 63.419237749546284,
+                                        "y": 99.65880217785845
+                                    }
+                                },
+                                {
+                                    "after": {
+                                        "x": 1,
+                                        "y": 1
+                                    },
+                                    "before": {
+                                        "x": 0.3333333333333333,
+                                        "y": 0
+                                    },
+                                    "time": 40,
+                                    "value": {
+                                        "x": 63,
+                                        "y": 60
+                                    }
+                                },
+                                {
+                                    "after": {
+                                        "x": 1,
+                                        "y": 1
+                                    },
+                                    "before": {
+                                        "x": 0.3333333333333333,
+                                        "y": 0
+                                    },
+                                    "time": 80,
+                                    "value": {
+                                        "x": 63,
+                                        "y": 120
+                                    }
+                                },
+                                {
+                                    "time": 90,
+                                    "value": {
+                                        "x": 63,
+                                        "y": 100
+                                    }
+                                }
+                            ]
+                        },
+                        "text": "1",
+                        "uuid": "e1d155ea-ba70-4871-a2b9-761804749f1e",
+                        "visible": true
+                    }
+                ],
+                "transform": {
+                    "__type__": "Transform",
+                    "anchor_point": {
+                        "value": {
+                            "x": 74.97392524954628,
+                            "y": 82.40880217785845
+                        }
+                    },
+                    "position": {
+                        "value": {
+                            "x": -6.565094714156075,
+                            "y": 269.87885662431944
+                        }
+                    },
+                    "rotation": {
+                        "value": 0
+                    },
+                    "scale": {
+                        "value": {
+                            "x": 1,
+                            "y": 1
+                        }
+                    }
+                },
+                "uuid": "85fd82ab-f3b2-4199-a34b-8aa959709086",
+                "visible": true
+            },
+            {
+                "__type__": "Group",
+                "group_color": "#00000000",
+                "locked": false,
+                "name": "s 1",
+                "opacity": {
+                    "value": 1
+                },
+                "shapes": [
+                    {
+                        "__type__": "Fill",
+                        "color": {
+                            "value": "#008000"
+                        },
+                        "fill_rule": "NonZero",
+                        "group_color": "#00000000",
+                        "locked": false,
+                        "name": "Fill",
+                        "opacity": {
+                            "value": 1
+                        },
+                        "use": null,
+                        "uuid": "9bc27dc5-f107-4d77-88c3-cc4191c64a48",
+                        "visible": true
+                    },
+                    {
+                        "__type__": "Stroke",
+                        "cap": "ButtCap",
+                        "color": {
+                            "value": "#000000"
+                        },
+                        "group_color": "#00000000",
+                        "join": "MiterJoin",
+                        "locked": false,
+                        "miter_limit": 0,
+                        "name": "Stroke",
+                        "opacity": {
+                            "value": 1
+                        },
+                        "use": null,
+                        "uuid": "3a103ff0-0705-4259-9c34-9d0cb64d565e",
+                        "visible": true,
+                        "width": {
+                            "value": 2
+                        }
+                    },
+                    {
+                        "__type__": "TextShape",
+                        "font": {
+                            "__type__": "Font",
+                            "family": "Arial",
+                            "line_height": 1,
+                            "size": 180,
+                            "style": "Regular"
+                        },
+                        "group_color": "#00000000",
+                        "locked": false,
+                        "name": "s 1",
+                        "path": null,
+                        "path_offset": {
+                            "value": 0
+                        },
+                        "position": {
+                            "keyframes": [
+                                {
+                                    "after": {
+                                        "x": 1,
+                                        "y": 1
+                                    },
+                                    "before": {
+                                        "x": 0.3333333333333333,
+                                        "y": 0
+                                    },
+                                    "time": 20,
+                                    "value": {
+                                        "x": 105,
+                                        "y": 90
+                                    }
+                                },
+                                {
+                                    "after": {
+                                        "x": 1,
+                                        "y": 1
+                                    },
+                                    "before": {
+                                        "x": 0.3333333333333333,
+                                        "y": 0
+                                    },
+                                    "time": 60,
+                                    "value": {
+                                        "x": 105,
+                                        "y": 50
+                                    }
+                                },
+                                {
+                                    "after": {
+                                        "x": 1,
+                                        "y": 1
+                                    },
+                                    "before": {
+                                        "x": 0.3333333333333333,
+                                        "y": 0
+                                    },
+                                    "time": 100,
+                                    "value": {
+                                        "x": 105,
+                                        "y": 100
+                                    }
+                                },
+                                {
+                                    "time": 110,
+                                    "value": {
+                                        "x": 105,
+                                        "y": 90
+                                    }
+                                }
+                            ]
+                        },
+                        "text": "s",
+                        "uuid": "75fe3427-c3c8-4c0e-871e-20daa3e871b3",
+                        "visible": true
+                    }
+                ],
+                "transform": {
+                    "__type__": "Transform",
+                    "anchor_point": {
+                        "value": {
+                            "x": 121.22810798548096,
+                            "y": 73.27519566696915
+                        }
+                    },
+                    "position": {
+                        "value": {
+                            "x": 130.287999092559,
+                            "y": 269.3260123638838
+                        }
+                    },
+                    "rotation": {
+                        "value": 0
+                    },
+                    "scale": {
+                        "value": {
+                            "x": 1,
+                            "y": 1
+                        }
+                    }
+                },
+                "uuid": "ab28d2d8-a12d-48ad-9358-d5b1d33f281b",
+                "visible": true
+            },
+            {
+                "__type__": "Group",
+                "group_color": "#00000000",
+                "locked": false,
+                "name": "t 1",
+                "opacity": {
+                    "value": 1
+                },
+                "shapes": [
+                    {
+                        "__type__": "Fill",
+                        "color": {
+                            "value": "#008000"
+                        },
+                        "fill_rule": "NonZero",
+                        "group_color": "#00000000",
+                        "locked": false,
+                        "name": "Fill",
+                        "opacity": {
+                            "value": 1
+                        },
+                        "use": null,
+                        "uuid": "0bf43b2f-90e8-4b6f-bb0b-758fcab10ed9",
+                        "visible": true
+                    },
+                    {
+                        "__type__": "Stroke",
+                        "cap": "ButtCap",
+                        "color": {
+                            "value": "#000000"
+                        },
+                        "group_color": "#00000000",
+                        "join": "MiterJoin",
+                        "locked": false,
+                        "miter_limit": 0,
+                        "name": "Stroke",
+                        "opacity": {
+                            "value": 1
+                        },
+                        "use": null,
+                        "uuid": "d6afa442-0388-4b70-8dd7-25ec43c7fbbd",
+                        "visible": true,
+                        "width": {
+                            "value": 2
+                        }
+                    },
+                    {
+                        "__type__": "TextShape",
+                        "font": {
+                            "__type__": "Font",
+                            "family": "Arial",
+                            "line_height": 1,
+                            "size": 180,
+                            "style": "Regular"
+                        },
+                        "group_color": "#00000000",
+                        "locked": false,
+                        "name": "t 1",
+                        "path": null,
+                        "path_offset": {
+                            "value": 0
+                        },
+                        "position": {
+                            "keyframes": [
+                                {
+                                    "after": {
+                                        "x": 1,
+                                        "y": 1
+                                    },
+                                    "before": {
+                                        "x": 0.3333333333333333,
+                                        "y": 0
+                                    },
+                                    "time": 40,
+                                    "value": {
+                                        "x": 145,
+                                        "y": 130
+                                    }
+                                },
+                                {
+                                    "after": {
+                                        "x": 1,
+                                        "y": 1
+                                    },
+                                    "before": {
+                                        "x": 0.3333333333333333,
+                                        "y": 0
+                                    },
+                                    "time": 80,
+                                    "value": {
+                                        "x": 145,
+                                        "y": 55
+                                    }
+                                },
+                                {
+                                    "after": {
+                                        "x": 1,
+                                        "y": 1
+                                    },
+                                    "before": {
+                                        "x": 0.3333333333333333,
+                                        "y": 0
+                                    },
+                                    "time": 120,
+                                    "value": {
+                                        "x": 145,
+                                        "y": 140
+                                    }
+                                },
+                                {
+                                    "after": {
+                                        "x": 1,
+                                        "y": 1
+                                    },
+                                    "before": {
+                                        "x": 0,
+                                        "y": 0
+                                    },
+                                    "time": 135,
+                                    "value": {
+                                        "x": 145,
+                                        "y": 130
+                                    }
+                                }
+                            ]
+                        },
+                        "text": "t",
+                        "uuid": "e508233f-1e5f-47fe-a6ea-8b2de6147334",
+                        "visible": true
+                    }
+                ],
+                "transform": {
+                    "__type__": "Transform",
+                    "anchor_point": {
+                        "value": {
+                            "x": 152.5692349137931,
+                            "y": 113.6941427518149
+                        }
+                    },
+                    "position": {
+                        "value": {
+                            "x": 241.0774018829401,
+                            "y": 269.10612097323053
+                        }
+                    },
+                    "rotation": {
+                        "value": 0
+                    },
+                    "scale": {
+                        "value": {
+                            "x": 1,
+                            "y": 1
+                        }
+                    }
+                },
+                "uuid": "c4cbba16-89f1-4852-906a-5b2837f46e44",
+                "visible": true
+            }
+        ],
+        "uuid": "c38beded-4480-4d62-9498-df2bec406e29",
+        "visible": true,
+        "width": 320
+    },
+    "assets": {
+        "__type__": "Assets",
+        "colors": {
+            "__type__": "NamedColorList",
+            "name": "",
+            "uuid": "9299bee9-7ba6-44be-89c8-3aa5d7d5ac9a",
+            "values": [
+            ]
+        },
+        "fonts": {
+            "__type__": "FontList",
+            "name": "",
+            "uuid": "bcedf89f-4d67-4d87-87f0-e49a6fed2f42",
+            "values": [
+            ]
+        },
+        "gradient_colors": {
+            "__type__": "GradientColorsList",
+            "name": "",
+            "uuid": "d5ef4ab0-b4c5-4b82-a875-6fdb50343941",
+            "values": [
+            ]
+        },
+        "gradients": {
+            "__type__": "GradientList",
+            "name": "",
+            "uuid": "30871562-7ff5-4f34-a599-85c72445b1cd",
+            "values": [
+            ]
+        },
+        "images": {
+            "__type__": "BitmapList",
+            "name": "",
+            "uuid": "920a94ce-79c0-4342-8a74-d42f2f4fc53f",
+            "values": [
+            ]
+        },
+        "name": "",
+        "precompositions": {
+            "__type__": "PrecompositionList",
+            "name": "",
+            "uuid": "59a3e65f-fd85-4481-a69e-3c9bcc398d50",
+            "values": [
+            ]
+        },
+        "uuid": "92f5bd9d-3b46-48ce-b918-9f31cbb578f5"
+    },
+    "format": {
+        "format_version": 6,
+        "generator": "Glaxnimate",
+        "generator_version": "0.5.1+win-3a75daf1"
+    },
+    "info": {
+        "author": "",
+        "description": "",
+        "keywords": [
+        ]
+    },
+    "metadata": {
+    }
+}
