@@ -55,6 +55,11 @@ a:hover {
     }
 }
 
+.Achievements-Lottie {
+    width: calc(75px + 3vmin);
+    display: inline-block;
+}
+
 .Alert {
     font-size: calc(10px + 1vmin);
 }

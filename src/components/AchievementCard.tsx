@@ -1,17 +1,15 @@
 import I18n from 'i18n-js';
-// import Lottie from 'lottie-react';
 import { memo, ReactElement } from 'react';
 import { Card, Col, Image, OverlayTrigger, Popover, ProgressBar } from 'react-bootstrap';
 import { AchievementType } from '../types/AchievementsTypes';
 import HyperLink from './HyperLink';
-// import lottieAnimation from "../badges/animations/AirLovers.json";
 
 const CASUAL = 15;
 const NOVICE = 30;
 const COMPETENT = 60;
 const PROFICIENT = 100;
-const EXPERT = 250;
-const MASTER = 500;
+const EXPERT = 200;
+const MASTER = 300;
 
 export default memo(function AchievementCard(data: AchievementType) {
     const percentage = Math.floor(data.count / data.goal * 100);
@@ -48,10 +46,6 @@ export default memo(function AchievementCard(data: AchievementType) {
                         {percentage >= CASUAL ? I18n.t(data.title) : ''}
                     </Card.Title>
                     <Image src={require(`../badges/${data.icon}.svg`)} className={iconColor} />
-                    {/* <Lottie
-                        animationData={lottieAnimation}
-                        loop={true}
-                    /> */}
                     <Card.Text className='Card-Text' style={{ color: textColor, marginTop: 'auto' }}>
                         {I18n.t('cardCountOfGoal', { count: data.count, goal: data.goal })}
                     </Card.Text>
@@ -94,7 +88,7 @@ function getChunks<T>(items: T[]): T[][] {
 }
 
 function getTitleRank(percentage: number) {
-    if (percentage <= 0) {
+    if (percentage <= 5) {
         return I18n.t('cardStarted');
     }
     else if (percentage < CASUAL) {
