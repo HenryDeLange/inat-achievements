@@ -10,6 +10,9 @@ import { getAchievements } from './AchievementImplementations';
 import { FLOWER_CHILD_TAXA } from './achievements/FlowerChild';
 import { CLASS_RANK, ORDER_RANK } from './achievements/utils';
 import { getTaxonRank, isTaxonCached, populateTaxonRank } from './achievements/utils/TaxonCache';
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import worker from 'workerize-loader!./workers/worker';
 
 // 200 seems to be the maximum iNat wants
 const RESULT_PER_PAGE_LIMIT = 200;
@@ -28,6 +31,9 @@ const FIRST_PAGE = 1;
 
 const printLog = false;
 
+// Setup Web Worker
+const workerInstance = worker();
+
 export async function calculateAchievements(
     dispatch: Dispatch<any>,
     taxonRanks: TaxonRankCacheType[],
@@ -37,6 +43,14 @@ export async function calculateAchievements(
     totalResults = -1,
     resultCount = 0
 ) {
+    // @ts-ignore
+    console.log('start calculating...')
+    workerInstance && workerInstance.expensive(123)
+        .then((result: number) => {
+            console.log('calculated...', result);
+        });
+
+
     printLog && console.log(`calculateAchievements: BEGIN ${username} | page=${page} | total=${totalResults} | limit=${readLimit}`);
     // Sleep for a bit before starting (to comply with the iNat requests per minute limit)
     await sleep();
