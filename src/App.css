@@ -56,7 +56,7 @@ a:hover {
 }
 
 .Achievements-Lottie {
-    width: calc(75px + 3vmin);
+    width: calc(100px + 5vmin);
     display: inline-block;
 }
 

@@ -35,12 +35,18 @@ export default memo(function Achievements() {
                 </Row>
                 <Row className='mb-5'>
                     <Container>
-                        {achievedTotal >= 1 && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={first} /> }
-                        {percentageOfAllAchieved >= 10 && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent10} /> }
-                        {percentageOfAllAchieved >= 25 && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent25} /> }
-                        {percentageOfAllAchieved >= 50 && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent50} /> }
-                        {percentageOfAllAchieved >= 75 && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent75} /> }
-                        {percentageOfAllAchieved >= 100 && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent100} /> }
+                        {percentageOfAllAchieved >= 1 && percentageOfAllAchieved < 10
+                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={first} /> }
+                        {percentageOfAllAchieved >= 10 && percentageOfAllAchieved < 25
+                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent10} /> }
+                        {percentageOfAllAchieved >= 25 && percentageOfAllAchieved < 50
+                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent25} /> }
+                        {percentageOfAllAchieved >= 50 && percentageOfAllAchieved < 75
+                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent50} /> }
+                        {percentageOfAllAchieved >= 75 && percentageOfAllAchieved < 100
+                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent75} /> }
+                        {percentageOfAllAchieved >= 100
+                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent100} /> }
                     </Container>
                 </Row>
             </>}
