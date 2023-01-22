@@ -2,7 +2,7 @@ import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
 const GOAL = 24;
-const TAXA = [3726, 23];
+const TAXA = [3726, 23, 4929];
 
 export default new AchievementData(
     'CraneyStorker',

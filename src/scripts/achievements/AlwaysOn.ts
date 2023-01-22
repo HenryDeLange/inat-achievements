@@ -2,7 +2,7 @@ import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 import { MILLISECONDS_PER_DAY } from "./utils";
 
-const GOAL = 400;
+const GOAL = 120;
 const DAYS = 5;
 
 let alwaysOnDate = new Date(Date.UTC(1980, 1, 1)).toISOString().split('T')[0];

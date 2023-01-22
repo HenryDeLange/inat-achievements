@@ -33,7 +33,12 @@ test('Count', () => {
             ancestor_ids: [23]
         }
     });
-    expect(achievement.count).toEqual(2);
+    achievement.evaluate({
+        taxon: {
+            ancestor_ids: [4929]
+        }
+    });
+    expect(achievement.count).toEqual(3);
 });
 
 test('Don\'t Count', () => {

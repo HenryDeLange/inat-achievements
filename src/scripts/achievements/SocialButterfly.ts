@@ -1,7 +1,7 @@
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
-const GOAL = 100;
+const GOAL = 30;
 const TAXA = 47224;
 
 // TODO: Make sure this also counts comments inside identifications?

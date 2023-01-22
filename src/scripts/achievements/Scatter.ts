@@ -2,7 +2,7 @@ import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 import { SPECIES_RANK } from "./utils";
 
-const GOAL = 25;
+const GOAL = 16;
 const ANNOTATION_ATTRIBUTE = 22;
 const ANNOTATION_VALUE = 25;
 

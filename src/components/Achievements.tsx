@@ -5,7 +5,7 @@ import { RootState } from '../redux/ReduxStore';
 import { AchievementType } from '../types/AchievementsTypes';
 import AchievementCard from './AchievementCard';
 import Lottie from 'lottie-react';
-import first from "../badges/animations/1.json";
+import percent01 from "../badges/animations/1.json";
 import percent10 from "../badges/animations/10.json";
 import percent25 from "../badges/animations/25.json";
 import percent50 from "../badges/animations/50.json";
@@ -36,7 +36,7 @@ export default memo(function Achievements() {
                 <Row className='mb-5'>
                     <Container>
                         {percentageOfAllAchieved >= 1 && percentageOfAllAchieved < 10
-                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={first} /> }
+                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent01} /> }
                         {percentageOfAllAchieved >= 10 && percentageOfAllAchieved < 25
                             && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent10} /> }
                         {percentageOfAllAchieved >= 25 && percentageOfAllAchieved < 50

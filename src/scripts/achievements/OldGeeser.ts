@@ -2,7 +2,7 @@ import { differenceInYears } from "date-fns";
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementData from "../AchievementData";
 
-const GOAL = 25;
+const GOAL = 10;
 const TAXA = 6912;
 
 let maxYearsAgo = 0;
