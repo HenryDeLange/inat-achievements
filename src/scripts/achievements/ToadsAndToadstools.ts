@@ -1,11 +1,11 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
 const GOAL = 42;
 const TAXA = [20979, 47169];
 
 // TODO: Add some condition to link the two groups better
-export default new AchievementData(
+export default new AchievementWrapper(
     'ToadsAndToadstools',
     GOAL,
     () => TAXA,

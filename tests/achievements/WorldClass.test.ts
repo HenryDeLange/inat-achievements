@@ -1,9 +1,9 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import { CLASS_RANK } from '../../src/scripts/achievements/utils';
 import { populateTaxonRank } from '../../src/scripts/achievements/utils/TaxonCache';
 import WorldClass from '../../src/scripts/achievements/WorldClass';
 
-const achievement: AchievementData = WorldClass;
+const achievement: AchievementWrapper = WorldClass;
 
 beforeAll(() => {
     populateTaxonRank(1, 100);
@@ -24,9 +24,9 @@ test('Reset', () => {
             rank_level: CLASS_RANK
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -36,14 +36,14 @@ test('Count', () => {
             rank_level: CLASS_RANK
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [1, 2, 62, 7, 8, 9],
             rank_level: CLASS_RANK
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Don\'t Count', () => {
@@ -53,14 +53,14 @@ test('Don\'t Count', () => {
             rank_level: CLASS_RANK
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [1, 2, 3, 4, 5, 61],
             rank_level: CLASS_RANK + 1
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -76,7 +76,7 @@ test('Duplicates', () => {
             rank_level: CLASS_RANK
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Gaps', () => {
@@ -86,7 +86,7 @@ test('Gaps', () => {
             rank_level: CLASS_RANK
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Missing Data', () => {
@@ -99,5 +99,5 @@ test('Missing Data', () => {
     achievement.evaluate({
         taxon: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

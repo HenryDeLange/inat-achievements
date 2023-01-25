@@ -1,10 +1,10 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
 const GOAL = 77;
 const TAXA = 47604;
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'DaisyTown',
     GOAL,
     () => [TAXA],

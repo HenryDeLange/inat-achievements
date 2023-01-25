@@ -1,5 +1,5 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
 const GOAL = 4;
 
@@ -8,7 +8,7 @@ let northEast = false;
 let southWest = false;
 let southEast = false;
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'AllCorners',
     GOAL,
     () => [],

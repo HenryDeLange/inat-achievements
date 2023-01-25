@@ -1,9 +1,9 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import FlowerChild from '../../src/scripts/achievements/FlowerChild';
 import { ORDER_RANK, SPECIES_RANK, SUB_SPECIES_RANK } from '../../src/scripts/achievements/utils';
 import { populateTaxonRank } from '../../src/scripts/achievements/utils/TaxonCache';
 
-const achievement: AchievementData = FlowerChild;
+const achievement: AchievementWrapper = FlowerChild;
 
 beforeAll(() => {
     populateTaxonRank(1, 100);
@@ -26,9 +26,9 @@ test('Reset', () => {
             rank_level: ORDER_RANK
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -44,7 +44,7 @@ test('Count', () => {
             rank_level: ORDER_RANK
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Don\'t Count', () => {
@@ -54,14 +54,14 @@ test('Don\'t Count', () => {
             rank_level: ORDER_RANK
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [1, 2, 3, 4, 47125, 222],
             rank_level: ORDER_RANK + 1
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -83,7 +83,7 @@ test('Duplicates', () => {
             rank_level: SPECIES_RANK
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Gaps', () => {
@@ -105,7 +105,7 @@ test('Gaps', () => {
             rank_level: SUB_SPECIES_RANK
         }
     });
-    expect(achievement.count).toEqual(3);
+    expect(achievement.data.count).toEqual(3);
 });
 
 test('Missing Data', () => {
@@ -118,5 +118,5 @@ test('Missing Data', () => {
     achievement.evaluate({
         taxon: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

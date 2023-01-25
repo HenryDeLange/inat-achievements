@@ -1,6 +1,6 @@
 import { addDays, formatISO9075 } from "date-fns";
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
 const GOAL = 24
 const TAXA = [47398, 39532, 47114, 61415];
@@ -9,7 +9,7 @@ const WEEK = 7;
 let obsPerDay = new Map<string, number>();
 let maxCount = 0;
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'HomelyHermit',
     GOAL,
     () => TAXA,

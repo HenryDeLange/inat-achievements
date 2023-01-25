@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import NightOwl from '../../src/scripts/achievements/NightOwl';
 
-const achievement: AchievementData = NightOwl;
+const achievement: AchievementWrapper = NightOwl;
 
 afterEach(() => achievement.reset());
 
@@ -14,9 +14,9 @@ test('Reset', () => {
             hour: 5
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -52,7 +52,7 @@ test('Count', () => {
             hour: 24
         }
     });
-    expect(achievement.count).toEqual(4);
+    expect(achievement.data.count).toEqual(4);
 });
 
 test('Don\'t Count', () => {
@@ -80,7 +80,7 @@ test('Don\'t Count', () => {
             hour: 17
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -100,7 +100,7 @@ test('Duplicates', () => {
             hour: 5
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Gaps', () => {
@@ -128,7 +128,7 @@ test('Gaps', () => {
             hour: 8
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [19350]
@@ -153,7 +153,7 @@ test('Gaps', () => {
             hour: 20
         }
     });
-    expect(achievement.count).toEqual(4);
+    expect(achievement.data.count).toEqual(4);
 });
 
 test('Missing Data', () => {
@@ -169,5 +169,5 @@ test('Missing Data', () => {
         taxon: undefined,
         observed_on_details: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

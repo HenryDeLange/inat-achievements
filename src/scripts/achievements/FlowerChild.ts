@@ -1,5 +1,5 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 import { ORDER_RANK } from "./utils";
 import { getTaxonRank } from "./utils/TaxonCache";
 
@@ -9,7 +9,7 @@ export const FLOWER_CHILD_TAXA = 47125;
 let flowerOrderCount: number[] = [];
 
 // TODO: Add condition to have 'flowering' annotation
-export default new AchievementData(
+export default new AchievementWrapper(
     'FlowerChild',
     GOAL,
     () => [FLOWER_CHILD_TAXA],

@@ -1,27 +1,28 @@
-import { AchievementType } from '../types/AchievementsTypes';
+import { AchievementDataType } from '../types/AchievementsTypes';
 import { Observation } from '../types/iNaturalistTypes';
 
-export default class AchievementData implements AchievementType {
-    icon: string;
-    title: string;
-    details: string;
-    goal: number;
-    count: number;
+export default class AchievementWrapper {
+    data: AchievementDataType;
     getTaxa: () => number[];
-    evalFunc: (iNatObsJSON: Observation) => number;
-    resetFunc?: () => void;
-    observations: number[] = [];
-
+    private evalFunc: (iNatObsJSON: Observation) => number;
+    private resetFunc?: () => void;
+    
     constructor(key: string, goal: number, getTaxa: () => number[], evalFunc: (iNatObsJSON: Observation) => number, resetFunc?: () => void) {
-        this.icon = key;
-        this.title = `achievement${key}Title`;
-        this.details = `achievement${key}Details`;
-        this.goal = goal;
-        this.count = 0;
+        this.data = {
+            icon: key,
+            title: `achievement${key}Title`,
+            details: `achievement${key}Details`,
+            goal: goal,
+            count: 0,
+            observations: []
+        }
         this.getTaxa = getTaxa;
         this.evalFunc = evalFunc;
         this.resetFunc = resetFunc;
-        this.observations = [];
+    }
+
+    public getData(): AchievementDataType {
+        return this.data;
     }
 
     public evaluate(iNatObsJSON: Observation) {
@@ -33,14 +34,14 @@ export default class AchievementData implements AchievementType {
     }
 
     private updateCount(observationID: number, increment: number) {
-        this.count = this.count + increment;
+        this.data.count = this.data.count + increment;
         // Keep track of observations that increased the achievement
-        this.observations = [ ...this.observations, observationID];
+        this.data.observations.push(observationID);
     }
 
     public reset() {
-        this.count = 0;
-        this.observations = [];
+        this.data.count = 0;
+        this.data.observations = [];
         if (this.resetFunc) {
             this.resetFunc();
         }

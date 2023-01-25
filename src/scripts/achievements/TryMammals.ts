@@ -1,5 +1,5 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
 const GOAL = 9;
 const TAXA_DIG = [42478, 43253, 46927, 71384];
@@ -10,7 +10,7 @@ let mammalDig = 0;
 let mammalSwim = 0;
 let mammalFly = 0;
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'TryMammals',
     GOAL,
     () => [...TAXA_DIG, TAXA_FLY, ...TAXA_SWIM],

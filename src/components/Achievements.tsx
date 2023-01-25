@@ -1,21 +1,21 @@
+import I18n from 'i18n-js';
+import Lottie from 'lottie-react';
 import { memo } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { RootState } from '../redux/ReduxStore';
-import { AchievementType } from '../types/AchievementsTypes';
-import AchievementCard from './AchievementCard';
-import Lottie from 'lottie-react';
 import percent01 from "../badges/animations/1.json";
 import percent10 from "../badges/animations/10.json";
+import percent100 from "../badges/animations/100.json";
 import percent25 from "../badges/animations/25.json";
 import percent50 from "../badges/animations/50.json";
 import percent75 from "../badges/animations/75.json";
-import percent100 from "../badges/animations/100.json";
-import I18n from 'i18n-js';
+import { RootState } from '../redux/ReduxStore';
+import { AchievementDataType } from '../types/AchievementsTypes';
+import AchievementCard from './AchievementCard';
 
 export default memo(function Achievements() {
     const achievementData = useSelector((state: RootState) => state.achievements.data);
-    let list: AchievementType[] = Array.from(achievementData.values()).sort((a, b) => {
+    let list: AchievementDataType[] = Array.from(achievementData.values()).sort((a, b) => {
         const percentageCompletedA = a.count / a.goal * 100;
         const percentageCompletedB = b.count / b.goal * 100;
         if (percentageCompletedA === percentageCompletedB) {
@@ -25,6 +25,7 @@ export default memo(function Achievements() {
     });
     const achievedTotal = list.reduce((c, achievement) => (achievement.count >= achievement.goal) ? c + 1 : c, 0);
     const percentageOfAllAchieved = achievedTotal / achievementData.length * 100;
+    console.log('RENDER ACHIEVEMENTS:', achievementData)
     return (
         <Container>
             {achievedTotal >= 1 && <>

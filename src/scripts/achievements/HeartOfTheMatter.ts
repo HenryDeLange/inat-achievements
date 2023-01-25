@@ -1,9 +1,9 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
 const GOAL = 13;
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'HeartOfTheMatter',
     GOAL,
     () => [],

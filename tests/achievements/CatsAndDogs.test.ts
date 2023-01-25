@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import CatsAndDogs from '../../src/scripts/achievements/CatsAndDogs';
 
-const achievement: AchievementData = CatsAndDogs;
+const achievement: AchievementWrapper = CatsAndDogs;
 
 afterEach(() => achievement.reset());
 
@@ -14,7 +14,7 @@ test('Reset', () => {
             date: '2022-01-01'
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [ 1, 2, 3, 42043, 5, 6, 7 ]
@@ -23,9 +23,9 @@ test('Reset', () => {
             date: '2022-01-01'
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -61,7 +61,7 @@ test('Count', () => {
             date: '2022-03-03'
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Don\'t Count', () => {
@@ -81,7 +81,7 @@ test('Don\'t Count', () => {
             date: '2022-05-05'
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [41944]
@@ -90,7 +90,7 @@ test('Don\'t Count', () => {
             date: '2022-03-03'
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.reset();
     achievement.evaluate({
         taxon: {
@@ -108,7 +108,7 @@ test('Don\'t Count', () => {
             date: '2022-04-04'
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -145,7 +145,7 @@ test('Duplicates', () => {
             date: '2022-01-01'
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Gaps', () => {
@@ -166,7 +166,7 @@ test('Gaps', () => {
             date: '2022-03-04'
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Missing Data', () => {
@@ -199,5 +199,5 @@ test('Missing Data', () => {
         },
         observed_on_details: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

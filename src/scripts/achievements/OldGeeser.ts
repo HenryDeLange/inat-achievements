@@ -1,13 +1,13 @@
 import { differenceInYears } from "date-fns";
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
 const GOAL = 10;
 const TAXA = 6912;
 
 let maxYearsAgo = 0;
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'OldGeeser',
     GOAL,
     () => [TAXA],

@@ -1,5 +1,5 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 import { CLASS_RANK } from "./utils";
 import { getTaxonRank } from "./utils/TaxonCache";
 
@@ -7,7 +7,7 @@ const GOAL = 16;
 
 let classCount: number[] = [];
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'WorldClass',
     GOAL,
     () => [],

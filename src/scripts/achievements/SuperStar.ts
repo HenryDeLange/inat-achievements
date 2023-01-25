@@ -1,5 +1,5 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 import { SPECIES_RANK, SUB_SPECIES_RANK } from "./utils";
 
 const GOAL = 5;
@@ -7,7 +7,7 @@ const TAXA = 481959;
 
 let species: number[] = [];
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'SuperStar',
     GOAL,
     () => [TAXA],

@@ -1,8 +1,8 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import TentacleSuckers from '../../src/scripts/achievements/TentacleSuckers';
 import { SPECIES_RANK, SUB_SPECIES_RANK } from '../../src/scripts/achievements/utils';
 
-const achievement: AchievementData = TentacleSuckers;
+const achievement: AchievementWrapper = TentacleSuckers;
 
 afterEach(() => achievement.reset());
 
@@ -14,9 +14,9 @@ test('Reset', () => {
             rank_level: SPECIES_RANK
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -27,7 +27,7 @@ test('Count', () => {
             rank_level: SPECIES_RANK
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [47797],
@@ -35,7 +35,7 @@ test('Count', () => {
             rank_level: SPECIES_RANK
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [48332],
@@ -43,7 +43,7 @@ test('Count', () => {
             rank_level: SUB_SPECIES_RANK
         }
     });
-    expect(achievement.count).toEqual(3);
+    expect(achievement.data.count).toEqual(3);
 });
 
 test('Don\'t Count', () => {
@@ -54,7 +54,7 @@ test('Don\'t Count', () => {
             rank_level: SPECIES_RANK
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [48332],
@@ -62,7 +62,7 @@ test('Don\'t Count', () => {
             rank_level: SPECIES_RANK + 1
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -80,7 +80,7 @@ test('Duplicates', () => {
             rank_level: SPECIES_RANK
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [48332],
@@ -88,7 +88,7 @@ test('Duplicates', () => {
             rank_level: SUB_SPECIES_RANK
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Missing Data', () => {
@@ -104,7 +104,7 @@ test('Missing Data', () => {
         taxon: undefined,
         observed_on_details: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [48332],
@@ -112,7 +112,7 @@ test('Missing Data', () => {
             rank_level: SPECIES_RANK
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [48332],
@@ -120,5 +120,5 @@ test('Missing Data', () => {
             rank_level: SUB_SPECIES_RANK
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

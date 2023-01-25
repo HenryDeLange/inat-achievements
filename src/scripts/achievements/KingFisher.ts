@@ -1,11 +1,11 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
 const GOAL = 33;
 const TAXA = 47178;
 
 // TODO: Instead count all fish species observed during a set period? Or combine with the King-Fisher bird?
-export default new AchievementData(
+export default new AchievementWrapper(
     'KingFisher',
     GOAL,
     () => [TAXA],

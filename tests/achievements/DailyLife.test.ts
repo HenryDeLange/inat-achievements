@@ -1,8 +1,8 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import DailyLife from '../../src/scripts/achievements/DailyLife';
 import { SPECIES_RANK, SUB_SPECIES_RANK } from '../../src/scripts/achievements/utils';
 
-const achievement: AchievementData = DailyLife;
+const achievement: AchievementWrapper = DailyLife;
 
 afterEach(() => achievement.reset());
 
@@ -18,9 +18,9 @@ test('Reset', () => {
             }
         });
     }
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -35,7 +35,7 @@ test('Count', () => {
             }
         });
     }
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     for (let i = 1; i <= 24; i++) {
         achievement.evaluate({
             taxon: {
@@ -47,7 +47,7 @@ test('Count', () => {
             }
         });
     }
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Don\'t Count', () => {
@@ -62,7 +62,7 @@ test('Don\'t Count', () => {
             }
         });
     }
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     for (let i = 1; i <= 24; i++) {
         achievement.evaluate({
             taxon: {
@@ -74,7 +74,7 @@ test('Don\'t Count', () => {
             }
         });
     }
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -98,7 +98,7 @@ test('Duplicates', () => {
             }
         });
     }
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Gaps', () => {
@@ -113,7 +113,7 @@ test('Gaps', () => {
             }
         });
     }
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Missing Data', () => {
@@ -177,5 +177,5 @@ test('Missing Data', () => {
             observed_on_details: undefined
         });
     }
-    expect(DailyLife.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

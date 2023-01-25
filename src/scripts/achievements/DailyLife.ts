@@ -1,5 +1,5 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 import { SPECIES_RANK, SUB_SPECIES_RANK } from "./utils";
 
 const GOAL = 24;
@@ -8,7 +8,7 @@ let dailySpeciesCount: number[] = [];
 let dailyLifeDate: string | null = null;
 let dailyLifeDatePrev: string | null = null;
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'DailyLife',
     GOAL,
     () => [],

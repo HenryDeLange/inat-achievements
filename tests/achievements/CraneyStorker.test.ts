@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import CraneyStorker from '../../src/scripts/achievements/CraneyStorker';
 
-const achievement: AchievementData = CraneyStorker;
+const achievement: AchievementWrapper = CraneyStorker;
 
 afterEach(() => achievement.reset());
 
@@ -11,15 +11,15 @@ test('Reset', () => {
             ancestor_ids: [ 1, 2, 3, 3726, 5, 6, 7 ]
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [ 1, 2, 3, 23, 5, 6, 7 ]
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -38,7 +38,7 @@ test('Count', () => {
             ancestor_ids: [4929]
         }
     });
-    expect(achievement.count).toEqual(3);
+    expect(achievement.data.count).toEqual(3);
 });
 
 test('Don\'t Count', () => {
@@ -47,7 +47,7 @@ test('Don\'t Count', () => {
             ancestor_ids: [1]
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -71,7 +71,7 @@ test('Duplicates', () => {
             ancestor_ids: [23]
         }
     });
-    expect(achievement.count).toEqual(4);
+    expect(achievement.data.count).toEqual(4);
 });
 
 test('Missing Data', () => {
@@ -83,5 +83,5 @@ test('Missing Data', () => {
     achievement.evaluate({
         taxon: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

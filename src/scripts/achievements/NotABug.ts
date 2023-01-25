@@ -1,11 +1,11 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
 const GOAL = 201;
 const TAXA_INCLUDE = [47158, 144128, 47119, 243773];
 const TAXA_EXCLUDE = 61267;
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'NotABug',
     GOAL,
     () => [...TAXA_INCLUDE, TAXA_EXCLUDE],

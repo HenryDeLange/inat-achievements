@@ -1,5 +1,5 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 import { MILLISECONDS_PER_DAY } from "./utils";
 
 const GOAL = 120;
@@ -9,7 +9,7 @@ let alwaysOnDate = new Date(Date.UTC(1980, 1, 1)).toISOString().split('T')[0];
 let alwaysOnCount = 0;
 let alwaysOnCountMax = 0;
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'AlwaysOn',
     GOAL,
     () => [],

@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import ForeverSpring from '../../src/scripts/achievements/ForeverSpring';
 
-const achievement: AchievementData = ForeverSpring;
+const achievement: AchievementWrapper = ForeverSpring;
 
 afterEach(() => achievement.reset());
 
@@ -18,9 +18,9 @@ test('Reset', () => {
             controlled_value_id: 13
         }]
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -48,7 +48,7 @@ test('Count', () => {
             controlled_value_id: 13
         }]
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Don\'t Count', () => {
@@ -88,7 +88,7 @@ test('Don\'t Count', () => {
             controlled_value_id: 1
         }]
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -116,7 +116,7 @@ test('Duplicates', () => {
             controlled_value_id: 13
         }]
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Gaps', () => {
@@ -144,7 +144,7 @@ test('Gaps', () => {
             controlled_value_id: 13
         }]
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Missing Data', () => {
@@ -161,5 +161,5 @@ test('Missing Data', () => {
         taxon: undefined,
         observed_on_details: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

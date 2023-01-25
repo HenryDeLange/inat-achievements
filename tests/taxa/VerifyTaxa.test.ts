@@ -1,11 +1,11 @@
 import inatjs from 'inaturalistjs';
-import { initAchievements, getAchievements } from '../../src/scripts/AchievementImplementations';
+import { getAchievementWrappers, initAchievementWrappers } from '../../src/scripts/AchievementImplementations';
 import { TaxaShowResponse } from '../../src/types/iNaturalistTypes';
 
 const SLEEP_TIME = 60 * 1000 / 80; // 80 per minute
 
-initAchievements();
-const achievements = getAchievements();
+initAchievementWrappers();
+const achievements = getAchievementWrappers();
 
 jest.setTimeout(SLEEP_TIME * achievements.length * 5 + 150);
 
@@ -16,7 +16,7 @@ const runVerifyTaxa = process.argv.includes(`--run-verify-taxa`);
 
 testConditionally(runVerifyTaxa, 'Validate Taxa IDs', async () => {
     for (let achievement of achievements) {
-        console.log(`Achievement ${achievement.icon}`);
+        console.log(`Achievement ${achievement.data.icon}`);
         for (let taxonID of achievement.getTaxa()) {
             // Sleep to make sure we don't spam iNat too much
             await new Promise(resolve => setTimeout(resolve, SLEEP_TIME));

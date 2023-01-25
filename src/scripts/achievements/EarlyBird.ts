@@ -1,5 +1,5 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
 const GOAL = 7;
 const TAXA_BIRD = 3;
@@ -9,7 +9,7 @@ let days: (string | null)[] = [];
 let birdDate: string | null = null;
 let wormDate: string | null = null;
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'EarlyBird',
     GOAL,
     () => [TAXA_BIRD, TAXA_WORM],

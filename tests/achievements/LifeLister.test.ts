@@ -1,8 +1,8 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import LifeLister from '../../src/scripts/achievements/LifeLister';
 import { SPECIES_RANK, SUB_SPECIES_RANK } from '../../src/scripts/achievements/utils';
 
-const achievement: AchievementData = LifeLister;
+const achievement: AchievementWrapper = LifeLister;
 
 afterEach(() => achievement.reset());
 
@@ -16,9 +16,9 @@ test('Reset', () => {
             year: 2022
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -31,7 +31,7 @@ test('Count', () => {
             year: 2022
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.evaluate({
         taxon: {
             parent_id: 2,
@@ -41,7 +41,7 @@ test('Count', () => {
             year: 2022
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Don\'t Count', () => {
@@ -54,7 +54,7 @@ test('Don\'t Count', () => {
             year: 2022
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -85,7 +85,7 @@ test('Duplicates', () => {
             year: 2022
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.evaluate({
         taxon: {
             parent_id: 2,
@@ -104,7 +104,7 @@ test('Duplicates', () => {
             year: 2022
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Gaps', () => {
@@ -126,7 +126,7 @@ test('Gaps', () => {
             year: 2022
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
     achievement.evaluate({
         taxon: {
             id: 11,
@@ -163,7 +163,7 @@ test('Gaps', () => {
             year: 2021
         }
     });
-    expect(achievement.count).toEqual(4);
+    expect(achievement.data.count).toEqual(4);
 });
 
 test('Missing Data', () => {
@@ -181,5 +181,5 @@ test('Missing Data', () => {
         taxon: undefined,
         observed_on_details: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

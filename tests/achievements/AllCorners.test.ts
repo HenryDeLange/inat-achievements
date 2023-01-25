@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import AllCorners from '../../src/scripts/achievements/AllCorners';
 
-const achievement: AchievementData = AllCorners;
+const achievement: AchievementWrapper = AllCorners;
 
 afterEach(() => achievement.reset());
 
@@ -11,9 +11,9 @@ test('Reset', () => {
             coordinates: [ '1', '1' ]
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -37,7 +37,7 @@ test('Count', () => {
             coordinates: [ '1', '-1' ]
         }
     });
-    expect(achievement.count).toEqual(4);
+    expect(achievement.data.count).toEqual(4);
 });
 
 test('Don\'t Count', () => {
@@ -46,7 +46,7 @@ test('Don\'t Count', () => {
             coordinates: [ '0', '0' ]
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -60,7 +60,7 @@ test('Duplicates', () => {
             coordinates: [ '1', '1' ]
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Missing Data', () => {
@@ -72,5 +72,5 @@ test('Missing Data', () => {
     achievement.evaluate({
         geojson: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

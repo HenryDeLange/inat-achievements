@@ -1,5 +1,5 @@
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 import { SPECIES_RANK } from "./utils";
 
 const GOAL = 16;
@@ -8,7 +8,7 @@ const ANNOTATION_VALUE = 25;
 
 let grids: string[] = [];
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'Scatter',
     GOAL,
     () => [],

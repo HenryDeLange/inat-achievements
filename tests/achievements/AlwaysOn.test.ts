@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import AlwaysOn from '../../src/scripts/achievements/AlwaysOn';
 
-const achievement: AchievementData = AlwaysOn;
+const achievement: AchievementWrapper = AlwaysOn;
 
 afterEach(() => achievement.reset());
 
@@ -11,9 +11,9 @@ test('Reset', () => {
             date: '2022-02-02'
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -22,7 +22,7 @@ test('Count', () => {
             date: '2022-01-05'
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.evaluate({
         observed_on_details: {
             date: '2022-01-04'
@@ -38,7 +38,7 @@ test('Count', () => {
             date: '2022-01-01'
         }
     });
-    expect(achievement.count).toEqual(4);
+    expect(achievement.data.count).toEqual(4);
 });
 
 test('Don\'t Count', () => {
@@ -47,7 +47,7 @@ test('Don\'t Count', () => {
             date: undefined
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -61,7 +61,7 @@ test('Duplicates', () => {
             date: '2022-02-02'
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Gaps', () => {
@@ -75,7 +75,7 @@ test('Gaps', () => {
             date: '2022-08-01'
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
     achievement.evaluate({
         observed_on_details: {
             date: '2022-07-14'
@@ -96,7 +96,7 @@ test('Gaps', () => {
             date: '2022-07-03'
         }
     });
-    expect(achievement.count).toEqual(3);
+    expect(achievement.data.count).toEqual(3);
     achievement.evaluate({
         observed_on_details: {
             date: '2022-06-04'
@@ -107,7 +107,7 @@ test('Gaps', () => {
             date: '2022-06-01'
         }
     });
-    expect(achievement.count).toEqual(3);
+    expect(achievement.data.count).toEqual(3);
 });
 
 test('Missing Data', () => {
@@ -119,5 +119,5 @@ test('Missing Data', () => {
     achievement.evaluate({
         observed_on_details: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

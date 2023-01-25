@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import OldGeeser from '../../src/scripts/achievements/OldGeeser';
 
-const achievement: AchievementData = OldGeeser;
+const achievement: AchievementWrapper = OldGeeser;
 const currentDate = new Date();
 
 afterEach(() => achievement.reset());
@@ -17,9 +17,9 @@ test('Reset', () => {
             day: currentDate.getDate()
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -33,7 +33,7 @@ test('Count', () => {
             day: currentDate.getDate()
         }
     });
-    expect(achievement.count).toEqual(5);
+    expect(achievement.data.count).toEqual(5);
 });
 
 test('Don\'t Count', () => {
@@ -47,7 +47,7 @@ test('Don\'t Count', () => {
             day: currentDate.getDate()
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [6912]
@@ -58,7 +58,7 @@ test('Don\'t Count', () => {
             day: currentDate.getDate()
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -82,7 +82,7 @@ test('Duplicates', () => {
             day: currentDate.getDate()
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Gaps', () => {
@@ -96,7 +96,7 @@ test('Gaps', () => {
             day: currentDate.getDate()
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [6912]
@@ -107,7 +107,7 @@ test('Gaps', () => {
             day: currentDate.getDate()
         }
     });
-    expect(achievement.count).toEqual(10);
+    expect(achievement.data.count).toEqual(10);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [6912]
@@ -118,7 +118,7 @@ test('Gaps', () => {
             day: currentDate.getDate()
         }
     });
-    expect(achievement.count).toEqual(10);
+    expect(achievement.data.count).toEqual(10);
 });
 
 test('Missing Data', () => {
@@ -136,5 +136,5 @@ test('Missing Data', () => {
         taxon: undefined,
         observed_on_details: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
