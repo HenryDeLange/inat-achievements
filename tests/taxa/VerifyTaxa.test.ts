@@ -1,10 +1,9 @@
 import inatjs from 'inaturalistjs';
-import { getAchievementWrappers, initAchievementWrappers } from '../../src/scripts/AchievementImplementations';
 import { TaxaShowResponse } from '../../src/types/iNaturalistTypes';
+import { getAchievementWrappers } from '../../src/scripts/workers/worker';
 
 const SLEEP_TIME = 60 * 1000 / 80; // 80 per minute
 
-initAchievementWrappers();
 const achievements = getAchievementWrappers();
 
 jest.setTimeout(SLEEP_TIME * achievements.length * 5 + 150);

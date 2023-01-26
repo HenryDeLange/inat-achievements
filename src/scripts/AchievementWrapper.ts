@@ -1,13 +1,13 @@
-import { AchievementDataType } from '../types/AchievementsTypes';
+import { AchievementDataType, TaxonRankCacheType } from '../types/AchievementsTypes';
 import { Observation } from '../types/iNaturalistTypes';
 
 export default class AchievementWrapper {
     data: AchievementDataType;
     getTaxa: () => number[];
-    private evalFunc: (iNatObsJSON: Observation) => number;
+    private evalFunc: (iNatObsJSON: Observation, taxonRanks?: TaxonRankCacheType[]) => number;
     private resetFunc?: () => void;
     
-    constructor(key: string, goal: number, getTaxa: () => number[], evalFunc: (iNatObsJSON: Observation) => number, resetFunc?: () => void) {
+    constructor(key: string, goal: number, getTaxa: () => number[], evalFunc: (iNatObsJSON: Observation, extra?: any) => number, resetFunc?: () => void) {
         this.data = {
             icon: key,
             title: `achievement${key}Title`,
@@ -25,9 +25,9 @@ export default class AchievementWrapper {
         return this.data;
     }
 
-    public evaluate(iNatObsJSON: Observation) {
+    public evaluate(iNatObsJSON: Observation, taxonRanks?: TaxonRankCacheType[]) {
         // Evaluate the Observation
-        let result = this.evalFunc(iNatObsJSON);
+        let result = this.evalFunc(iNatObsJSON, taxonRanks);
         if (result > 0) {
             this.updateCount(iNatObsJSON.id ?? 0, result);
         }

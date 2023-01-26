@@ -8,7 +8,7 @@ import { AchievementDataType, TaxonRankCacheType } from '../types/AchievementsTy
 import { ObservationsResponse, TaxaShowResponse } from '../types/iNaturalistTypes';
 import { FLOWER_CHILD_TAXA } from './achievements/FlowerChild';
 import { CLASS_RANK, ORDER_RANK } from './achievements/utils';
-import { getTaxonRank, isTaxonCached, populateTaxonRank } from './achievements/utils/TaxonCache';
+import { getTaxonRank, getTaxonRanksAsTaxonRankCacheType, isTaxonCached, populateTaxonRank } from './achievements/utils/TaxonCache';
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import worker from 'workerize-loader!./workers/worker';
@@ -34,10 +34,10 @@ const workerInstance = worker();
 const PRINT_LOG = true;
 
 export async function resetAchievements(dispatch: Dispatch<any>) {
-    console.log(`>>> start resetting... [${new Date().getTime()}]`)
-    workerInstance && workerInstance.reset()
+    PRINT_LOG && console.log(`resetAchievements: BEGIN`)
+    workerInstance.reset()
         .then(async (evaluatedAchievementData: AchievementDataType[]) => {
-            console.log(`>>>>>> RESET: done [${new Date().getTime()}]`);
+            PRINT_LOG && console.log(`resetAchievements: END`);
             dispatch(setAllAchievementData(evaluatedAchievementData));
         });
 }
@@ -55,7 +55,7 @@ export async function calculateAchievements(
     readLimit = TOTAL_RESULTS_LIMIT,
     calcState: CalcState = { page: FIRST_PAGE, resultCount: 0, totalResults: -1 }
 ) {
-    PRINT_LOG && console.log(`calculateAchievements: BEGIN ${username} | limit=${readLimit} | page=${calcState.page} | resultCount=${calcState.resultCount} | totalResults=${calcState.totalResults}`);
+    PRINT_LOG && console.log(`calculateAchievements: BEGIN ${username} | page=${calcState.page} | limit=${readLimit} | resultCount=${calcState.resultCount} | totalResults=${calcState.totalResults}`);
     // Sleep for a bit before starting (to comply with the iNat requests per minute limit)
     await sleep();
     // Prepare fetch parameters
@@ -92,7 +92,7 @@ export async function calculateAchievements(
         dispatch(setProgressLoading(false));
         dispatch(setProgressAlert(true));
     }
-    PRINT_LOG && console.log(`calculateAchievements: END ${username} | page=${calcState.page} | total=${calcState.totalResults} | limit=${readLimit}`);
+    PRINT_LOG && console.log(`calculateAchievements: END ${username} | page=${calcState.page} | limit=${readLimit} | total=${calcState.totalResults}`);
 }
 
 async function fetchAndProcessObservations(
@@ -107,25 +107,25 @@ async function fetchAndProcessObservations(
         .then(async (observationsResponse: ObservationsResponse) => {
             // Prepare
             await prepareToCalculate(dispatch, taxonRanks, observationsResponse);
+            taxonRanks = getTaxonRanksAsTaxonRankCacheType(); // Refresh the taxonRanks to use the latest cached values
             // Evaluate
             calcState.totalResults = observationsResponse.total_results!;
-            PRINT_LOG && console.log(`calculateAchievements: found ${observationsResponse.results.length ?? 0} results to evaluate | ${calcState.totalResults} in total [${new Date().getTime()}]`);
+            PRINT_LOG && console.log(`calculateAchievements: found ${observationsResponse.results.length ?? 0} results to evaluate | ${calcState.totalResults} in total`);
             dispatch(setProgressMessage(I18n.t('progressCalculating', { per_page: observationsResponse.results.length ?? 0 })));
-            console.log(`>>> start calculating... [${new Date().getTime()}]`)
-            workerInstance && workerInstance.evaluate(observationsResponse.results)
+            workerInstance.evaluate(observationsResponse.results, taxonRanks)
                 .then(async (evaluatedAchievementData: AchievementDataType[]) => {
-                    console.log(`>>>>>> EVALUATE: done [${new Date().getTime()}]`);
+                    PRINT_LOG && console.log(`calculateAchievements: web worker is done`);
                     // Update the achievement cards' data
                     dispatch(setAllAchievementData(evaluatedAchievementData));
                     // Update the progress bar
                     calcState.resultCount = calcState.resultCount + observationsResponse.results.length;
                     dispatch(setProgressValue(calcState.resultCount / Math.min(calcState.totalResults, readLimit) * 100));
                     // Recursively fetch and process the next set of observations
-                    PRINT_LOG && console.log(`calculateAchievements: preparing to fetch next page... [${new Date().getTime()}]`);
+                    PRINT_LOG && console.log(`calculateAchievements: preparing to fetch next page...`);
                     calcState.page++;
                     calculateAchievements(dispatch, taxonRanks, username, readLimit, calcState);
                 });
-            PRINT_LOG && console.log(`calculateAchievements: promise completed ${username} | page=${calcState.page} [${new Date().getTime()}]`);
+            PRINT_LOG && console.log(`calculateAchievements: promise completed ${username} | page=${calcState.page}`);
         })
         .catch((e: any) => console.error('Failed observations search:', e));
 }

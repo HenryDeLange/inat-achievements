@@ -1,4 +1,4 @@
-import { AchievementDataType } from "../../types/AchievementsTypes";
+import { AchievementDataType, TaxonRankCacheType } from "../../types/AchievementsTypes";
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementWrapper from "../AchievementWrapper";
 import AirLovers from './../achievements/AirLovers';
@@ -37,7 +37,7 @@ import TooManyBugs from './../achievements/TooManyBugs';
 import TryMammals from './../achievements/TryMammals';
 import WorldClass from './../achievements/WorldClass';
 
-let lstAchievementWrapper: AchievementWrapper[] = [
+let achievementWrappers: AchievementWrapper[] = [
     LifeLister,
     SelfPollinator,
     TryMammals,
@@ -54,9 +54,8 @@ let lstAchievementWrapper: AchievementWrapper[] = [
     NotABug,
     LichenMoss,
     ToadsAndToadstools,
-// FIXME: The Taxa Cache doesn't work across the Web Worker (maybe also move that code in here?)
-    // FlowerChild,
-    // WorldClass,
+    FlowerChild,
+    WorldClass,
     DailyLife,
     AlwaysOn,
     CatchOfTheDay,
@@ -76,22 +75,22 @@ let lstAchievementWrapper: AchievementWrapper[] = [
     Scatter
 ];
 
-export async function reset() {
-    console.log('>>>>>>>>>>>>>>>>>>> RESET: run in worker');
-    for (let achievementWrapper of lstAchievementWrapper) {
-        achievementWrapper.reset();
-    }
-    console.log('>>>>>>>>>>>>>>>>>>> RESET: done in worker');
-    return lstAchievementWrapper.map(achievementWrapper => achievementWrapper.data);
+export function getAchievementWrappers() {
+    return achievementWrappers;
 }
 
-export async function evaluate(observations: Observation[]): Promise<AchievementDataType[]> {
-    console.log('>>>>>>>>>>>>>>>>>>> EVALUATE: run in worker');
-    for (let achievementWrapper of lstAchievementWrapper) {
+export async function reset() {
+    for (let achievementWrapper of achievementWrappers) {
+        achievementWrapper.reset();
+    }
+    return achievementWrappers.map(achievementWrapper => achievementWrapper.data);
+}
+
+export async function evaluate(observations: Observation[], taxonRanks: TaxonRankCacheType[]): Promise<AchievementDataType[]> {
+    for (let achievementWrapper of achievementWrappers) {
         for (let observation of observations) {
-            achievementWrapper.evaluate(observation);
+            achievementWrapper.evaluate(observation, taxonRanks);
         }
     }
-    console.log('>>>>>>>>>>>>>>>>>>> EVALUATE: done in worker')
-    return lstAchievementWrapper.map(achievementWrapper => achievementWrapper.data);
+    return achievementWrappers.map(achievementWrapper => achievementWrapper.data);
 }

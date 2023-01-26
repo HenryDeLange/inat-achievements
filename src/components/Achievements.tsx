@@ -25,7 +25,6 @@ export default memo(function Achievements() {
     });
     const achievedTotal = list.reduce((c, achievement) => (achievement.count >= achievement.goal) ? c + 1 : c, 0);
     const percentageOfAllAchieved = achievedTotal / achievementData.length * 100;
-    console.log('RENDER ACHIEVEMENTS:', achievementData)
     return (
         <Container>
             {achievedTotal >= 1 && <>
