@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { TaxonRankCacheType } from "../../types/AchievementsTypes";
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementWrapper from "../AchievementWrapper";

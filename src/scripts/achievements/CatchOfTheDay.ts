@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { addDays, formatISO9075, parseISO } from "date-fns";
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementWrapper from "../AchievementWrapper";

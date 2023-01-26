@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { Observation } from "../../types/iNaturalistTypes";
 import AchievementWrapper from "../AchievementWrapper";
 import { SPECIES_RANK, SUB_SPECIES_RANK } from "./utils";
