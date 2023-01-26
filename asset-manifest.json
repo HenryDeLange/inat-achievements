@@ -1,8 +1,9 @@
 {
   "files": {
-    "main.css": "./static/css/main.6e6982cd.css",
-    "main.js": "./static/js/main.7b9f502a.js",
+    "main.css": "./static/css/main.7f24a4d5.css",
+    "main.js": "./static/js/main.8d921baa.js",
     "static/media/TooManyBugs.svg": "./static/media/TooManyBugs.c1f8281def4707fa7278.svg",
+    "worker.js": "./61b7db1964ec19bed717.worker.js",
     "static/media/mywild.png": "./static/media/mywild.4ce09f219a47f35ad9c7.png",
     "static/media/ForeverSpring.svg": "./static/media/ForeverSpring.28de484947b88ef7d6a1.svg",
     "static/media/RatKing.svg": "./static/media/RatKing.5ee04344a509316f849f.svg",
@@ -42,11 +43,11 @@
     "static/media/CraneyStorker.svg": "./static/media/CraneyStorker.9ffbcac1fb326831da49.svg",
     "static/media/HeartOfTheMatter.svg": "./static/media/HeartOfTheMatter.b33b1c47b453fc290dfc.svg",
     "index.html": "./index.html",
-    "main.6e6982cd.css.map": "./static/css/main.6e6982cd.css.map",
-    "main.7b9f502a.js.map": "./static/js/main.7b9f502a.js.map"
+    "main.7f24a4d5.css.map": "./static/css/main.7f24a4d5.css.map",
+    "main.8d921baa.js.map": "./static/js/main.8d921baa.js.map"
   },
   "entrypoints": [
-    "static/css/main.6e6982cd.css",
-    "static/js/main.7b9f502a.js"
+    "static/css/main.7f24a4d5.css",
+    "static/js/main.8d921baa.js"
   ]
 }
