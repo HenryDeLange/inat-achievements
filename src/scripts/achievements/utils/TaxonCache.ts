@@ -1,3 +1,4 @@
+import { TaxonRankCacheType } from '../../../types/AchievementsTypes';
 import { TaxaShowResponse } from '../../../types/iNaturalistTypes';
 
 const taxa = new Map<number, number | undefined>();
@@ -8,6 +9,12 @@ export function populateTaxonRank(taxonID: number, rank: number) {
 
 export function isTaxonCached(taxonID: number): boolean {
     return taxa.get(taxonID) ? true : false;
+}
+
+export function getTaxonRanksAsTaxonRankCacheType(): TaxonRankCacheType[] {
+    const taxonRankCache: TaxonRankCacheType[] = [];
+    taxa.forEach((rank, taxonID) => rank && taxonRankCache.push({ taxonID, rank }));
+    return taxonRankCache;
 }
 
 export function getTaxonRank(taxonID: number): number | undefined {

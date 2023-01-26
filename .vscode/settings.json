@@ -23,6 +23,7 @@
         "reduxjs",
         "Storker",
         "Tryhard",
-        "Typeahead"
+        "Typeahead",
+        "workerize"
     ]
 }

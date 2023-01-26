@@ -1,10 +1,11 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
 const GOAL = 24;
-const TAXA = [3726, 23];
+const TAXA = [3726, 23, 4929];
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'CraneyStorker',
     GOAL,
     () => TAXA,

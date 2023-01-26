@@ -1,21 +1,21 @@
+import I18n from 'i18n-js';
+import Lottie from 'lottie-react';
 import { memo } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { RootState } from '../redux/ReduxStore';
-import { AchievementType } from '../types/AchievementsTypes';
-import AchievementCard from './AchievementCard';
-import Lottie from 'lottie-react';
-import first from "../badges/animations/1.json";
+import percent01 from "../badges/animations/1.json";
 import percent10 from "../badges/animations/10.json";
+import percent100 from "../badges/animations/100.json";
 import percent25 from "../badges/animations/25.json";
 import percent50 from "../badges/animations/50.json";
 import percent75 from "../badges/animations/75.json";
-import percent100 from "../badges/animations/100.json";
-import I18n from 'i18n-js';
+import { RootState } from '../redux/ReduxStore';
+import { AchievementDataType } from '../types/AchievementsTypes';
+import AchievementCard from './AchievementCard';
 
 export default memo(function Achievements() {
     const achievementData = useSelector((state: RootState) => state.achievements.data);
-    let list: AchievementType[] = Array.from(achievementData.values()).sort((a, b) => {
+    let list: AchievementDataType[] = Array.from(achievementData.values()).sort((a, b) => {
         const percentageCompletedA = a.count / a.goal * 100;
         const percentageCompletedB = b.count / b.goal * 100;
         if (percentageCompletedA === percentageCompletedB) {
@@ -35,12 +35,18 @@ export default memo(function Achievements() {
                 </Row>
                 <Row className='mb-5'>
                     <Container>
-                        {achievedTotal >= 1 && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={first} /> }
-                        {percentageOfAllAchieved >= 10 && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent10} /> }
-                        {percentageOfAllAchieved >= 25 && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent25} /> }
-                        {percentageOfAllAchieved >= 50 && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent50} /> }
-                        {percentageOfAllAchieved >= 75 && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent75} /> }
-                        {percentageOfAllAchieved >= 100 && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent100} /> }
+                        {percentageOfAllAchieved >= 1 && percentageOfAllAchieved < 10
+                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent01} /> }
+                        {percentageOfAllAchieved >= 10 && percentageOfAllAchieved < 25
+                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent10} /> }
+                        {percentageOfAllAchieved >= 25 && percentageOfAllAchieved < 50
+                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent25} /> }
+                        {percentageOfAllAchieved >= 50 && percentageOfAllAchieved < 75
+                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent50} /> }
+                        {percentageOfAllAchieved >= 75 && percentageOfAllAchieved < 100
+                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent75} /> }
+                        {percentageOfAllAchieved >= 100
+                            && <Lottie className='Achievements-Lottie m-3' loop={true} animationData={percent100} /> }
                     </Container>
                 </Row>
             </>}

@@ -1,24 +1,20 @@
 import { Option } from 'react-bootstrap-typeahead/types/types';
-import { Observation } from './iNaturalistTypes';
 
-export declare type AchievementType = {
+export declare type AchievementDataType = {
     icon: string;
     title: string;
     details: string;
     goal: number;
     count: number;
-    getTaxa?: () => number[];
-    evalFunc?: (iNatObsJSON: Observation) => number;
-    resetFunc?: () => void;
     observations: number[];
 }
 
-export type ActionAchievementDataType = {
-    payload: AchievementType;
+export type AchievementActionType = {
+    payload: AchievementDataType;
 }
 
-export type ActionAllAchievementDataType = {
-    payload: AchievementType[];
+export type AllAchievementsActionType = {
+    payload: AchievementDataType[];
 }
 
 export type TypeaheadOptionType = Option & {

@@ -1,11 +1,12 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
-const GOAL = 100;
+const GOAL = 30;
 const TAXA = 47224;
 
 // TODO: Make sure this also counts comments inside identifications?
-export default new AchievementData(
+export default new AchievementWrapper(
     'SocialButterfly',
     GOAL,
     () => [TAXA],

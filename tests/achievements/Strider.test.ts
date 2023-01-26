@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import Strider from '../../src/scripts/achievements/Strider';
 
-const achievement: AchievementData = Strider;
+const achievement: AchievementWrapper = Strider;
 
 afterEach(() => achievement.reset());
 
@@ -22,9 +22,9 @@ test('Reset', () => {
             date: '2022-01-01'
         }
     });
-    expect(achievement.count).toEqual(157);
+    expect(achievement.data.count).toEqual(157);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -44,7 +44,7 @@ test('Count', () => {
             date: '2022-01-01'
         }
     });
-    expect(achievement.count).toEqual(157);
+    expect(achievement.data.count).toEqual(157);
 });
 
 test('Don\'t Count', () => {
@@ -64,7 +64,7 @@ test('Don\'t Count', () => {
             date: '2022-01-02'
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -84,7 +84,7 @@ test('Duplicates', () => {
             date: '2022-01-01'
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         geojson: {
             coordinates: ['2', '2']
@@ -101,7 +101,7 @@ test('Duplicates', () => {
             date: '2022-01-01'
         }
     });
-    expect(achievement.count).toEqual(157);
+    expect(achievement.data.count).toEqual(157);
 });
 
 test('Gaps', () => {
@@ -121,7 +121,7 @@ test('Gaps', () => {
             date: '2022-01-01'
         }
     });
-    expect(achievement.count).toEqual(6225);
+    expect(achievement.data.count).toEqual(6225);
 });
 
 test('Missing Data', () => {
@@ -137,5 +137,5 @@ test('Missing Data', () => {
         geojson: undefined,
         observed_on_details: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

@@ -1,11 +1,12 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
 const GOAL = 20;
 
 let grids: string[] = [];
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'PlentyOfPlaces',
     GOAL,
     () => [],

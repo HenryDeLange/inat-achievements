@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import HeartOfTheMatter from '../../src/scripts/achievements/HeartOfTheMatter';
 
-const achievement: AchievementData = HeartOfTheMatter;
+const achievement: AchievementWrapper = HeartOfTheMatter;
 
 afterEach(() => achievement.reset());
 
@@ -11,9 +11,9 @@ test('Reset', () => {
             threatened: true
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -22,7 +22,7 @@ test('Count', () => {
             threatened: true
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Don\'t Count', () => {
@@ -31,7 +31,7 @@ test('Don\'t Count', () => {
             threatened: false
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -45,7 +45,7 @@ test('Duplicates', () => {
             threatened: true
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Missing Data', () => {
@@ -54,5 +54,5 @@ test('Missing Data', () => {
             threatened: undefined
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AchievementType, ActionAchievementDataType, ActionAllAchievementDataType } from '../../types/AchievementsTypes';
+import { AchievementActionType, AchievementDataType, AllAchievementsActionType } from '../../types/AchievementsTypes';
 
 export const achievementsSlice = createSlice({
     name: 'achievements',
     initialState: {
-        data: [] as AchievementType[]
+        data: [] as AchievementDataType[]
     },
     reducers: {
-        updateAchievement: (state, action: ActionAchievementDataType) => {
+        updateAchievementData: (state, action: AchievementActionType) => {
             for (let i = 0; i < state.data.length; i++) {
                 if (state.data[i].title === action.payload.title) {
                     state.data[i] = action.payload;
@@ -15,12 +15,12 @@ export const achievementsSlice = createSlice({
                 }
             }
         },
-        setAllAchievements: (state, action: ActionAllAchievementDataType) => {
+        setAllAchievementData: (state, action: AllAchievementsActionType) => {
             state.data = action.payload;
         }
     }
 });
 
-export const { updateAchievement, setAllAchievements } = achievementsSlice.actions;
+export const { updateAchievementData, setAllAchievementData } = achievementsSlice.actions;
 
 export default achievementsSlice.reducer;

@@ -1,5 +1,6 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 import { SPECIES_RANK, SUB_SPECIES_RANK } from "./utils";
 
 const GOAL = 8;
@@ -7,7 +8,7 @@ const TAXA = [47459, 47797, 48332];
 
 let species: number[] = [];
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'TentacleSuckers',
     GOAL,
     () => TAXA,

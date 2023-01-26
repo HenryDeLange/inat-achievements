@@ -1,6 +1,7 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { addDays, formatISO9075, parseISO } from "date-fns";
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 
 const GOAL = 5;
 const TAXA = [47178, 85497, 47273];
@@ -8,7 +9,7 @@ const TAXA = [47178, 85497, 47273];
 let maximum = 0;
 let fishDays: string[] = [];
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'CatchOfTheDay',
     GOAL,
     () => TAXA,

@@ -1,8 +1,8 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import Scatter from '../../src/scripts/achievements/Scatter';
 import { SPECIES_RANK, SUB_SPECIES_RANK } from '../../src/scripts/achievements/utils';
 
-const achievement: AchievementData = Scatter;
+const achievement: AchievementWrapper = Scatter;
 
 afterEach(() => achievement.reset());
 
@@ -19,9 +19,9 @@ test('Reset', () => {
             coordinates: ['1', '1']
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -37,7 +37,7 @@ test('Count', () => {
             coordinates: ['1', '1']
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.evaluate({
         taxon: {
             rank_level: SUB_SPECIES_RANK
@@ -50,7 +50,7 @@ test('Count', () => {
             coordinates: ['2', '2']
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
     achievement.evaluate({
         taxon: {
             rank_level: SUB_SPECIES_RANK
@@ -63,7 +63,7 @@ test('Count', () => {
             coordinates: ['2.25', '2.25']
         }
     });
-    expect(achievement.count).toEqual(3);
+    expect(achievement.data.count).toEqual(3);
     achievement.evaluate({
         taxon: {
             rank_level: SUB_SPECIES_RANK
@@ -76,7 +76,7 @@ test('Count', () => {
             coordinates: ['2.1255', '2.1244']
         }
     });
-    expect(achievement.count).toEqual(4);
+    expect(achievement.data.count).toEqual(4);
 });
 
 test('Don\'t Count', () => {
@@ -92,7 +92,7 @@ test('Don\'t Count', () => {
             coordinates: ['1', '1']
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         taxon: {
             rank_level: SPECIES_RANK
@@ -105,7 +105,7 @@ test('Don\'t Count', () => {
             coordinates: ['1', '1']
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         taxon: {
             rank_level: SPECIES_RANK
@@ -118,7 +118,7 @@ test('Don\'t Count', () => {
             coordinates: ['1', '1']
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -158,7 +158,7 @@ test('Duplicates', () => {
             coordinates: ['1.1', '1.1']
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.evaluate({
         taxon: {
             rank_level: SPECIES_RANK
@@ -171,7 +171,7 @@ test('Duplicates', () => {
             coordinates: ['1.1244', '1.1244']
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.evaluate({
         taxon: {
             rank_level: SPECIES_RANK
@@ -184,7 +184,7 @@ test('Duplicates', () => {
             coordinates: ['0.875', '0.875']
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Gaps', () => {
@@ -212,7 +212,7 @@ test('Gaps', () => {
             coordinates: ['1.25', '1.25']
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
     achievement.evaluate({
         taxon: {
             rank_level: SPECIES_RANK
@@ -225,7 +225,7 @@ test('Gaps', () => {
             coordinates: ['5', '5']
         }
     });
-    expect(achievement.count).toEqual(3);
+    expect(achievement.data.count).toEqual(3);
 });
 
 test('Missing Data', () => {
@@ -239,5 +239,5 @@ test('Missing Data', () => {
     achievement.evaluate({
         taxon: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

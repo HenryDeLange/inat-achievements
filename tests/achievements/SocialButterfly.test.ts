@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import SocialButterfly from '../../src/scripts/achievements/SocialButterfly';
 
-const achievement: AchievementData = SocialButterfly;
+const achievement: AchievementWrapper = SocialButterfly;
 
 afterEach(() => achievement.reset());
 
@@ -12,9 +12,9 @@ test('Reset', () => {
         },
         comments_count: 1
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -24,7 +24,7 @@ test('Count', () => {
         },
         comments_count: 1
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Don\'t Count', () => {
@@ -34,14 +34,14 @@ test('Don\'t Count', () => {
         },
         comments_count: 1
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [47224]
         },
         comments_count: 0
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -57,7 +57,7 @@ test('Duplicates', () => {
         },
         comments_count: 1
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Missing Data', () => {
@@ -71,5 +71,5 @@ test('Missing Data', () => {
         taxon: undefined,
         comments_count: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

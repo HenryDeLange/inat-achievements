@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import NotSeeingIsBelieving from '../../src/scripts/achievements/NotSeeingIsBelieving';
 
-const achievement: AchievementData = NotSeeingIsBelieving;
+const achievement: AchievementWrapper = NotSeeingIsBelieving;
 
 afterEach(() => achievement.reset());
 
@@ -12,9 +12,9 @@ test('Reset', () => {
             controlled_value_id: 1
         }]
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -24,7 +24,7 @@ test('Count', () => {
             controlled_value_id: 1
         }]
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Don\'t Count', () => {
@@ -34,7 +34,7 @@ test('Don\'t Count', () => {
             controlled_value_id: 24
         }]
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         annotations: [{
             controlled_attribute_id: 22,
@@ -44,7 +44,7 @@ test('Don\'t Count', () => {
             controlled_value_id: 1
         }]
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -60,12 +60,12 @@ test('Duplicates', () => {
             controlled_value_id: 1
         }]
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Missing Data', () => {
     achievement.evaluate({
         annotations: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

@@ -1,5 +1,6 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 import { distance } from "./utils";
 
 const GOAL = 500;
@@ -12,7 +13,7 @@ declare type LatLon = {
 const obsPerDay = new Map<string, LatLon[]>();
 let maxDistance = 0;
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'Strider',
     GOAL,
     () => [],

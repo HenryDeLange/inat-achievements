@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import AirLovers from '../../src/scripts/achievements/AirLovers';
 
-const achievement: AchievementData = AirLovers;
+const achievement: AchievementWrapper = AirLovers;
 
 afterEach(() => achievement.reset());
 
@@ -11,9 +11,9 @@ test('Reset', () => {
             ancestor_ids: [1, 2, 3, 6544, 5, 6, 7]
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -52,7 +52,7 @@ test('Count', () => {
             ancestor_ids: [5400]
         }
     });
-    expect(achievement.count).toEqual(7);
+    expect(achievement.data.count).toEqual(7);
 });
 
 test('Don\'t Count', () => {
@@ -61,7 +61,7 @@ test('Don\'t Count', () => {
             ancestor_ids: [1]
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -75,7 +75,7 @@ test('Duplicates', () => {
             ancestor_ids: [5400]
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Missing Data', () => {
@@ -87,5 +87,5 @@ test('Missing Data', () => {
     achievement.evaluate({
         taxon: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

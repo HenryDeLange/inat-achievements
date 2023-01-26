@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import NameGiver from '../../src/scripts/achievements/NameGiver';
 
-const achievement: AchievementData = NameGiver;
+const achievement: AchievementWrapper = NameGiver;
 
 afterEach(() => achievement.reset());
 
@@ -11,9 +11,9 @@ test('Reset', () => {
             identifications_count: 1
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -22,7 +22,7 @@ test('Count', () => {
             identifications_count: 5
         }
     });
-    expect(achievement.count).toEqual(5);
+    expect(achievement.data.count).toEqual(5);
 });
 
 test('Don\'t Count', () => {
@@ -31,7 +31,7 @@ test('Don\'t Count', () => {
             identifications_count: 0
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Missing Data', () => {
@@ -43,5 +43,5 @@ test('Missing Data', () => {
     achievement.evaluate({
         user: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

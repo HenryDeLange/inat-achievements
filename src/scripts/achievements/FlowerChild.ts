@@ -1,19 +1,20 @@
+/* eslint-disable import/no-anonymous-default-export */
+import { TaxonRankCacheType } from "../../types/AchievementsTypes";
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 import { ORDER_RANK } from "./utils";
-import { getTaxonRank } from "./utils/TaxonCache";
 
-const GOAL = 18;
+const GOAL = 25;
 export const FLOWER_CHILD_TAXA = 47125;
 
 let flowerOrderCount: number[] = [];
 
 // TODO: Add condition to have 'flowering' annotation
-export default new AchievementData(
+export default new AchievementWrapper(
     'FlowerChild',
     GOAL,
     () => [FLOWER_CHILD_TAXA],
-    (iNatObsJSON: Observation) => {
+    (iNatObsJSON: Observation, taxonRanks: TaxonRankCacheType[]) => {
         if ((iNatObsJSON?.taxon?.rank_level ?? 999) <= ORDER_RANK) {
             if (iNatObsJSON?.taxon?.ancestor_ids && iNatObsJSON.taxon.ancestor_ids.length > 3) {
                 let found = false;
@@ -26,7 +27,7 @@ export default new AchievementData(
                 if (found) {
                     const relevantAncestors = iNatObsJSON.taxon.ancestor_ids.slice(3, Math.min(7, iNatObsJSON.taxon.ancestor_ids.length));
                     for (let taxonID of relevantAncestors) {
-                        const rank = getTaxonRank(taxonID);
+                        const rank = taxonRanks.find((taxonRankCache) => taxonRankCache.taxonID === taxonID)?.rank;
                         if (rank) {
                             if (rank === ORDER_RANK) {
                                 if (!flowerOrderCount.includes(taxonID)) {
@@ -38,7 +39,7 @@ export default new AchievementData(
                                 break;
                         }
                         else {
-                            console.log(`Taxon Rank not found for ${iNatObsJSON.id}`);
+                            console.log(`Taxon Rank not found for taxon ${taxonID} on observation ${iNatObsJSON.id}`);
                         }
                     }
                 }

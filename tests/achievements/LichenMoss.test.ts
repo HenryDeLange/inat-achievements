@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import LichenMoss from '../../src/scripts/achievements/LichenMoss';
 
-const achievement: AchievementData = LichenMoss;
+const achievement: AchievementWrapper = LichenMoss;
 
 afterEach(() => achievement.reset());
 
@@ -11,9 +11,9 @@ test('Reset', () => {
             ancestor_ids: [1, 2, 3, 311249, 5, 6, 7]
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -27,7 +27,7 @@ test('Count', () => {
             ancestor_ids: [54743]
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Don\'t Count', () => {
@@ -36,7 +36,7 @@ test('Don\'t Count', () => {
             ancestor_ids: [1]
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -60,7 +60,7 @@ test('Duplicates', () => {
             ancestor_ids: [54743]
         }
     });
-    expect(achievement.count).toEqual(4);
+    expect(achievement.data.count).toEqual(4);
 });
 
 test('Missing Data', () => {
@@ -72,5 +72,5 @@ test('Missing Data', () => {
     achievement.evaluate({
         taxon: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

@@ -1,5 +1,6 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { Observation } from "../../types/iNaturalistTypes";
-import AchievementData from "../AchievementData";
+import AchievementWrapper from "../AchievementWrapper";
 import { SPECIES_RANK, SUB_SPECIES_RANK } from "./utils";
 
 const GOAL = 365;
@@ -8,7 +9,7 @@ let allTimeSpeciesCount: number[] = [];
 let currentYear = 0;
 let maxCount = 0;
 
-export default new AchievementData(
+export default new AchievementWrapper(
     'LifeLister',
     GOAL,
     () => [],

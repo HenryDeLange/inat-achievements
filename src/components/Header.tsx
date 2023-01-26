@@ -5,10 +5,8 @@ import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { useDispatch, useSelector } from 'react-redux';
 import icon from '../images/icon.png';
 import { RootState } from '../redux/ReduxStore';
-import { setAllAchievements } from '../redux/slices/AchievementsSlice';
 import { setProgressAlert, setProgressLoading, setProgressValue } from '../redux/slices/ProgressSlice';
-import { getAchievementsAsType, initAchievements, resetAchievements } from '../scripts/AchievementImplementations';
-import { calculateAchievements } from '../scripts/ProcessData';
+import { calculateAchievements, resetAchievements } from '../scripts/ProcessData';
 import { TypeaheadOptionType } from '../types/AchievementsTypes';
 import { UserAutocompleteResponse } from '../types/iNaturalistTypes';
 import HyperLink from './HyperLink';
@@ -17,7 +15,6 @@ let firstLoad = true;
 
 export default function Header() {
     const queryParams = new URLSearchParams(window.location.search);
-    initAchievements();
 
     // Loading
     const dispatch = useDispatch();
@@ -54,8 +51,7 @@ export default function Header() {
         dispatch(setProgressValue(0));
         dispatch(setProgressLoading(true));
         dispatch(setProgressAlert(true));
-        resetAchievements();
-        dispatch(setAllAchievements(getAchievementsAsType()));
+        resetAchievements(dispatch);
         calculateAchievements(dispatch, taxonRanks, username, urlLimit > 0 ? urlLimit : undefined);
     }
     if (firstLoad && urlUser) {

@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import SelfPollinator from '../../src/scripts/achievements/SelfPollinator';
 
-const achievement: AchievementData = SelfPollinator;
+const achievement: AchievementWrapper = SelfPollinator;
 
 afterEach(() => achievement.reset());
 
@@ -16,9 +16,9 @@ test('Reset', () => {
             id: 1
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -32,7 +32,7 @@ test('Count', () => {
             id: 1
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Don\'t Count', () => {
@@ -46,13 +46,13 @@ test('Don\'t Count', () => {
             id: 2
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         user: {
             id: 1
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -76,7 +76,7 @@ test('Duplicates', () => {
             id: 1
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Gaps', () => {
@@ -98,7 +98,7 @@ test('Gaps', () => {
             id: 2
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Missing Data', () => {
@@ -121,5 +121,5 @@ test('Missing Data', () => {
     achievement.evaluate({
         comments: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

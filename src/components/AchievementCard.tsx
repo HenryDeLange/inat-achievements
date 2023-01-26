@@ -1,7 +1,7 @@
 import I18n from 'i18n-js';
 import { memo, ReactElement } from 'react';
 import { Card, Col, Image, OverlayTrigger, Popover, ProgressBar } from 'react-bootstrap';
-import { AchievementType } from '../types/AchievementsTypes';
+import { AchievementDataType } from '../types/AchievementsTypes';
 import HyperLink from './HyperLink';
 
 const CASUAL = 15;
@@ -11,7 +11,7 @@ const PROFICIENT = 100;
 const EXPERT = 200;
 const MASTER = 300;
 
-export default memo(function AchievementCard(data: AchievementType) {
+export default memo(function AchievementCard(data: AchievementDataType) {
     const percentage = Math.floor(data.count / data.goal * 100);
     const textColor = calcTextColor(percentage);
     const iconColor = calcIconColor(percentage);

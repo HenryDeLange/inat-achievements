@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import RatKing from '../../src/scripts/achievements/RatKing';
 
-const achievement: AchievementData = RatKing;
+const achievement: AchievementWrapper = RatKing;
 
 afterEach(() => achievement.reset());
 
@@ -11,9 +11,9 @@ test('Reset', () => {
             ancestor_ids: [1, 2, 3, 43698, 5, 6, 7]
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -22,7 +22,7 @@ test('Count', () => {
             ancestor_ids: [43698]
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Don\'t Count', () => {
@@ -31,7 +31,7 @@ test('Don\'t Count', () => {
             ancestor_ids: [1]
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Duplicates', () => {
@@ -45,7 +45,7 @@ test('Duplicates', () => {
             ancestor_ids: [43698]
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Missing Data', () => {
@@ -57,5 +57,5 @@ test('Missing Data', () => {
     achievement.evaluate({
         taxon: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

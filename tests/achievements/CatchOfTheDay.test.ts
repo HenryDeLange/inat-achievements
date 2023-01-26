@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import CatchOfTheDay from '../../src/scripts/achievements/CatchOfTheDay';
 
-const achievement: AchievementData = CatchOfTheDay;
+const achievement: AchievementWrapper = CatchOfTheDay;
 
 afterEach(() => achievement.reset());
 
@@ -14,9 +14,9 @@ test('Reset', () => {
             date: '2022-02-02'
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -36,7 +36,7 @@ test('Count', () => {
             date: '2022-02-08'
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [85497]
@@ -77,7 +77,7 @@ test('Count', () => {
             date: '2022-02-03'
         }
     });
-    expect(achievement.count).toEqual(7);
+    expect(achievement.data.count).toEqual(7);
 });
 
 test('Don\'t Count', () => {
@@ -89,7 +89,7 @@ test('Don\'t Count', () => {
             date: '2022-02-09'
         }
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
     achievement.evaluate({
         taxon: {
             ancestor_ids: [85497]
@@ -114,7 +114,7 @@ test('Don\'t Count', () => {
             date: '2022-05-05'
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Duplicates', () => {
@@ -134,7 +134,7 @@ test('Duplicates', () => {
             date: '2022-01-01'
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Gaps', () => {
@@ -186,7 +186,7 @@ test('Gaps', () => {
             date: '2022-04-21'
         }
     });
-    expect(achievement.count).toEqual(3);
+    expect(achievement.data.count).toEqual(3);
 });
 
 test('Missing Data', () => {
@@ -218,5 +218,5 @@ test('Missing Data', () => {
         },
         observed_on_details: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });

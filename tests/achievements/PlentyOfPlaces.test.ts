@@ -1,7 +1,7 @@
-import AchievementData from '../../src/scripts/AchievementData';
+import AchievementWrapper from '../../src/scripts/AchievementWrapper';
 import PlentyOfPlaces from '../../src/scripts/achievements/PlentyOfPlaces';
 
-const achievement: AchievementData = PlentyOfPlaces;
+const achievement: AchievementWrapper = PlentyOfPlaces;
 
 afterEach(() => achievement.reset());
 
@@ -11,9 +11,9 @@ test('Reset', () => {
             coordinates: ['1', '1']
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.reset();
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
 
 test('Count', () => {
@@ -22,13 +22,13 @@ test('Count', () => {
             coordinates: ['1.1', '1.1']
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
     achievement.evaluate({
         geojson: {
             coordinates: ['1.5', '1.5']
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
 });
 
 test('Duplicates', () => {
@@ -47,7 +47,7 @@ test('Duplicates', () => {
             coordinates: ['1.1', '1.1']
         }
     });
-    expect(achievement.count).toEqual(1);
+    expect(achievement.data.count).toEqual(1);
 });
 
 test('Gaps', () => {
@@ -61,13 +61,13 @@ test('Gaps', () => {
             coordinates: ['2', '1.5']
         }
     });
-    expect(achievement.count).toEqual(2);
+    expect(achievement.data.count).toEqual(2);
     achievement.evaluate({
         geojson: {
             coordinates: ['5', '5']
         }
     });
-    expect(achievement.count).toEqual(3);
+    expect(achievement.data.count).toEqual(3);
 });
 
 test('Missing Data', () => {
@@ -79,5 +79,5 @@ test('Missing Data', () => {
     achievement.evaluate({
         geojson: undefined
     });
-    expect(achievement.count).toEqual(0);
+    expect(achievement.data.count).toEqual(0);
 });
