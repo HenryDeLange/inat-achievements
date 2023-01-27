@@ -31,7 +31,7 @@ const FIRST_PAGE = 1;
 // Setup Web Worker
 const workerInstance = worker();
 
-const PRINT_LOG = true;
+const PRINT_LOG = false;
 
 export async function resetAchievements(dispatch: Dispatch<any>) {
     PRINT_LOG && console.log(`resetAchievements: BEGIN`)
