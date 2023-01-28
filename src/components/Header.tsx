@@ -15,14 +15,13 @@ let firstLoad = true;
 
 export default function Header() {
     const queryParams = new URLSearchParams(window.location.search);
-
     // Loading
     const dispatch = useDispatch();
     const progressLoading = useSelector((state: RootState) => state.progress.loading);
     let taxonRanks = useSelector((state: RootState) => state.app.ranks);
     if (!taxonRanks)
         taxonRanks = [];
-
+console.log('test1')
     // Username Input
     const urlUser = queryParams.get('user') ?? '';
     const [username, setUsername] = useState(urlUser);
@@ -31,7 +30,7 @@ export default function Header() {
     const handleSearch = (query: string) => {
         setIsUsernameLoading(true);
         // Not using inatjs module because at the moment it does not support the autocomplete
-        fetch(`https://api.inaturalist.org/v1/users/autocomplete?q=${query}`)
+        fetch(`https://api.inaturalist.org/v1/users/autocomplete?q=${query}`, { headers: { 'User-Agent': 'wild-achievements' } })
             .then((response) => response.json())
             .then((userAutocompleteResponse: UserAutocompleteResponse) => {
                 const newOptions = userAutocompleteResponse.results.map((user) => ({

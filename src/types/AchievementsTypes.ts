@@ -1,5 +1,9 @@
 import { Option } from 'react-bootstrap-typeahead/types/types';
 
+export type LogActionType = {
+    payload: string;
+}
+
 export declare type AchievementDataType = {
     icon: string;
     title: string;

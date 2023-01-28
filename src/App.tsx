@@ -9,7 +9,9 @@ import Version from './components/Version';
 import { RootState } from './redux/ReduxStore';
 
 export default function App() {
+    // Setup theme
     const theme = useSelector((state: RootState) => state.app.mode);
+    // Render app
     return (
         <Container className={`d-flex flex-column p-3 App ${theme}`} fluid>
             <Menu />

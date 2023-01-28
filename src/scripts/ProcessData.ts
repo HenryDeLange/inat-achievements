@@ -103,7 +103,8 @@ async function fetchAndProcessObservations(
     iNatParams: any,
     calcState: CalcState
 ) {
-    inatjs.observations.search(iNatParams)
+    // TODO: Only do 1000 calls, then adjust to new date
+    inatjs.observations.search(iNatParams, { user_agent: 'wild-achievements' })
         .then(async (observationsResponse: ObservationsResponse) => {
             // Prepare
             await prepareToCalculate(dispatch, taxonRanks, observationsResponse);
@@ -156,7 +157,7 @@ async function prepareToCalculate(
                     }
                     else {
                         await sleep();
-                        await inatjs.taxa.fetch([taxonID], {})
+                        await inatjs.taxa.fetch([taxonID], { user_agent: 'wild-achievements' })
                             .then((taxon: TaxaShowResponse) => {
                                 PRINT_LOG && console.log(`calculateAchievements: fetch the rank of taxon ${taxonID}`);
                                 if (taxon.total_results === 1) {

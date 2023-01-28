@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ActionTaxonRankCacheType, ActionThemeType, TaxonRankCacheType, ThemeType } from '../../types/AchievementsTypes';
 
-export const AppSlice = createSlice({
+export const appSlice = createSlice({
     name: 'app',
     initialState: {
         mode: 'Dark' as ThemeType,
@@ -32,6 +32,6 @@ export const AppSlice = createSlice({
     }
 });
 
-export const { toggleTheme, populateTaxonRankCache } = AppSlice.actions;
+export const { toggleTheme, populateTaxonRankCache } = appSlice.actions;
 
-export default AppSlice.reducer;
+export default appSlice.reducer;
