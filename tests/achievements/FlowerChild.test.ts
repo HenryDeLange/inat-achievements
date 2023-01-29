@@ -9,15 +9,15 @@ const achievement: AchievementWrapper = FlowerChild;
 let taxonRankCache: TaxonRankCacheType[] = [];
 
 beforeAll(() => {
-    populateTaxonRank(1, 100);
-    populateTaxonRank(2, 90);
-    populateTaxonRank(3, 80);
-    populateTaxonRank(4, 70);
-    populateTaxonRank(5, 60);
-    populateTaxonRank(47125, ORDER_RANK + 1);
-    populateTaxonRank(111, ORDER_RANK);
-    populateTaxonRank(222, ORDER_RANK);
-    populateTaxonRank(333, ORDER_RANK);
+    populateTaxonRank(1, 100, true);
+    populateTaxonRank(2, 90, true);
+    populateTaxonRank(3, 80, true);
+    populateTaxonRank(4, 70, true);
+    populateTaxonRank(5, 60, true);
+    populateTaxonRank(47125, ORDER_RANK + 1, true);
+    populateTaxonRank(111, ORDER_RANK, true);
+    populateTaxonRank(222, ORDER_RANK, true);
+    populateTaxonRank(333, ORDER_RANK, true);
     taxonRankCache = getTaxonRanksAsTaxonRankCacheType();
 });
 

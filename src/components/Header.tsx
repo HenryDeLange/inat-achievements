@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import icon from '../images/icon.png';
 import { RootState } from '../redux/ReduxStore';
 import { setProgressAlert, setProgressLoading, setProgressValue } from '../redux/slices/ProgressSlice';
-import { populateAllTaxonRanks } from '../scripts/achievements/utils/TaxonCache';
 import { calculateAchievements, resetAchievements } from '../scripts/ProcessData';
 import { TypeaheadOptionType } from '../types/AchievementsTypes';
 import { UserAutocompleteResponse } from '../types/iNaturalistTypes';
@@ -19,8 +18,6 @@ export default function Header() {
     // Loading
     const dispatch = useDispatch();
     const progressLoading = useSelector((state: RootState) => state.progress.loading);
-    let taxonRanks = useSelector((state: RootState) => state.app.ranks);
-    !taxonRanks ? taxonRanks = [] : populateAllTaxonRanks(taxonRanks);
     // Username Input
     const urlUser = queryParams.get('user') ?? '';
     const [username, setUsername] = useState(urlUser);
@@ -50,7 +47,7 @@ export default function Header() {
         dispatch(setProgressLoading(true));
         dispatch(setProgressAlert(true));
         resetAchievements(dispatch);
-        calculateAchievements(dispatch, taxonRanks, username, limit);
+        calculateAchievements(dispatch, username, limit);
     }
     if (firstLoad && urlUser) {
         firstLoad = false;

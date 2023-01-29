@@ -39,7 +39,3 @@ export type TaxonRankCacheType = {
     taxonID: number;
     rank: number;
 }
-
-export type ActionTaxonRankCacheType = {
-    payload: TaxonRankCacheType;
-}

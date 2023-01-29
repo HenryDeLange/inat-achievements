@@ -9,13 +9,13 @@ const achievement: AchievementWrapper = WorldClass;
 let taxonRankCache: TaxonRankCacheType[] = [];
 
 beforeAll(() => {
-    populateTaxonRank(1, 100);
-    populateTaxonRank(2, 90);
-    populateTaxonRank(3, 80);
-    populateTaxonRank(4, 70);
-    populateTaxonRank(5, 60);
-    populateTaxonRank(61, CLASS_RANK);
-    populateTaxonRank(62, CLASS_RANK);
+    populateTaxonRank(1, 100, true);
+    populateTaxonRank(2, 90, true);
+    populateTaxonRank(3, 80, true);
+    populateTaxonRank(4, 70, true);
+    populateTaxonRank(5, 60, true);
+    populateTaxonRank(61, CLASS_RANK, true);
+    populateTaxonRank(62, CLASS_RANK, true);
     taxonRankCache = getTaxonRanksAsTaxonRankCacheType();
 });
 

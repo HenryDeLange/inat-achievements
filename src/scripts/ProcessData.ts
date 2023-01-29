@@ -2,13 +2,12 @@ import { Dispatch } from '@reduxjs/toolkit';
 import I18n from 'i18n-js';
 import inatjs from 'inaturalistjs';
 import { setAllAchievementData } from '../redux/slices/AchievementsSlice';
-import { populateTaxonRankCache } from '../redux/slices/AppSlice';
 import { setProgressAlert, setProgressLoading, setProgressMessage, setProgressValue } from '../redux/slices/ProgressSlice';
 import { AchievementDataType, TaxonRankCacheType } from '../types/AchievementsTypes';
 import { ObservationsResponse, TaxaShowResponse } from '../types/iNaturalistTypes';
 import { FLOWER_CHILD_TAXA } from './achievements/FlowerChild';
 import { CLASS_RANK, ORDER_RANK } from './achievements/utils';
-import { getTaxonRank, getTaxonRanksAsTaxonRankCacheType, isTaxonCached, populateTaxonRank } from './achievements/utils/TaxonCache';
+import { getTaxonRank, populateTaxonRank } from './achievements/utils/TaxonCache';
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import worker from 'workerize-loader!./workers/worker';
@@ -38,10 +37,10 @@ const PRINT_LOG = true;
 const workerInstance = worker();
 
 export async function resetAchievements(dispatch: Dispatch<any>) {
-    PRINT_LOG && console.log(`<<RESET>>: BEGIN`)
+    PRINT_LOG && console.log(`[RESET]: BEGIN`)
     workerInstance.reset()
         .then(async (evaluatedAchievementData: AchievementDataType[]) => {
-            PRINT_LOG && console.log(`<<RESET>>: END`);
+            PRINT_LOG && console.log(`[RESET]: END`);
             dispatch(setAllAchievementData(evaluatedAchievementData));
         });
 }
@@ -58,7 +57,6 @@ declare type CalcState = {
 
 export async function calculateAchievements(
     dispatch: Dispatch<any>,
-    taxonRanks: TaxonRankCacheType[],
     username: string,
     limit: number = MAX_LIMIT,
     calcState: CalcState = {
@@ -73,7 +71,7 @@ export async function calculateAchievements(
 ) {
     if (limit <= 0)
         limit = MAX_LIMIT;
-    PRINT_LOG && console.log(`<calc>: BEGIN 
+    PRINT_LOG && console.log(`[calc]: BEGIN 
         | user=${username}
         | queryPage=${calcState.queryPage}
         | queryDate=${calcState.queryDate}
@@ -100,14 +98,14 @@ export async function calculateAchievements(
         if (calcState.resultsProcessed + RESULT_PER_PAGE_LIMIT > limit) {
             iNatParams.per_page = Math.max(0, limit - calcState.resultsProcessed);
             iNatParams.per_page > 0
-                && PRINT_LOG && console.log(`<calc>: adjusting records per page to ${iNatParams.per_page}, in order not to exceed the read limit of ${limit}`);
+                && PRINT_LOG && console.log(`[calc]: adjusting records per page to ${iNatParams.per_page}, in order not to exceed the read limit of ${limit}`);
         }
     }
     // Adjust d2 (from data) when more than QUERY_PARAMS_ROTATE_LIMIT number of records have been read
     if (iNatParams.per_page > 0) {
         if (calcState.queryResultsProcessed >= QUERY_PARAMS_ROTATE_LIMIT) {
             if (calcState.activeDate !== calcState.queryDate) {
-                PRINT_LOG && console.log(`<calc>: adjusting the query date from ${calcState.queryDate} to ${calcState.activeDate}, in order to avoid paging past ${QUERY_PARAMS_ROTATE_LIMIT} records`);
+                PRINT_LOG && console.log(`[calc]: adjusting the query date from ${calcState.queryDate} to ${calcState.activeDate}, in order to avoid paging past ${QUERY_PARAMS_ROTATE_LIMIT} records`);
                 calcState.queryDate = calcState.activeDate;
                 calcState.queryPage = FIRST_PAGE;
                 calcState.queryResultsProcessed = 0;
@@ -123,24 +121,24 @@ export async function calculateAchievements(
     if (iNatParams.per_page > 0
         && (calcState.queryPage === FIRST_PAGE || (calcState.resultsProcessed + iNatParams.per_page) <= Math.min(calcState.resultsTotal, limit))) {
         // Update the UI
-        PRINT_LOG && console.log(`<calc>: fetch data for: user=${username} | queryPage=${calcState.queryPage} | queryDate=${calcState.queryDate}`);
+        PRINT_LOG && console.log(`[calc]: fetch data for: user=${username} | queryPage=${calcState.queryPage} | queryDate=${calcState.queryDate}`);
         dispatch(setProgressMessage(I18n.t('progressFetching', {
             per_page: iNatParams.per_page,
             count: calcState.resultsProcessed,
             total: calcState.resultsTotal < 0 ? I18n.t('progressUnknown') : Math.min(calcState.resultsTotal, limit)
         })));
         // Fetch and process the next batch of observations
-        await fetchAndProcessObservations(dispatch, taxonRanks, username, limit, iNatParams, calcState);
+        await fetchAndProcessObservations(dispatch, username, limit, iNatParams, calcState);
     }
     else {
         // All data has been fetched, update the UI accordingly
-        PRINT_LOG && console.log('<calc>: don\'t fetch any more data (processed', Math.min(calcState.resultsProcessed, limit), 'results)');
+        PRINT_LOG && console.log('[calc]: don\'t fetch any more data (processed', Math.min(calcState.resultsProcessed, limit), 'results)');
         dispatch(setProgressMessage(I18n.t('progressDone', { user: username, count: calcState.resultsProcessed })));
         dispatch(setProgressValue(100));
         dispatch(setProgressLoading(false));
         dispatch(setProgressAlert(true));
     }
-    PRINT_LOG && console.log(`<calc>: END 
+    PRINT_LOG && console.log(`[calc]: END 
         | user=${username}
         | queryPage=${calcState.queryPage}
         | queryDate=${calcState.queryDate}
@@ -154,7 +152,6 @@ export async function calculateAchievements(
 
 async function fetchAndProcessObservations(
     dispatch: Dispatch<any>,
-    taxonRanks: TaxonRankCacheType[],
     username: string,
     readLimit: number,
     iNatParams: any,
@@ -163,57 +160,58 @@ async function fetchAndProcessObservations(
     inatjs.observations.search(iNatParams, { user_agent: 'wild-achievements' })
         .then(async (observationsResponse: ObservationsResponse) => {
             // Cache Taxon Ranks
-            await cacheTaxonRanks(dispatch, taxonRanks, observationsResponse);
-            taxonRanks = getTaxonRanksAsTaxonRankCacheType(); // Refresh the taxonRanks to use the latest cached values
-            // Evaluate Observations
-            calcState.resultsTotal = Math.max(calcState.resultsTotal, observationsResponse.total_results!);
-            PRINT_LOG && console.log(`<calc>: found ${observationsResponse.results.length ?? 0} results to evaluate | ${calcState.resultsTotal} in total`);
-            dispatch(setProgressMessage(I18n.t('progressCalculating', { per_page: observationsResponse.results.length ?? 0 })));
-            let obsToEvaluate = observationsResponse.results;
-            if (calcState.activeDateObservations.length > 0) {
-                obsToEvaluate = observationsResponse.results.filter((observation) => {
-                    for (let alreadyProcessed of calcState.activeDateObservations) {
-                        if (observation.id === alreadyProcessed) {
-                            PRINT_LOG && console.log(`<calc>: don't reprocess observation ${alreadyProcessed}`);
-                        }
+            await cacheTaxonRanks(dispatch, observationsResponse)
+                .then(taxonRanks => {
+                    // Evaluate Observations
+                    calcState.resultsTotal = Math.max(calcState.resultsTotal, observationsResponse.total_results!);
+                    PRINT_LOG && console.log(`[calc]: found ${observationsResponse.results.length ?? 0} results to evaluate | ${calcState.resultsTotal} in total`);
+                    dispatch(setProgressMessage(I18n.t('progressCalculating', { per_page: observationsResponse.results.length ?? 0 })));
+                    let obsToEvaluate = observationsResponse.results;
+                    if (calcState.activeDateObservations.length > 0) {
+                        obsToEvaluate = observationsResponse.results.filter((observation) => {
+                            for (let alreadyProcessed of calcState.activeDateObservations) {
+                                if (observation.id === alreadyProcessed) {
+                                    PRINT_LOG && console.log(`[calc]: don't reprocess observation ${alreadyProcessed}`);
+                                }
+                            }
+                            return true;
+                        });
                     }
-                    return true;
+                    workerInstance.evaluate(obsToEvaluate, taxonRanks)
+                        .then(async (evaluatedAchievementData: AchievementDataType[]) => {
+                            PRINT_LOG && console.log(`[calc]: web worker is done evaluating ${observationsResponse.results.length} observations`);
+                            calcState.queryResultsProcessed = calcState.queryResultsProcessed + obsToEvaluate.length;
+                            calcState.resultsProcessed = calcState.resultsProcessed + obsToEvaluate.length;
+                            // Update the achievement cards' data
+                            dispatch(setAllAchievementData(evaluatedAchievementData));
+                            // Update the progress bar
+                            dispatch(setProgressValue(calcState.resultsProcessed / Math.min(calcState.resultsTotal, readLimit) * 100));
+                            // Keep track of the most recent active date and already processed observations
+                            calcState.activeDate = observationsResponse.results[observationsResponse.results.length - 1].observed_on!;
+                            calcState.activeDateObservations = [];
+                            for (let observation of observationsResponse.results) {
+                                if (observation.observed_on === calcState.activeDate) {
+                                    calcState.activeDateObservations.push(observation.id!);
+                                }
+                            }
+                            // Recursively fetch and process the next set of observations
+                            PRINT_LOG && console.log(`[calc]: preparing to fetch the next observations...`);
+                            calcState.queryPage++;
+                            calculateAchievements(dispatch, username, readLimit, calcState);
+                        });
+                    PRINT_LOG && console.log(`[calc]: iNat fetch is done for: user=${username} | queryPage=${calcState.queryPage} | queryDate=${calcState.queryDate}`);
                 });
-            }
-            workerInstance.evaluate(obsToEvaluate, taxonRanks)
-                .then(async (evaluatedAchievementData: AchievementDataType[]) => {
-                    PRINT_LOG && console.log(`<calc>: web worker is done evaluating ${observationsResponse.results.length} observations`);
-                    calcState.queryResultsProcessed = calcState.queryResultsProcessed + obsToEvaluate.length;
-                    calcState.resultsProcessed = calcState.resultsProcessed + obsToEvaluate.length;
-                    // Update the achievement cards' data
-                    dispatch(setAllAchievementData(evaluatedAchievementData));
-                    // Update the progress bar
-                    dispatch(setProgressValue(calcState.resultsProcessed / Math.min(calcState.resultsTotal, readLimit) * 100));
-                    // Keep track of the most recent active date and already processed observations
-                    calcState.activeDate = observationsResponse.results[observationsResponse.results.length - 1].observed_on!;
-                    calcState.activeDateObservations = [];
-                    for (let observation of observationsResponse.results) {
-                        if (observation.observed_on === calcState.activeDate) {
-                            calcState.activeDateObservations.push(observation.id!);
-                        }
-                    }
-                    // Recursively fetch and process the next set of observations
-                    PRINT_LOG && console.log(`<calc>: preparing to fetch the next observations...`);
-                    calcState.queryPage++;
-                    calculateAchievements(dispatch, taxonRanks, username, readLimit, calcState);
-                });
-            PRINT_LOG && console.log(`<calc>: iNat fetch is done for: user=${username} | queryPage=${calcState.queryPage} | queryDate=${calcState.queryDate}`);
         })
         .catch((e: any) => console.error('Failed observations search:', e));
 }
 
 async function cacheTaxonRanks(
     dispatch: Dispatch<any>,
-    taxonRanks: TaxonRankCacheType[],
     observationsResponse: ObservationsResponse
-) {
-    PRINT_LOG && console.log(`<taxa-cache>: check the taxon rank cache for ${observationsResponse.results.length ?? 0} observations...`);
+): Promise<TaxonRankCacheType[]> {
+    PRINT_LOG && console.log(`[taxa-cache]: check the taxon rank cache for ${observationsResponse.results.length ?? 0} observations...`);
     dispatch(setProgressMessage(I18n.t('progressPreparing', { per_page: observationsResponse.results.length ?? 0 })));
+    const ranks: TaxonRankCacheType[] = [];
     for (let observation of observationsResponse.results) {
         if (observation?.taxon?.ancestor_ids && observation.taxon.ancestor_ids.length > 2) {
             // TODO: Find a more generic way to handle this and still limit how many ranks are loaded
@@ -226,40 +224,41 @@ async function cacheTaxonRanks(
             }
             const relevantAncestors = observation.taxon.ancestor_ids.slice(2, Math.min(7, observation.taxon.ancestor_ids.length));
             for (let taxonID of relevantAncestors) {
-                if (!isTaxonCached(taxonID)) {
-                    const localStorageIndex = taxonRanks.findIndex(cache => cache.taxonID === taxonID);
-                    if (localStorageIndex >= 0) {
-                        populateTaxonRank(taxonID, taxonRanks[localStorageIndex].rank);
-                    }
-                    else {
-                        await sleep();
-                        PRINT_LOG && console.log(`<taxa-cache>: fetch the rank for taxon ${taxonID}`);
-                        await inatjs.taxa.fetch([taxonID], { user_agent: 'wild-achievements' })
-                            .then((taxon: TaxaShowResponse) => {
-                                if (taxon.total_results === 1) {
-                                    const rank = taxon.results[0].rank_level;
-                                    if (rank) {
-                                        PRINT_LOG && console.log(`<taxa-cache>: cache the rank ${rank} for taxon ${taxonID}`);
-                                        populateTaxonRank(taxonID, rank);
-                                        dispatch(populateTaxonRankCache({ taxonID, rank }));
-                                    }
-                                    else
-                                        console.error(`Could not access rank for taxon ${taxonID}`);
+                let rank = getTaxonRank(taxonID, false);
+                if (!rank) {
+                    await sleep();
+                    PRINT_LOG && console.log(`[taxa-cache]: fetch the rank for taxon ${taxonID}`);
+                    await inatjs.taxa.fetch([taxonID], { user_agent: 'wild-achievements' })
+                        .then((taxon: TaxaShowResponse) => {
+                            if (taxon.total_results === 1) {
+                                rank = taxon.results[0].rank_level ?? null;
+                                if (rank) {
+                                    PRINT_LOG && console.log(`[taxa-cache]: cache the rank ${rank} for taxon ${taxonID}`);
+                                    populateTaxonRank(taxonID, rank);
                                 }
                                 else
-                                    console.error(`Could not cache rank for taxon ${taxonID}`);
-                            });
-                        const rank = getTaxonRank(taxonID) ?? -1;
-                        if ((!isForFlowerChild && rank <= CLASS_RANK) || (rank <= ORDER_RANK))
-                            break;
+                                    console.error(`Could not access rank for taxon ${taxonID}`);
+                            }
+                            else
+                                console.error(`Could not cache rank for taxon ${taxonID}`);
+                        });
+                    // If we couldn't fetch it via the inatjs library then try again using XMLHttpRequest
+                    if (!rank) {
+                        rank = getTaxonRank(taxonID, true) ?? null;
                     }
+                    // For FlowerChild load up to the Class, the rest only need to load up to Order
+                    if (rank && ((!isForFlowerChild && rank <= CLASS_RANK) || (rank <= ORDER_RANK)))
+                        break;
                 }
+                // Keep track of relevant taxa, to be passed to the worker for evaluating the achievements
+                rank && ranks.push({ taxonID, rank });
             }
         }
     }
+    return ranks;
 }
 
 async function sleep() {
-    PRINT_LOG && console.log(`<calc>: ... ... resting for ${THROTTLE_SLEEP_TIME}ms ... ...`);
+    PRINT_LOG && console.log(`[SLEEP]: ... ... resting for ${THROTTLE_SLEEP_TIME}ms ... ...`);
     await new Promise(resolve => setTimeout(resolve, THROTTLE_SLEEP_TIME));
 }
