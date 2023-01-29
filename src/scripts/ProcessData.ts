@@ -31,7 +31,7 @@ const FIRST_PAGE = 1;
 const MAX_LIMIT = 99999;
 
 // Flag to turn detailed logging on/off
-const PRINT_LOG = true;
+const PRINT_LOG = false;
 
 // Setup Web Worker
 const workerInstance = worker();
@@ -210,7 +210,7 @@ async function cacheTaxonRanks(
     observationsResponse: ObservationsResponse
 ): Promise<TaxonRankCacheType[]> {
     PRINT_LOG && console.log(`[taxa-cache]: check the taxon rank cache for ${observationsResponse.results.length ?? 0} observations...`);
-    dispatch(setProgressMessage(I18n.t('progressPreparing', { per_page: observationsResponse.results.length ?? 0 })));
+    dispatch(setProgressMessage(I18n.t('progressPreparing')));
     const ranks: TaxonRankCacheType[] = [];
     for (let observation of observationsResponse.results) {
         if (observation?.taxon?.ancestor_ids && observation.taxon.ancestor_ids.length > 2) {
@@ -244,14 +244,17 @@ async function cacheTaxonRanks(
                         });
                     // If we couldn't fetch it via the inatjs library then try again using XMLHttpRequest
                     if (!rank) {
+                        PRINT_LOG && console.log(`[taxa-cache]: (fallback) cache the rank ${rank} for taxon ${taxonID}`);
                         rank = getTaxonRank(taxonID, true) ?? null;
                     }
+                }
+                if (rank && rank > 0) {
+                    // Keep track of relevant taxa, to be passed to the worker for evaluating the achievements
+                    ranks.push({ taxonID, rank });
                     // For FlowerChild load up to the Class, the rest only need to load up to Order
-                    if (rank && ((!isForFlowerChild && rank <= CLASS_RANK) || (rank <= ORDER_RANK)))
+                    if ((!isForFlowerChild && rank <= CLASS_RANK) || (rank <= ORDER_RANK))
                         break;
                 }
-                // Keep track of relevant taxa, to be passed to the worker for evaluating the achievements
-                rank && ranks.push({ taxonID, rank });
             }
         }
     }
