@@ -29,6 +29,8 @@ const QUERY_PARAMS_ROTATE_LIMIT = RESULT_PER_PAGE_LIMIT * 10;
 // 1 is the first page (not 0)
 const FIRST_PAGE = 1;
 
+const MAX_LIMIT = 99999;
+
 // Flag to turn detailed logging on/off
 const PRINT_LOG = true;
 
@@ -58,7 +60,7 @@ export async function calculateAchievements(
     dispatch: Dispatch<any>,
     taxonRanks: TaxonRankCacheType[],
     username: string,
-    limit: number = 0,
+    limit: number = MAX_LIMIT,
     calcState: CalcState = {
         queryPage: FIRST_PAGE,
         queryDate: new Date().toISOString().split('T')[0],
@@ -69,6 +71,8 @@ export async function calculateAchievements(
         activeDateObservations: []
     }
 ) {
+    if (limit <= 0)
+        limit = MAX_LIMIT;
     PRINT_LOG && console.log(`<calc>: BEGIN 
         | user=${username}
         | queryPage=${calcState.queryPage}
