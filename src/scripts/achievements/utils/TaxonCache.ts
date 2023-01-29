@@ -1,10 +1,14 @@
 import { TaxonRankCacheType } from '../../../types/AchievementsTypes';
 import { TaxaShowResponse } from '../../../types/iNaturalistTypes';
 
-const taxa = new Map<number, number | undefined>();
+const taxa = new Map<number, number>();
 
 export function populateTaxonRank(taxonID: number, rank: number) {
-    rank && taxa.set(taxonID, rank);
+    taxa.set(taxonID, rank);
+}
+
+export function populateAllTaxonRanks(taxaRanks: TaxonRankCacheType[]) {
+    taxaRanks.forEach((value, index) => populateTaxonRank(value.taxonID, value.rank));
 }
 
 export function isTaxonCached(taxonID: number): boolean {
@@ -13,7 +17,7 @@ export function isTaxonCached(taxonID: number): boolean {
 
 export function getTaxonRanksAsTaxonRankCacheType(): TaxonRankCacheType[] {
     const taxonRankCache: TaxonRankCacheType[] = [];
-    taxa.forEach((rank, taxonID) => rank && taxonRankCache.push({ taxonID, rank }));
+    taxa.forEach((rank, taxonID) => taxonRankCache.push({ taxonID, rank }));
     return taxonRankCache;
 }
 
@@ -36,7 +40,7 @@ export function getTaxonRank(taxonID: number): number | undefined {
         }
         xmlHttpRequest.open('GET', `https://api.inaturalist.org/v1/taxa/${taxonID}`, false); // Use "false" to force it to be synchronous
         xmlHttpRequest.send();
-        taxa.set(taxonID, rank);
+        taxa.set(taxonID, rank ?? -1);
     }
     return rank;
 }

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import icon from '../images/icon.png';
 import { RootState } from '../redux/ReduxStore';
 import { setProgressAlert, setProgressLoading, setProgressValue } from '../redux/slices/ProgressSlice';
+import { populateAllTaxonRanks } from '../scripts/achievements/utils/TaxonCache';
 import { calculateAchievements, resetAchievements } from '../scripts/ProcessData';
 import { TypeaheadOptionType } from '../types/AchievementsTypes';
 import { UserAutocompleteResponse } from '../types/iNaturalistTypes';
@@ -19,8 +20,7 @@ export default function Header() {
     const dispatch = useDispatch();
     const progressLoading = useSelector((state: RootState) => state.progress.loading);
     let taxonRanks = useSelector((state: RootState) => state.app.ranks);
-    if (!taxonRanks)
-        taxonRanks = [];
+    !taxonRanks ? taxonRanks = [] : populateAllTaxonRanks(taxonRanks);
     // Username Input
     const urlUser = queryParams.get('user') ?? '';
     const [username, setUsername] = useState(urlUser);
@@ -44,13 +44,13 @@ export default function Header() {
     const filterBy = () => true; // Bypass client-side filtering by returning `true`. Results are already filtered by the search endpoint, so no need to do it again.
 
     // Calculate Button
-    const urlLimit = Number(queryParams.get('limit'));
+    const limit = Number(queryParams.get('limit'));
     const handleClick = () => {
         dispatch(setProgressValue(0));
         dispatch(setProgressLoading(true));
         dispatch(setProgressAlert(true));
         resetAchievements(dispatch);
-        calculateAchievements(dispatch, taxonRanks, username, urlLimit);
+        calculateAchievements(dispatch, taxonRanks, username, limit);
     }
     if (firstLoad && urlUser) {
         firstLoad = false;

@@ -145,7 +145,7 @@ async function fetchAndProcessObservations(
     inatjs.observations.search(iNatParams, { user_agent: 'wild-achievements' })
         .then(async (observationsResponse: ObservationsResponse) => {
             // Prepare
-            await prepareToCalculate(dispatch, taxonRanks, observationsResponse);
+            await cacheTaxonRanks(dispatch, taxonRanks, observationsResponse);
             taxonRanks = getTaxonRanksAsTaxonRankCacheType(); // Refresh the taxonRanks to use the latest cached values
             // Evaluate
             calcState.totalResults = observationsResponse.total_results!;
@@ -188,12 +188,12 @@ async function fetchAndProcessObservations(
         .catch((e: any) => console.error('Failed observations search:', e));
 }
 
-async function prepareToCalculate(
+async function cacheTaxonRanks(
     dispatch: Dispatch<any>,
     taxonRanks: TaxonRankCacheType[],
     observationsResponse: ObservationsResponse
 ) {
-    PRINT_LOG && console.log(`<calc>: found ${observationsResponse.results.length ?? 0} observations to cache taxon ranks for...`);
+    PRINT_LOG && console.log(`<taxa-cache>: check the taxon rank cache for ${observationsResponse.results.length ?? 0} observations...`);
     dispatch(setProgressMessage(I18n.t('progressPreparing', { per_page: observationsResponse.results.length ?? 0 })));
     for (let observation of observationsResponse.results) {
         if (observation?.taxon?.ancestor_ids && observation.taxon.ancestor_ids.length > 2) {
@@ -214,15 +214,18 @@ async function prepareToCalculate(
                     }
                     else {
                         await sleep();
+                        PRINT_LOG && console.log(`<taxa-cache>: fetch the rank for taxon ${taxonID}`);
                         await inatjs.taxa.fetch([taxonID], { user_agent: 'wild-achievements' })
                             .then((taxon: TaxaShowResponse) => {
-                                PRINT_LOG && console.log(`<calc>: fetch the rank of taxon ${taxonID}`);
                                 if (taxon.total_results === 1) {
                                     const rank = taxon.results[0].rank_level;
                                     if (rank) {
+                                        PRINT_LOG && console.log(`<taxa-cache>: cache the rank ${rank} for taxon ${taxonID}`);
                                         populateTaxonRank(taxonID, rank);
                                         dispatch(populateTaxonRankCache({ taxonID, rank }));
                                     }
+                                    else
+                                        console.error(`Could not access rank for taxon ${taxonID}`);
                                 }
                                 else
                                     console.error(`Could not cache rank for taxon ${taxonID}`);

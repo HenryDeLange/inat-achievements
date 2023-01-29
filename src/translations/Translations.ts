@@ -14,7 +14,7 @@ export const en = {
     version: 'Version: {{version}} | Last Modified: {{timestamp}} | Code: {{commit}}',
     menuPopupParamsTitle: 'Available URL Parameters',
     menuPopupParamsUser: 'Immediately load the achievements for the specified user.',
-    menuPopupParamsLimit: 'The maximum number of observations that should be fetched from iNaturalist.',
+    menuPopupParamsLimit: 'The maximum number of observations that should be fetched from iNaturalist (rounded up to the next iteration of 200). Mostly for use during development.',
     menuPopupParamsExample: 'Example:',
     menuPopupAboutTitle: 'About Wild Achievements',
     menuPopupAboutMyWildHeading: 'Developed by MyWild (Henry de Lange).',
