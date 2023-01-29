@@ -21,7 +21,6 @@ export default function Header() {
     let taxonRanks = useSelector((state: RootState) => state.app.ranks);
     if (!taxonRanks)
         taxonRanks = [];
-console.log('test1')
     // Username Input
     const urlUser = queryParams.get('user') ?? '';
     const [username, setUsername] = useState(urlUser);
@@ -51,7 +50,7 @@ console.log('test1')
         dispatch(setProgressLoading(true));
         dispatch(setProgressAlert(true));
         resetAchievements(dispatch);
-        calculateAchievements(dispatch, taxonRanks, username, urlLimit > 0 ? urlLimit : undefined);
+        calculateAchievements(dispatch, taxonRanks, username, urlLimit);
     }
     if (firstLoad && urlUser) {
         firstLoad = false;

@@ -14,30 +14,32 @@ import { getTaxonRank, getTaxonRanksAsTaxonRankCacheType, isTaxonCached, populat
 import worker from 'workerize-loader!./workers/worker';
 
 // 200 seems to be the maximum iNat wants
-const RESULT_PER_PAGE_LIMIT = 200;
+const RESULT_PER_PAGE_LIMIT = 12; //200;
 
 // 100 seems to be the maximum iNat wants (the time taken for iNat to respond results in this being effectively less than the specified value)
 // The TaxonCache also floods iNat (initially) so it's best to keep this number low
-const REQUEST_PER_MINUTE_LIMIT = 80;
+const REQUEST_PER_MINUTE_LIMIT = 70;
 
-const THROTTLE_SLEEP_TIME = 60 * 1000 / REQUEST_PER_MINUTE_LIMIT;
+const THROTTLE_SLEEP_TIME = Math.round(60 * 1000 / REQUEST_PER_MINUTE_LIMIT);
 
-// Default to one minute of loading data (the top 500 observers seems to have 15000+ observations), not counting the taxa rank caching
-const TOTAL_RESULTS_LIMIT = REQUEST_PER_MINUTE_LIMIT * RESULT_PER_PAGE_LIMIT;
+// The iNat API cuts off pagination when 10 000 records have been fetched (due to database concerns),
+// they suggest to  rather try to change the query parameters (for example using id_above, etc.) instead of performing excessive pagination
+const QUERY_PARAMS_ROTATE_LIMIT = RESULT_PER_PAGE_LIMIT * 2; // * 20;
 
 // 1 is the first page (not 0)
 const FIRST_PAGE = 1;
 
+// Flag to turn detailed logging on/off
+const PRINT_LOG = true;
+
 // Setup Web Worker
 const workerInstance = worker();
 
-const PRINT_LOG = false;
-
 export async function resetAchievements(dispatch: Dispatch<any>) {
-    PRINT_LOG && console.log(`resetAchievements: BEGIN`)
+    PRINT_LOG && console.log(`<<RESET>>: BEGIN`)
     workerInstance.reset()
         .then(async (evaluatedAchievementData: AchievementDataType[]) => {
-            PRINT_LOG && console.log(`resetAchievements: END`);
+            PRINT_LOG && console.log(`<<RESET>>: END`);
             dispatch(setAllAchievementData(evaluatedAchievementData));
         });
 }
@@ -45,17 +47,35 @@ export async function resetAchievements(dispatch: Dispatch<any>) {
 declare type CalcState = {
     page: number,
     resultCount: number,
-    totalResults: number
+    totalResults: number,
+    mostRecentlyActiveDate: string,
+    mostRecentlyActiveProcessedObservations: number[],
+    queryParamChanges: number
 }
 
 export async function calculateAchievements(
     dispatch: Dispatch<any>,
     taxonRanks: TaxonRankCacheType[],
     username: string,
-    readLimit = TOTAL_RESULTS_LIMIT,
-    calcState: CalcState = { page: FIRST_PAGE, resultCount: 0, totalResults: -1 }
+    readLimit: number = 0,
+    calcState: CalcState = {
+        page: FIRST_PAGE,
+        resultCount: 0,
+        totalResults: -1,
+        mostRecentlyActiveDate: new Date().toISOString().split('T')[0],
+        mostRecentlyActiveProcessedObservations: [],
+        queryParamChanges: 0
+    }
 ) {
-    PRINT_LOG && console.log(`calculateAchievements: BEGIN ${username} | page=${calcState.page} | limit=${readLimit} | resultCount=${calcState.resultCount} | totalResults=${calcState.totalResults}`);
+    PRINT_LOG && console.log(`<calc>: BEGIN 
+        | user=${username}
+        | page=${calcState.page}
+        | limit=${readLimit}
+        | resultCount=${calcState.resultCount}
+        | totalResults=${calcState.totalResults}
+        | mostRecentlyActiveDate=${calcState.mostRecentlyActiveDate}
+        | mostRecentlyActiveProcessedObservations=${calcState.mostRecentlyActiveProcessedObservations.length}
+        | queryParamChanges=${calcState.queryParamChanges}`);
     // Sleep for a bit before starting (to comply with the iNat requests per minute limit)
     await sleep();
     // Prepare fetch parameters
@@ -63,19 +83,30 @@ export async function calculateAchievements(
         user_id: username,
         per_page: RESULT_PER_PAGE_LIMIT,
         page: calcState.page,
+        d2: calcState.mostRecentlyActiveDate, // Observed on or before this date
         order_by: 'observed_on', // Sort by observation date (descending by default)
         captive: false, // Only wild observations
         verifiable: true // Exclude casual observations
     }
     // Adjust per_page if it exceeds the read limit
-    if (calcState.page * RESULT_PER_PAGE_LIMIT > readLimit) {
-        iNatParams.per_page = Math.max(0, readLimit - ((calcState.page - 1) * RESULT_PER_PAGE_LIMIT));
-        PRINT_LOG && console.log(`calculateAchievements: adjusting per_page to ${iNatParams.per_page} due to read limit`);
+    const pagesCount = calcState.page - 1;
+    const totalRead = pagesCount * RESULT_PER_PAGE_LIMIT + (calcState.queryParamChanges * QUERY_PARAMS_ROTATE_LIMIT);
+    if (readLimit > 0 && calcState.page * RESULT_PER_PAGE_LIMIT > readLimit) {
+        iNatParams.per_page = Math.max(0, readLimit - totalRead);
+        iNatParams.per_page > 0 && PRINT_LOG && console.log(`<calc>: adjusting per_page to ${iNatParams.per_page} due to read limit`);
+    }
+    // Adjust d2 (from data) if more than QUERY_PARAMS_ROTATE_LIMIT number of records have been read
+    if (iNatParams.per_page > 0 && pagesCount * RESULT_PER_PAGE_LIMIT + iNatParams.per_page > QUERY_PARAMS_ROTATE_LIMIT) {
+        iNatParams.d2 = calcState.mostRecentlyActiveDate;
+        calcState.page = FIRST_PAGE;
+        calcState.queryParamChanges++;
+        PRINT_LOG && console.log(`<calc>: adjusting d2 (from date) to ${iNatParams.d2} to avoid paging to past ${QUERY_PARAMS_ROTATE_LIMIT} records`);
     }
     // Fetch the data from iNaturalist
-    if (calcState.page === 1 || (iNatParams.per_page > 0 && ((calcState.page - 1) * RESULT_PER_PAGE_LIMIT + iNatParams.per_page) <= Math.min(calcState.totalResults, readLimit))) {
+    if (calcState.page === FIRST_PAGE
+            || (iNatParams.per_page > 0 && (totalRead + iNatParams.per_page) <= Math.min(calcState.totalResults, readLimit))) {
         // Update the UI
-        PRINT_LOG && console.log(`calculateAchievements: fetch data for ${username} | page ${calcState.page}`);
+        PRINT_LOG && console.log(`<calc>: fetch data for ${username} | page ${calcState.page}`);
         dispatch(setProgressMessage(I18n.t('progressFetching', {
             per_page: iNatParams.per_page,
             count: calcState.resultCount,
@@ -86,13 +117,21 @@ export async function calculateAchievements(
     }
     else {
         // All data has been fetched, update the UI accordingly
-        PRINT_LOG && console.log('calculateAchievements: don\'t fetch any more data (processed', Math.min(calcState.page * RESULT_PER_PAGE_LIMIT, readLimit), 'results)');
+        PRINT_LOG && console.log('<calc>: don\'t fetch any more data (processed', Math.min(calcState.page * RESULT_PER_PAGE_LIMIT, readLimit), 'results)');
         dispatch(setProgressMessage(I18n.t('progressDone', { user: username, count: calcState.resultCount })));
         dispatch(setProgressValue(100));
         dispatch(setProgressLoading(false));
         dispatch(setProgressAlert(true));
     }
-    PRINT_LOG && console.log(`calculateAchievements: END ${username} | page=${calcState.page} | limit=${readLimit} | total=${calcState.totalResults}`);
+    PRINT_LOG && console.log(`<calc>: END 
+        | user=${username}
+        | page=${calcState.page}
+        | limit=${readLimit}
+        | resultCount=${calcState.resultCount}
+        | totalResults=${calcState.totalResults}
+        | mostRecentlyActiveDate=${calcState.mostRecentlyActiveDate}
+        | mostRecentlyActiveProcessedObservations=${calcState.mostRecentlyActiveProcessedObservations.length}
+        | queryParamChanges=${calcState.queryParamChanges}`);
 }
 
 async function fetchAndProcessObservations(
@@ -103,7 +142,6 @@ async function fetchAndProcessObservations(
     iNatParams: any,
     calcState: CalcState
 ) {
-    // TODO: Only do 1000 calls, then adjust to new date
     inatjs.observations.search(iNatParams, { user_agent: 'wild-achievements' })
         .then(async (observationsResponse: ObservationsResponse) => {
             // Prepare
@@ -111,22 +149,41 @@ async function fetchAndProcessObservations(
             taxonRanks = getTaxonRanksAsTaxonRankCacheType(); // Refresh the taxonRanks to use the latest cached values
             // Evaluate
             calcState.totalResults = observationsResponse.total_results!;
-            PRINT_LOG && console.log(`calculateAchievements: found ${observationsResponse.results.length ?? 0} results to evaluate | ${calcState.totalResults} in total`);
+            PRINT_LOG && console.log(`<calc>: found ${observationsResponse.results.length ?? 0} results to evaluate | ${calcState.totalResults} in total`);
             dispatch(setProgressMessage(I18n.t('progressCalculating', { per_page: observationsResponse.results.length ?? 0 })));
-            workerInstance.evaluate(observationsResponse.results, taxonRanks)
+            let obsToEvaluate = observationsResponse.results;
+            if (calcState.mostRecentlyActiveProcessedObservations.length > 0) {
+                obsToEvaluate = observationsResponse.results.filter((observation) => {
+                    for (let alreadyProcessed of calcState.mostRecentlyActiveProcessedObservations) {
+                        if (observation.id === alreadyProcessed) {
+                            PRINT_LOG && console.log(`<calc>: don't reprocess observation ${alreadyProcessed}`);
+                        }
+                    }
+                    return true;
+                });
+            }
+            workerInstance.evaluate(obsToEvaluate, taxonRanks)
                 .then(async (evaluatedAchievementData: AchievementDataType[]) => {
-                    PRINT_LOG && console.log(`calculateAchievements: web worker is done`);
+                    PRINT_LOG && console.log(`<calc>: web worker is done evaluating ${observationsResponse.results.length} observations`);
                     // Update the achievement cards' data
                     dispatch(setAllAchievementData(evaluatedAchievementData));
                     // Update the progress bar
                     calcState.resultCount = calcState.resultCount + observationsResponse.results.length;
                     dispatch(setProgressValue(calcState.resultCount / Math.min(calcState.totalResults, readLimit) * 100));
+                    // Keep track of the most recent active date and already processed observations
+                    calcState.mostRecentlyActiveDate = observationsResponse.results[observationsResponse.results.length - 1].observed_on!;
+                    calcState.mostRecentlyActiveProcessedObservations = [];
+                    for (let observation of observationsResponse.results) {
+                        if (observation.observed_on === calcState.mostRecentlyActiveDate) {
+                            calcState.mostRecentlyActiveProcessedObservations.push(observation.id!);
+                        }
+                    }
                     // Recursively fetch and process the next set of observations
-                    PRINT_LOG && console.log(`calculateAchievements: preparing to fetch next page...`);
+                    PRINT_LOG && console.log(`<calc>: preparing to fetch next observations...`);
                     calcState.page++;
                     calculateAchievements(dispatch, taxonRanks, username, readLimit, calcState);
                 });
-            PRINT_LOG && console.log(`calculateAchievements: promise completed ${username} | page=${calcState.page}`);
+            PRINT_LOG && console.log(`<calc>: iNat fetch is done | user=${username} | page=${calcState.page}`);
         })
         .catch((e: any) => console.error('Failed observations search:', e));
 }
@@ -136,7 +193,7 @@ async function prepareToCalculate(
     taxonRanks: TaxonRankCacheType[],
     observationsResponse: ObservationsResponse
 ) {
-    PRINT_LOG && console.log('calculateAchievements: found ', observationsResponse.results.length ?? 0, ' results to prepare');
+    PRINT_LOG && console.log(`<calc>: found ${observationsResponse.results.length ?? 0} observations to cache taxon ranks for...`);
     dispatch(setProgressMessage(I18n.t('progressPreparing', { per_page: observationsResponse.results.length ?? 0 })));
     for (let observation of observationsResponse.results) {
         if (observation?.taxon?.ancestor_ids && observation.taxon.ancestor_ids.length > 2) {
@@ -159,7 +216,7 @@ async function prepareToCalculate(
                         await sleep();
                         await inatjs.taxa.fetch([taxonID], { user_agent: 'wild-achievements' })
                             .then((taxon: TaxaShowResponse) => {
-                                PRINT_LOG && console.log(`calculateAchievements: fetch the rank of taxon ${taxonID}`);
+                                PRINT_LOG && console.log(`<calc>: fetch the rank of taxon ${taxonID}`);
                                 if (taxon.total_results === 1) {
                                     const rank = taxon.results[0].rank_level;
                                     if (rank) {
@@ -181,6 +238,6 @@ async function prepareToCalculate(
 }
 
 async function sleep() {
-    PRINT_LOG && console.log(`calculateAchievements: rest for ${THROTTLE_SLEEP_TIME}ms`);
+    PRINT_LOG && console.log(`<calc>: ... ... resting for ${THROTTLE_SLEEP_TIME}ms ... ...`);
     await new Promise(resolve => setTimeout(resolve, THROTTLE_SLEEP_TIME));
 }
