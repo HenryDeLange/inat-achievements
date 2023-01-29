@@ -14,7 +14,7 @@ import { getTaxonRank, getTaxonRanksAsTaxonRankCacheType, isTaxonCached, populat
 import worker from 'workerize-loader!./workers/worker';
 
 // 200 seems to be the maximum iNat wants
-const RESULT_PER_PAGE_LIMIT = 12; //200;
+const RESULT_PER_PAGE_LIMIT = 200;
 
 // 100 seems to be the maximum iNat wants (the time taken for iNat to respond results in this being effectively less than the specified value)
 // The TaxonCache also floods iNat (initially) so it's best to keep this number low
@@ -24,7 +24,7 @@ const THROTTLE_SLEEP_TIME = Math.round(60 * 1000 / REQUEST_PER_MINUTE_LIMIT);
 
 // The iNat API cuts off pagination when 10 000 records have been fetched (due to database concerns),
 // they suggest to  rather try to change the query parameters (for example using id_above, etc.) instead of performing excessive pagination
-const QUERY_PARAMS_ROTATE_LIMIT = RESULT_PER_PAGE_LIMIT * 2; // * 20;
+const QUERY_PARAMS_ROTATE_LIMIT = RESULT_PER_PAGE_LIMIT * 10;
 
 // 1 is the first page (not 0)
 const FIRST_PAGE = 1;
@@ -45,93 +45,107 @@ export async function resetAchievements(dispatch: Dispatch<any>) {
 }
 
 declare type CalcState = {
-    page: number,
-    resultCount: number,
-    totalResults: number,
-    mostRecentlyActiveDate: string,
-    mostRecentlyActiveProcessedObservations: number[],
-    queryParamChanges: number
+    queryPage: number,
+    queryDate: string,
+    queryResultsProcessed: number,
+    resultsProcessed: number,
+    resultsTotal: number,
+    activeDate: string,
+    activeDateObservations: number[]
 }
 
 export async function calculateAchievements(
     dispatch: Dispatch<any>,
     taxonRanks: TaxonRankCacheType[],
     username: string,
-    readLimit: number = 0,
+    limit: number = 0,
     calcState: CalcState = {
-        page: FIRST_PAGE,
-        resultCount: 0,
-        totalResults: -1,
-        mostRecentlyActiveDate: new Date().toISOString().split('T')[0],
-        mostRecentlyActiveProcessedObservations: [],
-        queryParamChanges: 0
+        queryPage: FIRST_PAGE,
+        queryDate: new Date().toISOString().split('T')[0],
+        queryResultsProcessed: 0,
+        resultsProcessed: 0,
+        resultsTotal: -1,
+        activeDate: new Date().toISOString().split('T')[0],
+        activeDateObservations: []
     }
 ) {
     PRINT_LOG && console.log(`<calc>: BEGIN 
         | user=${username}
-        | page=${calcState.page}
-        | limit=${readLimit}
-        | resultCount=${calcState.resultCount}
-        | totalResults=${calcState.totalResults}
-        | mostRecentlyActiveDate=${calcState.mostRecentlyActiveDate}
-        | mostRecentlyActiveProcessedObservations=${calcState.mostRecentlyActiveProcessedObservations.length}
-        | queryParamChanges=${calcState.queryParamChanges}`);
+        | queryPage=${calcState.queryPage}
+        | queryDate=${calcState.queryDate}
+        | queryResultsProcessed=${calcState.queryResultsProcessed}
+        | limit=${limit}
+        | resultsProcessed=${calcState.resultsProcessed}
+        | resultsTotal=${calcState.resultsTotal}
+        | activeDate=${calcState.activeDate}
+        | activeDateObservations=${calcState.activeDateObservations.length}`);
     // Sleep for a bit before starting (to comply with the iNat requests per minute limit)
     await sleep();
     // Prepare fetch parameters
     const iNatParams = {
         user_id: username,
         per_page: RESULT_PER_PAGE_LIMIT,
-        page: calcState.page,
-        d2: calcState.mostRecentlyActiveDate, // Observed on or before this date
+        page: calcState.queryPage,
+        d2: calcState.activeDate, // Observed on or before this date
         order_by: 'observed_on', // Sort by observation date (descending by default)
         captive: false, // Only wild observations
         verifiable: true // Exclude casual observations
     }
-    // Adjust per_page if it exceeds the read limit
-    const pagesCount = calcState.page - 1;
-    const totalRead = pagesCount * RESULT_PER_PAGE_LIMIT + (calcState.queryParamChanges * QUERY_PARAMS_ROTATE_LIMIT);
-    if (readLimit > 0 && calcState.page * RESULT_PER_PAGE_LIMIT > readLimit) {
-        iNatParams.per_page = Math.max(0, readLimit - totalRead);
-        iNatParams.per_page > 0 && PRINT_LOG && console.log(`<calc>: adjusting per_page to ${iNatParams.per_page} due to read limit`);
+    // Adjust per_page if it will result in the read limit being exceeded
+    if (limit > 0) {
+        if (calcState.resultsProcessed + RESULT_PER_PAGE_LIMIT > limit) {
+            iNatParams.per_page = Math.max(0, limit - calcState.resultsProcessed);
+            iNatParams.per_page > 0
+                && PRINT_LOG && console.log(`<calc>: adjusting records per page to ${iNatParams.per_page}, in order not to exceed the read limit of ${limit}`);
+        }
     }
-    // Adjust d2 (from data) if more than QUERY_PARAMS_ROTATE_LIMIT number of records have been read
-    if (iNatParams.per_page > 0 && pagesCount * RESULT_PER_PAGE_LIMIT + iNatParams.per_page > QUERY_PARAMS_ROTATE_LIMIT) {
-        iNatParams.d2 = calcState.mostRecentlyActiveDate;
-        calcState.page = FIRST_PAGE;
-        calcState.queryParamChanges++;
-        PRINT_LOG && console.log(`<calc>: adjusting d2 (from date) to ${iNatParams.d2} to avoid paging to past ${QUERY_PARAMS_ROTATE_LIMIT} records`);
+    // Adjust d2 (from data) when more than QUERY_PARAMS_ROTATE_LIMIT number of records have been read
+    if (iNatParams.per_page > 0) {
+        if (calcState.queryResultsProcessed >= QUERY_PARAMS_ROTATE_LIMIT) {
+            if (calcState.activeDate !== calcState.queryDate) {
+                PRINT_LOG && console.log(`<calc>: adjusting the query date from ${calcState.queryDate} to ${calcState.activeDate}, in order to avoid paging past ${QUERY_PARAMS_ROTATE_LIMIT} records`);
+                calcState.queryDate = calcState.activeDate;
+                calcState.queryPage = FIRST_PAGE;
+                calcState.queryResultsProcessed = 0;
+                iNatParams.d2 = calcState.queryDate;
+                iNatParams.page = calcState.queryPage;
+            }
+            else {
+                console.warn(`There are more than ${QUERY_PARAMS_ROTATE_LIMIT} observations on ${calcState.activeDate}. An attempt will be made to load more observations, but it may fail...`);
+            }
+        }
     }
     // Fetch the data from iNaturalist
-    if (calcState.page === FIRST_PAGE
-            || (iNatParams.per_page > 0 && (totalRead + iNatParams.per_page) <= Math.min(calcState.totalResults, readLimit))) {
+    if (iNatParams.per_page > 0
+        && (calcState.queryPage === FIRST_PAGE || (calcState.resultsProcessed + iNatParams.per_page) <= Math.min(calcState.resultsTotal, limit))) {
         // Update the UI
-        PRINT_LOG && console.log(`<calc>: fetch data for ${username} | page ${calcState.page}`);
+        PRINT_LOG && console.log(`<calc>: fetch data for: user=${username} | queryPage=${calcState.queryPage} | queryDate=${calcState.queryDate}`);
         dispatch(setProgressMessage(I18n.t('progressFetching', {
             per_page: iNatParams.per_page,
-            count: calcState.resultCount,
-            total: calcState.totalResults < 0 ? I18n.t('progressUnknown') : Math.min(calcState.totalResults, readLimit)
+            count: calcState.resultsProcessed,
+            total: calcState.resultsTotal < 0 ? I18n.t('progressUnknown') : Math.min(calcState.resultsTotal, limit)
         })));
         // Fetch and process the next batch of observations
-        fetchAndProcessObservations(dispatch, taxonRanks, username, readLimit, iNatParams, calcState);
+        await fetchAndProcessObservations(dispatch, taxonRanks, username, limit, iNatParams, calcState);
     }
     else {
         // All data has been fetched, update the UI accordingly
-        PRINT_LOG && console.log('<calc>: don\'t fetch any more data (processed', Math.min(calcState.page * RESULT_PER_PAGE_LIMIT, readLimit), 'results)');
-        dispatch(setProgressMessage(I18n.t('progressDone', { user: username, count: calcState.resultCount })));
+        PRINT_LOG && console.log('<calc>: don\'t fetch any more data (processed', Math.min(calcState.resultsProcessed, limit), 'results)');
+        dispatch(setProgressMessage(I18n.t('progressDone', { user: username, count: calcState.resultsProcessed })));
         dispatch(setProgressValue(100));
         dispatch(setProgressLoading(false));
         dispatch(setProgressAlert(true));
     }
     PRINT_LOG && console.log(`<calc>: END 
         | user=${username}
-        | page=${calcState.page}
-        | limit=${readLimit}
-        | resultCount=${calcState.resultCount}
-        | totalResults=${calcState.totalResults}
-        | mostRecentlyActiveDate=${calcState.mostRecentlyActiveDate}
-        | mostRecentlyActiveProcessedObservations=${calcState.mostRecentlyActiveProcessedObservations.length}
-        | queryParamChanges=${calcState.queryParamChanges}`);
+        | queryPage=${calcState.queryPage}
+        | queryDate=${calcState.queryDate}
+        | queryResultsProcessed=${calcState.queryResultsProcessed}
+        | limit=${limit}
+        | resultsProcessed=${calcState.resultsProcessed}
+        | resultsTotal=${calcState.resultsTotal}
+        | activeDate=${calcState.activeDate}
+        | activeDateObservations=${calcState.activeDateObservations.length}`);
 }
 
 async function fetchAndProcessObservations(
@@ -144,17 +158,17 @@ async function fetchAndProcessObservations(
 ) {
     inatjs.observations.search(iNatParams, { user_agent: 'wild-achievements' })
         .then(async (observationsResponse: ObservationsResponse) => {
-            // Prepare
+            // Cache Taxon Ranks
             await cacheTaxonRanks(dispatch, taxonRanks, observationsResponse);
             taxonRanks = getTaxonRanksAsTaxonRankCacheType(); // Refresh the taxonRanks to use the latest cached values
-            // Evaluate
-            calcState.totalResults = observationsResponse.total_results!;
-            PRINT_LOG && console.log(`<calc>: found ${observationsResponse.results.length ?? 0} results to evaluate | ${calcState.totalResults} in total`);
+            // Evaluate Observations
+            calcState.resultsTotal = Math.max(calcState.resultsTotal, observationsResponse.total_results!);
+            PRINT_LOG && console.log(`<calc>: found ${observationsResponse.results.length ?? 0} results to evaluate | ${calcState.resultsTotal} in total`);
             dispatch(setProgressMessage(I18n.t('progressCalculating', { per_page: observationsResponse.results.length ?? 0 })));
             let obsToEvaluate = observationsResponse.results;
-            if (calcState.mostRecentlyActiveProcessedObservations.length > 0) {
+            if (calcState.activeDateObservations.length > 0) {
                 obsToEvaluate = observationsResponse.results.filter((observation) => {
-                    for (let alreadyProcessed of calcState.mostRecentlyActiveProcessedObservations) {
+                    for (let alreadyProcessed of calcState.activeDateObservations) {
                         if (observation.id === alreadyProcessed) {
                             PRINT_LOG && console.log(`<calc>: don't reprocess observation ${alreadyProcessed}`);
                         }
@@ -165,25 +179,26 @@ async function fetchAndProcessObservations(
             workerInstance.evaluate(obsToEvaluate, taxonRanks)
                 .then(async (evaluatedAchievementData: AchievementDataType[]) => {
                     PRINT_LOG && console.log(`<calc>: web worker is done evaluating ${observationsResponse.results.length} observations`);
+                    calcState.queryResultsProcessed = calcState.queryResultsProcessed + obsToEvaluate.length;
+                    calcState.resultsProcessed = calcState.resultsProcessed + obsToEvaluate.length;
                     // Update the achievement cards' data
                     dispatch(setAllAchievementData(evaluatedAchievementData));
                     // Update the progress bar
-                    calcState.resultCount = calcState.resultCount + observationsResponse.results.length;
-                    dispatch(setProgressValue(calcState.resultCount / Math.min(calcState.totalResults, readLimit) * 100));
+                    dispatch(setProgressValue(calcState.resultsProcessed / Math.min(calcState.resultsTotal, readLimit) * 100));
                     // Keep track of the most recent active date and already processed observations
-                    calcState.mostRecentlyActiveDate = observationsResponse.results[observationsResponse.results.length - 1].observed_on!;
-                    calcState.mostRecentlyActiveProcessedObservations = [];
+                    calcState.activeDate = observationsResponse.results[observationsResponse.results.length - 1].observed_on!;
+                    calcState.activeDateObservations = [];
                     for (let observation of observationsResponse.results) {
-                        if (observation.observed_on === calcState.mostRecentlyActiveDate) {
-                            calcState.mostRecentlyActiveProcessedObservations.push(observation.id!);
+                        if (observation.observed_on === calcState.activeDate) {
+                            calcState.activeDateObservations.push(observation.id!);
                         }
                     }
                     // Recursively fetch and process the next set of observations
-                    PRINT_LOG && console.log(`<calc>: preparing to fetch next observations...`);
-                    calcState.page++;
+                    PRINT_LOG && console.log(`<calc>: preparing to fetch the next observations...`);
+                    calcState.queryPage++;
                     calculateAchievements(dispatch, taxonRanks, username, readLimit, calcState);
                 });
-            PRINT_LOG && console.log(`<calc>: iNat fetch is done | user=${username} | page=${calcState.page}`);
+            PRINT_LOG && console.log(`<calc>: iNat fetch is done for: user=${username} | queryPage=${calcState.queryPage} | queryDate=${calcState.queryDate}`);
         })
         .catch((e: any) => console.error('Failed observations search:', e));
 }
