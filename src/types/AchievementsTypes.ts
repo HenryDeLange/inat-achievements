@@ -1,5 +1,9 @@
 import { Option } from 'react-bootstrap-typeahead/types/types';
 
+export type LogActionType = {
+    payload: string;
+}
+
 export declare type AchievementDataType = {
     icon: string;
     title: string;
@@ -34,8 +38,4 @@ export type ActionThemeType = {
 export type TaxonRankCacheType = {
     taxonID: number;
     rank: number;
-}
-
-export type ActionTaxonRankCacheType = {
-    payload: TaxonRankCacheType;
 }

@@ -15,14 +15,9 @@ let firstLoad = true;
 
 export default function Header() {
     const queryParams = new URLSearchParams(window.location.search);
-
     // Loading
     const dispatch = useDispatch();
     const progressLoading = useSelector((state: RootState) => state.progress.loading);
-    let taxonRanks = useSelector((state: RootState) => state.app.ranks);
-    if (!taxonRanks)
-        taxonRanks = [];
-
     // Username Input
     const urlUser = queryParams.get('user') ?? '';
     const [username, setUsername] = useState(urlUser);
@@ -31,7 +26,7 @@ export default function Header() {
     const handleSearch = (query: string) => {
         setIsUsernameLoading(true);
         // Not using inatjs module because at the moment it does not support the autocomplete
-        fetch(`https://api.inaturalist.org/v1/users/autocomplete?q=${query}`)
+        fetch(`https://api.inaturalist.org/v1/users/autocomplete?q=${query}`, { headers: { 'User-Agent': 'wild-achievements' } })
             .then((response) => response.json())
             .then((userAutocompleteResponse: UserAutocompleteResponse) => {
                 const newOptions = userAutocompleteResponse.results.map((user) => ({
@@ -46,13 +41,13 @@ export default function Header() {
     const filterBy = () => true; // Bypass client-side filtering by returning `true`. Results are already filtered by the search endpoint, so no need to do it again.
 
     // Calculate Button
-    const urlLimit = Number(queryParams.get('limit'));
+    const limit = Number(queryParams.get('limit'));
     const handleClick = () => {
         dispatch(setProgressValue(0));
         dispatch(setProgressLoading(true));
         dispatch(setProgressAlert(true));
         resetAchievements(dispatch);
-        calculateAchievements(dispatch, taxonRanks, username, urlLimit > 0 ? urlLimit : undefined);
+        calculateAchievements(dispatch, username, limit);
     }
     if (firstLoad && urlUser) {
         firstLoad = false;
