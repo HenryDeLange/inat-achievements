@@ -26,7 +26,7 @@ export default function Header() {
     const handleSearch = (query: string) => {
         setIsUsernameLoading(true);
         // Not using inatjs module because at the moment it does not support the autocomplete
-        fetch(`https://api.inaturalist.org/v1/users/autocomplete?q=${query}`, { headers: { 'User-Agent': 'wild-achievements' } })
+        fetch(`https://api.inaturalist.org/v1/users/autocomplete?q=${query}`)
             .then((response) => response.json())
             .then((userAutocompleteResponse: UserAutocompleteResponse) => {
                 const newOptions = userAutocompleteResponse.results.map((user) => ({
