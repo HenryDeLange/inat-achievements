@@ -1,8 +1,9 @@
 import I18n from 'i18n-js';
-import { ReactNode, useState } from 'react';
+import { MutableRefObject, ReactNode, useCallback, useState } from 'react';
 import { ButtonGroup, Col, Container, Image, Nav, Navbar, Offcanvas, OverlayTrigger, Popover, Row, ToggleButton } from 'react-bootstrap';
-import { CodeSlash, Github, InfoCircle, Laptop, Moon, QuestionCircle, Sun } from 'react-bootstrap-icons';
+import { CodeSlash, Github, InfoCircle, Laptop, Moon, QuestionCircle, Save, Sun } from 'react-bootstrap-icons';
 import { OverlayChildren } from 'react-bootstrap/esm/Overlay';
+import { exportComponentAsPNG } from 'react-component-export-image';
 import { useDispatch, useSelector } from 'react-redux';
 import inat_dark from '../images/inat_dark.png';
 import inat_light from '../images/inat_light.png';
@@ -14,10 +15,20 @@ import HyperLink from './HyperLink';
 
 const iconSize = 18;
 
-export default function Menu() {
+type MenuProps = {
+    achievementsRef: MutableRefObject<any>;
+}
+
+export default function Menu({ achievementsRef }: MenuProps) {
     const dispatch = useDispatch();
     const theme = useSelector((state: RootState) => state.app.mode);
     const [radioValue, setRadioValue] = useState<ThemeType>(theme);
+    const achievementsSaveCallback = useCallback(() => exportComponentAsPNG(achievementsRef, {
+        fileName: 'wild-achievements.png',
+        html2CanvasOptions: {
+            backgroundColor: theme === 'Dark' ? '#2b3428' : '#c3c7c0'
+        }
+    }), [achievementsRef, theme]);
 
     const popoverAbout = (
         <Popover className='Popover'>
@@ -54,7 +65,7 @@ export default function Menu() {
             </Popover.Body>
         </Popover>
     );
-    
+
     const popoverURL = (
         <Popover className='Popover'>
             <Popover.Header>
@@ -69,7 +80,7 @@ export default function Menu() {
             </Popover.Body>
         </Popover>
     );
-    
+
     const popoverRules = (
         <Popover className='Popover'>
             <Popover.Header>
@@ -140,6 +151,14 @@ export default function Menu() {
                             <NavLink title={I18n.t('menuButtonDesktopApp')} url='https://github.com/HenryDeLange/inat-achievements/releases'>
                                 <Laptop size={iconSize} className='m-1' />
                             </NavLink>
+                            <div
+                                className='px-3 MenuDrawerItem'
+                                role='button'
+                                onClick={achievementsSaveCallback}
+                            >
+                                <Save size={iconSize} className='mx-1' />
+                                {I18n.t('menuButtonSave')}
+                            </div>
                         </Nav>
                     </Offcanvas.Body>
                 </Navbar.Offcanvas>
@@ -171,7 +190,7 @@ function NavPopup({ title, popup, children }: NavPopupType) {
             <div
                 className='px-3 MenuDrawerItem'
                 role='button'
-                >
+            >
                 {children}
                 {title}
             </div>

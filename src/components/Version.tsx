@@ -44,7 +44,7 @@ function LogsModal(props: any) {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {getLogMessages().map((message) => <div>{message}</div>)}
+                {getLogMessages().map((message, index) => <div key={index}>{message}</div>)}
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={props.onHide}>Close</Button>
