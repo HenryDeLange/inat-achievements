@@ -19,7 +19,7 @@ testConditionally(runVerifyTaxa, 'Validate Taxa IDs', async () => {
         for (let taxonID of achievement.getTaxa()) {
             // Sleep to make sure we don't spam iNat too much
             await new Promise(resolve => setTimeout(resolve, SLEEP_TIME));
-            const rank = await inatjs.taxa.fetch([taxonID], { user_agent: 'wild-achievements-test' })
+            const rank = await inatjs.taxa.fetch([taxonID])
                 .then((response: TaxaShowResponse) => {
                     console.log(`Fetched TaxonID ${taxonID} (${new Date().toISOString()})`);
                     if (response.total_results === 1) {

@@ -157,7 +157,7 @@ async function fetchAndProcessObservations(
     iNatParams: any,
     calcState: CalcState
 ) {
-    inatjs.observations.search(iNatParams, { user_agent: 'wild-achievements' })
+    inatjs.observations.search(iNatParams)
         .then(async (observationsResponse: ObservationsResponse) => {
             // Cache Taxon Ranks
             await cacheTaxonRanks(dispatch, observationsResponse)
@@ -228,7 +228,7 @@ async function cacheTaxonRanks(
                 if (!rank) {
                     await sleep();
                     PRINT_LOG && console.log(`[taxa-cache]: fetch the rank for taxon ${taxonID}`);
-                    await inatjs.taxa.fetch([taxonID], { user_agent: 'wild-achievements' })
+                    await inatjs.taxa.fetch([taxonID])
                         .then((taxon: TaxaShowResponse) => {
                             if (taxon.total_results === 1) {
                                 rank = taxon.results[0].rank_level ?? null;
