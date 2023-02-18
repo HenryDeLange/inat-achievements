@@ -24,3 +24,15 @@ export function distance(lat1: number, lon1: number, lat2: number, lon2: number)
         return dist;
     }
 }
+
+export function splitArrayIntoChunks(inputArray: any[], chunkSize: number): any[][] {
+    const result = inputArray.reduce((resultArray, item, index) => {
+        const chunkIndex = Math.floor(index / chunkSize);
+        if (!resultArray[chunkIndex]) {
+            resultArray[chunkIndex] = [];
+        }
+        resultArray[chunkIndex].push(item);
+        return resultArray;
+    }, []);
+    return result;
+}
