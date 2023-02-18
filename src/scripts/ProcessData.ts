@@ -5,12 +5,11 @@ import { setAllAchievementData } from '../redux/slices/AchievementsSlice';
 import { setProgressAlert, setProgressLoading, setProgressMessage, setProgressValue } from '../redux/slices/ProgressSlice';
 import { AchievementDataType, TaxonRankCacheType } from '../types/AchievementsTypes';
 import { ObservationsResponse, TaxaShowResponse } from '../types/iNaturalistTypes';
-import { FLOWER_CHILD_TAXA } from './achievements/FlowerChild';
-import { CLASS_RANK, ORDER_RANK } from './achievements/utils';
 import { getTaxonRank, populateTaxonRank } from './achievements/utils/TaxonCache';
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import worker from 'workerize-loader!./workers/worker';
+import { splitArrayIntoChunks } from './achievements/utils';
 
 // 200 seems to be the maximum iNat wants
 const RESULT_PER_PAGE_LIMIT = 200;
@@ -29,6 +28,8 @@ const QUERY_PARAMS_ROTATE_LIMIT = RESULT_PER_PAGE_LIMIT * 10;
 const FIRST_PAGE = 1;
 
 const MAX_LIMIT = 99999;
+
+const MAX_TAXA_TO_LOAD_AT_ONCE = 30;
 
 // Flag to turn detailed logging on/off
 const PRINT_LOG = false;
@@ -88,17 +89,25 @@ export async function calculateAchievements(
         user_id: username,
         per_page: RESULT_PER_PAGE_LIMIT,
         page: calcState.queryPage,
-        d2: calcState.activeDate, // Observed on or before this date
+        d2: calcState.queryDate, // Observed on or before this date
         order_by: 'observed_on', // Sort by observation date (descending by default)
         captive: false, // Only wild observations
         verifiable: true // Exclude casual observations
     }
     // Adjust per_page if it will result in the read limit being exceeded
     if (limit > 0) {
-        if (calcState.resultsProcessed + RESULT_PER_PAGE_LIMIT > limit) {
+        if (calcState.resultsProcessed + iNatParams.per_page > limit) {
             iNatParams.per_page = Math.max(0, limit - calcState.resultsProcessed);
             iNatParams.per_page > 0
                 && PRINT_LOG && console.log(`[calc]: adjusting records per page to ${iNatParams.per_page}, in order not to exceed the read limit of ${limit}`);
+        }
+    }
+    // Adjust per_page if it will result in the total observations being exceeded
+    if (calcState.queryPage > FIRST_PAGE) {
+        if (calcState.resultsProcessed + iNatParams.per_page > calcState.resultsTotal) {
+            iNatParams.per_page = calcState.resultsTotal - calcState.resultsProcessed;
+            iNatParams.per_page > 0
+                && PRINT_LOG && console.log(`[calc]: adjusting records per page to ${iNatParams.per_page}, in order not to exceed the number of observations of ${calcState.resultsTotal}`);
         }
     }
     // Adjust d2 (from data) when more than QUERY_PARAMS_ROTATE_LIMIT number of records have been read
@@ -212,51 +221,45 @@ async function cacheTaxonRanks(
     PRINT_LOG && console.log(`[taxa-cache]: check the taxon rank cache for ${observationsResponse.results.length ?? 0} observations...`);
     dispatch(setProgressMessage(I18n.t('progressPreparing')));
     const ranks: TaxonRankCacheType[] = [];
+    const uniqueAncestorTaxonIDs: number[] = [];
+    const taxaToLoadRankFor: number[] = [];
     for (let observation of observationsResponse.results) {
         if (observation?.taxon?.ancestor_ids && observation.taxon.ancestor_ids.length > 2) {
-            // TODO: Find a more generic way to handle this and still limit how many ranks are loaded
-            let isForFlowerChild = false;
-            for (let taxonID of observation.taxon.ancestor_ids) {
-                if (taxonID === FLOWER_CHILD_TAXA) {
-                    isForFlowerChild = true;
-                    break;
-                }
-            }
             const relevantAncestors = observation.taxon.ancestor_ids.slice(2, Math.min(7, observation.taxon.ancestor_ids.length));
             for (let taxonID of relevantAncestors) {
-                let rank = getTaxonRank(taxonID, false);
-                if (!rank) {
-                    await sleep();
-                    PRINT_LOG && console.log(`[taxa-cache]: fetch the rank for taxon ${taxonID}`);
-                    await inatjs.taxa.fetch([taxonID])
-                        .then((taxon: TaxaShowResponse) => {
-                            if (taxon.total_results === 1) {
-                                rank = taxon.results[0].rank_level ?? null;
-                                if (rank) {
-                                    PRINT_LOG && console.log(`[taxa-cache]: cache the rank ${rank} for taxon ${taxonID}`);
-                                    populateTaxonRank(taxonID, rank);
-                                }
-                                else
-                                    console.error(`Could not access rank for taxon ${taxonID}`);
-                            }
-                            else
-                                console.error(`Could not cache rank for taxon ${taxonID}`);
-                        });
-                    // If we couldn't fetch it via the inatjs library then try again using XMLHttpRequest
-                    if (!rank) {
-                        PRINT_LOG && console.log(`[taxa-cache]: (fallback) cache the rank ${rank} for taxon ${taxonID}`);
-                        rank = getTaxonRank(taxonID, true) ?? null;
+                if (uniqueAncestorTaxonIDs.indexOf(taxonID) < 0) {
+                    uniqueAncestorTaxonIDs.push(taxonID);
+                    let rank = getTaxonRank(taxonID);
+                    if (rank) {
+                        ranks.push({ taxonID, rank });
                     }
-                }
-                if (rank && rank > 0) {
-                    // Keep track of relevant taxa, to be passed to the worker for evaluating the achievements
-                    ranks.push({ taxonID, rank });
-                    // For FlowerChild load up to the Class, the rest only need to load up to Order
-                    if ((!isForFlowerChild && rank <= CLASS_RANK) || (rank <= ORDER_RANK))
-                        break;
+                    else {
+                        taxaToLoadRankFor.push(taxonID);
+                    }
                 }
             }
         }
+    }
+    const taxaChunks = splitArrayIntoChunks(taxaToLoadRankFor, MAX_TAXA_TO_LOAD_AT_ONCE);
+    for (let taxaChunk of taxaChunks) {
+        await sleep();
+        PRINT_LOG && console.log(`[taxa-cache]: fetch the rank for taxa ${taxaChunk}`);
+        await inatjs.taxa.fetch(taxaChunk)
+            .then((taxaResponse: TaxaShowResponse) => {
+                if (taxaResponse.total_results ?? -1 > 0) {
+                    for (let taxon of taxaResponse.results) {
+                        if (taxon && taxon.rank_level) {
+                            PRINT_LOG && console.log(`[taxa-cache]: cache the rank ${taxon.rank_level} for taxon ${taxon.id}`);
+                            populateTaxonRank(taxon.id, taxon.rank_level);
+                            ranks.push({ taxonID: taxon.id, rank: taxon.rank_level });
+                        }
+                        else
+                            console.error(`Could not access rank for taxa ${taxaChunk}`);
+                    }
+                }
+                else
+                    console.error(`Could not cache rank for taxa ${taxaChunk}`);
+            });
     }
     return ranks;
 }
