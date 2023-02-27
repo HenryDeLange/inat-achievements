@@ -79,18 +79,18 @@ export function getAchievementWrappers() {
     return achievementWrappers;
 }
 
-export async function reset() {
+export function reset() {
     for (let achievementWrapper of achievementWrappers) {
         achievementWrapper.reset();
     }
     return achievementWrappers.map(achievementWrapper => achievementWrapper.data);
 }
 
-export async function evaluate(observations: Observation[], taxonRanks: TaxonRankCacheType[]): Promise<AchievementDataType[]> {
+export function evaluate(observations: Observation[], taxonRanks: TaxonRankCacheType[]): Promise<AchievementDataType[]> {
     for (let achievementWrapper of achievementWrappers) {
         for (let observation of observations) {
             achievementWrapper.evaluate(observation, taxonRanks);
         }
     }
-    return achievementWrappers.map(achievementWrapper => achievementWrapper.data);
+    return Promise.resolve(achievementWrappers.map(achievementWrapper => achievementWrapper.data));
 }

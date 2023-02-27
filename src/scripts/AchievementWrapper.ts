@@ -7,7 +7,7 @@ export default class AchievementWrapper {
     private evalFunc: (iNatObsJSON: Observation, taxonRanks?: TaxonRankCacheType[]) => number;
     private resetFunc?: () => void;
     
-    constructor(key: string, goal: number, getTaxa: () => number[], evalFunc: (iNatObsJSON: Observation, extra?: any) => number, resetFunc?: () => void) {
+    constructor(key: string, goal: number, getTaxa: () => number[], evalFunc: (iNatObsJSON: Observation, taxonRanks?: TaxonRankCacheType[]) => number, resetFunc?: () => void) {
         this.data = {
             icon: key,
             title: `achievement${key}Title`,
