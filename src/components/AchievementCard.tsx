@@ -59,21 +59,24 @@ export default memo(function AchievementCard(data: AchievementDataType) {
 type ViewObservationsType = {
     observations: number[];
 }
-function ViewObservations({ observations }: ViewObservationsType): ReactElement {
+function ViewObservations({ observations }: ViewObservationsType): ReactElement | null {
     if (observations.length === 0) {
         return (<span>{I18n.t('cardNoObservations')}</span>);
     }
     const chunks = getChunks(observations);
+    if (chunks.length === 0)
+        return null;
     return (<>
+        <span>{I18n.t('cardViewObservations')} </span>
         {
             chunks.map((obs, index) =>
-                <div key={index}>
+                <span key={`link-${index}`}>
                     <HyperLink
-                        linkContent={I18n.t('cardViewObservations')}
+                        linkContent={index + 1}
                         linkURL={`https://www.inaturalist.org/observations?id=${obs.join(',')}`}
                     />
-                    <br />
-                </div>
+                    {index <= chunks.length - 2 ? ', ' : ''}
+                </span>
             )
         }
     </>);
