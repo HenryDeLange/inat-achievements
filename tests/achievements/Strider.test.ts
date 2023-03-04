@@ -139,3 +139,38 @@ test('Missing Data', () => {
     });
     expect(achievement.data.count).toEqual(0);
 });
+
+test('Custom Observation IDs', () => {
+    achievement.evaluate({
+        id: 11,
+        geojson: {
+            coordinates: ['1', '1']
+        },
+        observed_on_details: {
+            date: '2022-01-01'
+        }
+    });
+    achievement.evaluate({
+        id: 22,
+        geojson: {
+            coordinates: ['2', '2']
+        },
+        observed_on_details: {
+            date: '2022-01-01'
+        }
+    });
+    expect(achievement.getData().observations).toContain(11);
+    expect(achievement.getData().observations).toContain(22);
+    achievement.evaluate({
+        id: 33,
+        geojson: {
+            coordinates: ['3', '3']
+        },
+        observed_on_details: {
+            date: '2022-01-01'
+        }
+    });
+    expect(achievement.getData().observations).toContain(11);
+    expect(achievement.getData().observations).not.toContain(22);
+    expect(achievement.getData().observations).toContain(33);
+});
