@@ -1,10 +1,10 @@
 {
   "files": {
     "main.css": "./static/css/main.7f24a4d5.css",
-    "main.js": "./static/js/main.1a354fef.js",
+    "main.js": "./static/js/main.f81ad5a7.js",
     "static/media/TooManyBugs.svg": "./static/media/TooManyBugs.c1f8281def4707fa7278.svg",
-    "worker.js": "./f608db41694b55799668.worker.js",
     "static/media/mywild.png": "./static/media/mywild.4ce09f219a47f35ad9c7.png",
+    "worker.js": "./b9db12f6b63c2e6a681a.worker.js",
     "static/media/ForeverSpring.svg": "./static/media/ForeverSpring.28de484947b88ef7d6a1.svg",
     "static/media/RatKing.svg": "./static/media/RatKing.5ee04344a509316f849f.svg",
     "static/media/SocialButterfly.svg": "./static/media/SocialButterfly.524e2a3b46b74ee34ca7.svg",
@@ -44,10 +44,10 @@
     "static/media/HeartOfTheMatter.svg": "./static/media/HeartOfTheMatter.b33b1c47b453fc290dfc.svg",
     "index.html": "./index.html",
     "main.7f24a4d5.css.map": "./static/css/main.7f24a4d5.css.map",
-    "main.1a354fef.js.map": "./static/js/main.1a354fef.js.map"
+    "main.f81ad5a7.js.map": "./static/js/main.f81ad5a7.js.map"
   },
   "entrypoints": [
     "static/css/main.7f24a4d5.css",
-    "static/js/main.1a354fef.js"
+    "static/js/main.f81ad5a7.js"
   ]
 }
